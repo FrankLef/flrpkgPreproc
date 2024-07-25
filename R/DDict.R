@@ -233,7 +233,7 @@ S7::method(renDDict, DDict) <- function(
 
   the_table <- table_nm
   ddict <- object@data |>
-    dplyr::filter(table == {{the_table}})
+    dplyr::filter(table == {{ the_table }})
 
   pos <- match(ddict$raw_name, names(data))
   # cat("\n", "pos", "\n")

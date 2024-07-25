@@ -17,17 +17,25 @@ df_ddict <- function(nm) {
     )
     ddict1 <- data.frame(
       table = "df1",
-      raw_name = c("varInt", "varIntish", "varDbl", "varChar", "varDate",
-                   "varPOSIXct", "varFactor"),
-      name = c("varInt", "varIntish", "varDbl", "varChar", "varDate",
-               "varPOSIXct", "varFactor"),
+      raw_name = c(
+        "varInt", "varIntish", "varDbl", "varChar", "varDate",
+        "varPOSIXct", "varFactor"
+      ),
+      name = c(
+        "varInt", "varIntish", "varDbl", "varChar", "varDate",
+        "varPOSIXct", "varFactor"
+      ),
       label = NA_character_,
       desc = NA_character_,
       note = NA_character_,
-      raw_dtype = c("integer", "numeric", "numeric", "character", "Date",
-                    "POSIXct", "factor"),
-      dtype = c("integer", "numeric", "numeric", "character", "Date",
-                "POSIXct", "factor")
+      raw_dtype = c(
+        "integer", "numeric", "numeric", "character", "Date",
+        "POSIXct", "factor"
+      ),
+      dtype = c(
+        "integer", "numeric", "numeric", "character", "Date",
+        "POSIXct", "factor"
+      )
     )
     df2n <- 7L
     df2 <- data.frame(
@@ -45,18 +53,26 @@ df_ddict <- function(nm) {
     )
     ddict2 <- data.frame(
       table = "df2",
-      raw_name = c("varInt", "varIntish", "varDbl", "varChar", "varDate",
-                   "varPOSIXct", "varFactor"),
-      name = c("varInt", "varIntish", "varDbl", "varChar", "varDate",
-               "varPOSIXct", "varFactor"),
+      raw_name = c(
+        "varInt", "varIntish", "varDbl", "varChar", "varDate",
+        "varPOSIXct", "varFactor"
+      ),
+      name = c(
+        "varInt", "varIntish", "varDbl", "varChar", "varDate",
+        "varPOSIXct", "varFactor"
+      ),
       label = NA_character_,
       desc = NA_character_,
       note = NA_character_,
-      raw_dtype = c("integer", "numeric", "numeric", "character", "Date",
-                    "POSIXct", "factor"),
-      dtype = c("integer", "numeric", "numeric", "character", "Date",
-                "POSIXct", "factor")
+      raw_dtype = c(
+        "integer", "numeric", "numeric", "character", "Date",
+        "POSIXct", "factor"
+      ),
+      dtype = c(
+        "integer", "numeric", "numeric", "character", "Date",
+        "POSIXct", "factor"
       )
+    )
     df3n <- 9L
     df3 <- data.frame(
       varInt = sample(4:6, size = df3n, replace = TRUE),
@@ -64,25 +80,31 @@ df_ddict <- function(nm) {
       varDbl = sample(c(12.34, 23.45, 56.78), size = df3n, replace = TRUE),
       varChar = sample(letters[4:6], size = df3n, replace = TRUE),
       varDate = as.Date(sample(c("2020-01-31", "2021-06-30", "2023-12-31"),
-                               size = df3n, replace = TRUE
+        size = df3n, replace = TRUE
       )),
       varPOSIXct = as.POSIXct(sample(c("2020-01-31", "2021-06-30", "2023-12-31"),
-                                     size = df3n, replace = TRUE
+        size = df3n, replace = TRUE
       )),
       varFactor = as.factor(sample(LETTERS[4:6], size = df3n, replace = TRUE))
     )
     ddict3 <- data.frame(
       table = "df3",
-      raw_name = c("varInt", "varIntish", "varDbl", "varChar", "varDate",
-                   "varPOSIXct", "varFactor"),
+      raw_name = c(
+        "varInt", "varIntish", "varDbl", "varChar", "varDate",
+        "varPOSIXct", "varFactor"
+      ),
       name = c("Int", "Intish", "Dbl", "Char", "Date", "POSIXct", "Factor"),
       label = NA_character_,
       desc = NA_character_,
       note = NA_character_,
-      raw_dtype = c("integer", "numeric", "numeric", "character", "Date",
-                    "POSIXct", "factor"),
-      dtype = c("integer", "numeric", "numeric", "character", "Date",
-                "POSIXct", "factor")
+      raw_dtype = c(
+        "integer", "numeric", "numeric", "character", "Date",
+        "POSIXct", "factor"
+      ),
+      dtype = c(
+        "integer", "numeric", "numeric", "character", "Date",
+        "POSIXct", "factor"
+      )
     )
   })
   lst[[nm]]
