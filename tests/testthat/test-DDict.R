@@ -24,18 +24,37 @@ test_that("DDict: Validate DDict@data", {
       ddict@data <- err1
     },
     class = "ValueError",
-    regexp = ".*Must have exactly.+cols*."
+    regexp = "Must have exactly.+cols"
   )
 
-  # invalid name
+  # invalid column
   err2 <- df_ddict_err(nm = "ddict2")
   expect_error(
     {
       ddict@data <- err2
     },
     class = "ValueError",
-    regexp = ".*Names must be a permutation of set.*"
+    regexp = "Names must be a permutation of set"
   )
+  # invalid raw_name
+  err3 <- df_ddict_err(nm = "ddict3")
+  expect_error(
+    {
+      ddict@data <- err3
+    },
+    class = "ValueError",
+    regexp = "All elements must have at least 1 characters"
+  )
+  # invalid name
+  err4 <- df_ddict_err(nm = "ddict4")
+  expect_error(
+    {
+      ddict@data <- err4
+    },
+    class = "ValueError",
+    regexp = "Contains missing values"
+  )
+
 
   # duplicate records
   ddict1 <- df_ddict(nm = "ddict1")
@@ -45,7 +64,7 @@ test_that("DDict: Validate DDict@data", {
       ddict@data <- ddict2
     },
     class = "ValueError",
-    regexp = ".*has.+duplicate records.*"
+    regexp = "has.+duplicate records"
   )
 })
 

@@ -134,6 +134,28 @@ df_ddict_err <- function(nm) {
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor")
     )
+    # invalid raw_name
+    ddict3 <- data.frame(
+      table = "df",
+      raw_name = c("varInt", "", "varDate", "varPOSIXct", "varFactor"),
+      name = c("integer", "character", "date", "pOSIXct", "factor"),
+      label = NA_character_,
+      desc = NA_character_,
+      note = NA_character_,
+      raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      dtype = c("integer", "character", "Date", "POSIXct", "factor")
+    )
+    # invalid raw_name
+    ddict4 <- data.frame(
+      table = "df",
+      raw_name = c("varInt", "varChar", "varDate", "varPOSIXct", "varFactor"),
+      name = c("integer", "character", NA_character_, "pOSIXct", "factor"),
+      label = NA_character_,
+      desc = NA_character_,
+      note = NA_character_,
+      raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      dtype = c("integer", "character", "Date", "POSIXct", "factor")
+    )
   })
   lst[[nm]]
 }

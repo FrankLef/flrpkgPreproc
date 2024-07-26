@@ -26,10 +26,10 @@ Create data Dictionary with the following properties.
 
 The \code{data} property is a data.frame with:
 \describe{
-\item{table}{Name of the table where the variable is located.}
+\item{table}{Name of the data.frame containing the variable.}
 \item{raw_name}{Name of the variable as shown in the original data.frame.}
-\item{name}{Name to be used in the analytical work.}
-\item{label}{Label to identify the variable, e.g. used by \code{sjlabelled}.}
+\item{name}{New name to assign to the variable..}
+\item{label}{Label to identify the variable, e.g. used by \pkg{sjlabelled}.}
 \item{desc}{Description of the variable.}
 \item{note}{Discretionary note on the variable.}
 \item{raw_dtype}{Data type of raw data.}
