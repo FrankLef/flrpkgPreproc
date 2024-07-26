@@ -66,6 +66,30 @@ test_that("DDict: Validate DDict@data", {
     class = "ValueError",
     regexp = "has.+duplicate records"
   )
+
+  # invalid raw_dtype
+  ddict <- DDict()
+  err5 <- df_ddict(nm = "ddict3")
+  err5$raw_dtype[1] <- "ERROR"
+  expect_error(
+    {
+      ddict@data <- err5
+    },
+    class = "ValueError",
+    regexp = "Names must be a subset of"
+  )
+
+  # invalid dtype
+  ddict <- DDict()
+  err6 <- df_ddict(nm = "ddict3")
+  err6$dtype[1] <- "ERROR"
+  expect_error(
+    {
+      ddict@data <- err6
+    },
+    class = "ValueError",
+    regexp = "Names must be a subset of"
+  )
 })
 
 test_that("addDDict: Input errors.", {
@@ -272,4 +296,25 @@ test_that("labelDDict: No labels", {
     class = "ValueError",
     regexp = "There are no label to apply"
   )
+})
+
+
+test_that("castDDict: Use name, i.e. raw_name = TRUE", {
+  testthat::skip("debug")
+  ddict <- DDict()
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  cat("\n", "df3", "\n")
+  print(df3)
+  ddict@data <- df_ddict(nm = "ddict3")
+  cat("\n", "ddict3", "\n")
+  print(ddict@data)
+
+  out <- castDDict(ddict, data = df3, is_raw_nm = FALSE)
+  cat("\n", "out", "\n")
+  print(out)
+
+  target = c("a", "b")
+  expect_identical(c("x", "y"), target)
 })

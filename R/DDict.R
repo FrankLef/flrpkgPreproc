@@ -113,6 +113,27 @@ DDict <- S7::new_class("DDict",
         class = "ValueError"
       )
     }
+    the_choices <- c("integer", "numeric", "character", "Date", "POSIXct", "factor")
+    check <- checkmate::check_names(
+      self@data$raw_dtype,
+      subset.of = the_choices
+      )
+    if (is.character(check)) {
+      rlang::abort(
+        message = check,
+        class = "ValueError"
+      )
+    }
+    check <- checkmate::check_names(
+      self@data$dtype,
+      subset.of = the_choices
+    )
+    if (is.character(check)) {
+      rlang::abort(
+        message = check,
+        class = "ValueError"
+      )
+    }
   }
 )
 
@@ -332,7 +353,7 @@ S7::method(labelDDict, DDict) <- function(
   }
 
   lbl <- lbl |>
-    dplyr::filter(nchar(label) >= 1L)
+    dplyr::filter(nchar(label) >= 1L, !is.na(label))
   # cat("\n", "labelDDict: lbl", "\n")
   # print(lbl)
 
@@ -356,4 +377,83 @@ S7::method(labelDDict, DDict) <- function(
 
   labelled::var_label(data) <- the_labels
   data
+}
+
+#' Cast Data Types of Columns Using a \code{DDict}.
+#'
+#' Cast data types of columns using a \code{DDict}.
+#'
+#' The columns data type is recast to the data type specified in \code{dtype}
+#' when it differ from the data type specified in \code{raw_dtype}. Nothing is
+#' done When \code{dtype} is \code{NA} or empty.
+#'
+#' @name castDDict
+#'
+#' @param object Object of class \code{DDict}.
+#' @param ... Additional arguments used by methods. Such as
+#' \describe{
+#'    \item{data}{Data.frame with variables to label.}
+#'    \item{table_nm}{Name of the table.}
+#'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
+#' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
+#' }
+#'
+#' @return \code{data} with recasted columns.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
+castDDict <- S7::new_generic("DDict", dispatch_args = "object")
+
+S7::method(castDDict, DDict) <- function(
+    object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
+  checkmate::assert_data_frame(data)
+
+  # cat("\n", "castDDict: table_nm", "\n")
+  # print(table_nm)
+
+  ddict <- object@data |>
+    dplyr::filter(table == table_nm)
+
+  # cat("\n", "castDDict: ddict", "\n")
+  # print(ddict)
+
+  if (!is_raw_nm) {
+    the_types <- ddict |>
+      dplyr::select(name, raw_dtype, dtype)
+  } else {
+    the_types <- ddict |>
+      dplyr::select(raw_name, raw_dtype, dtype) |>
+      dplyr::rename(name = raw_name)
+  }
+
+  the_types <- the_types |>
+    dplyr::filter(nchar(dtype) >= 1L, !is.na(dtype), raw_dtype != dtype)
+  # cat("\n", "castDDict: the_types", "\n")
+  # print(the_types)
+
+  if (nrow(the_types) == 0) {
+    msg_head <- cli::col_yellow("There are no data type to cast.")
+    msg_body <- c(
+      "i" = sprintf("Table: %s", table_nm),
+      "i" = "Verify the dtype column in the data dictionary."
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
+
+
+  data
+}
+
+cast_data <- function(x, dtype) {
+
+
 }
