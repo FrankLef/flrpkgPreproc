@@ -63,6 +63,19 @@
       ],
       "Hash": "b21916dd77a27642b447374a5d30ecf3"
     },
+    "datawizard": {
+      "Package": "datawizard",
+      "Version": "0.12.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "insight",
+        "stats",
+        "utils"
+      ],
+      "Hash": "4070785c656b9ded5d0ed5db387a96d5"
+    },
     "dplyr": {
       "Package": "dplyr",
       "Version": "1.1.4",
@@ -119,6 +132,19 @@
         "methods"
       ],
       "Hash": "e0b3a53876554bd45879e596cdb10a52"
+    },
+    "insight": {
+      "Package": "insight",
+      "Version": "0.20.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "74a0751aafb4d4bc140531e46deda4ab"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -190,6 +216,21 @@
         "utils"
       ],
       "Hash": "3eec01f8b1dee337674b2e34ab1f9bc1"
+    },
+    "sjlabelled": {
+      "Package": "sjlabelled",
+      "Version": "1.2.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "datawizard",
+        "insight",
+        "stats",
+        "tools",
+        "utils"
+      ],
+      "Hash": "4bd18166ef8ca74aeec74ad295dfe77f"
     },
     "tibble": {
       "Package": "tibble",

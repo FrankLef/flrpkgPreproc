@@ -13,7 +13,8 @@ Imports:
     cli,
     dplyr,
     rlang,
-    S7
+    S7,
+    sjlabelled
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

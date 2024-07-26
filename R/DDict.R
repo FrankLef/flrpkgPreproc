@@ -53,7 +53,10 @@ DDict <- S7::new_class("DDict",
       "table", "raw_name", "name", "label", "desc", "note",
       "raw_dtype", "dtype"
     )
-    check <- checkmate::check_data_frame(self@data, ncols = length(nms))
+    check <- checkmate::check_data_frame(
+      self@data,
+      types = rep("character", times = 8L),
+      ncols = length(nms))
     if (is.character(check)) {
       rlang::abort(
         message = check,
@@ -61,6 +64,16 @@ DDict <- S7::new_class("DDict",
       )
     }
     check <- checkmate::check_names(names(self@data), permutation.of = nms)
+    if (is.character(check)) {
+      rlang::abort(
+        message = check,
+        class = "ValueError"
+      )
+    }
+    check <- checkmate::check_character(
+      self@data$table,
+      any.missing = FALSE, min.chars = 1
+    )
     if (is.character(check)) {
       rlang::abort(
         message = check,
@@ -190,6 +203,9 @@ S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
 #' }
 #'
 #' @return Object of class \code{DDict}.
+#'
+#' @importFrom sjlabelled var_labels
+#'
 #' @export
 #'
 #' @examples
@@ -263,31 +279,33 @@ S7::method(renDDict, DDict) <- function(
   data
 }
 
-#' Cast Columns' Data Type Using a \code{DDict}.
+#' Add Labels to Columns Using a \code{DDict}.
 #'
-#' Cast columns' data type using a \code{DDict}.
+#' Add labels to columns using a \code{DDict}.
 #'
-#' The information is stored in an object of class \code{DDict}.
+#' The labels, stored in an object of class \code{DDict}, are used by
+#' \pkg{sjlabelled} to add labels. If the label is empty or \code{NA}, no label
+#' is assigned.
 #'
-#' @name castDDict
+#' @name labelDDict
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
-#'    \item{data}{Data.frame with variabe=les to rename.}
+#'    \item{data}{Data.frame with variables to label.}
 #'    \item{table_nm}{Name of the table.}
 #' }
 #'
-#' @return \code{data} with modified data types.
+#' @return \code{data} with labels added to the columns.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-castDDict <- S7::new_generic("DDict", dispatch_args = "object")
+labelDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(castDDict, DDict) <- function(
+S7::method(labelDDict, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
 
