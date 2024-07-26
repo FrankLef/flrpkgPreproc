@@ -12,9 +12,9 @@ Imports:
     checkmate,
     cli,
     dplyr,
+    labelled,
     rlang,
-    S7,
-    sjlabelled
+    S7
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

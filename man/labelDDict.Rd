@@ -25,7 +25,7 @@ Set labels to columns using a \code{DDict}.
 }
 \details{
 The labels, stored in an object of class \code{DDict}, are used by
-to set labels with \code{sjlabelled::set_label()}. If the label in
+to set labels with \code{labelled::var_label()}. If the label in
 \code{DDict} is empty or \code{NA}, an error is returned.
 }
 \examples{

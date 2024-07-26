@@ -14,7 +14,7 @@
 #'    \item{table}{Name of the data.frame containing the variable.}
 #'    \item{raw_name}{Name of the variable as shown in the original data.frame.}
 #'    \item{name}{New name to assign to the variable..}
-#'    \item{label}{Label to identify the variable, e.g. used by \pkg{sjlabelled}.}
+#'    \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 #'    \item{desc}{Description of the variable.}
 #'    \item{note}{Discretionary note on the variable.}
 #'    \item{raw_dtype}{Data type of raw data.}
@@ -56,7 +56,8 @@ DDict <- S7::new_class("DDict",
     check <- checkmate::check_data_frame(
       self@data,
       types = rep("character", times = length(nms)),
-      ncols = length(nms))
+      ncols = length(nms)
+    )
     if (is.character(check)) {
       rlang::abort(
         message = check,
@@ -204,8 +205,6 @@ S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
 #'
 #' @return Object of class \code{DDict}.
 #'
-#' @importFrom sjlabelled var_labels
-#'
 #' @export
 #'
 #' @examples
@@ -284,7 +283,7 @@ S7::method(renDDict, DDict) <- function(
 #' Set labels to columns using a \code{DDict}.
 #'
 #' The labels, stored in an object of class \code{DDict}, are used by
-#' to set labels with \code{sjlabelled::set_label()}. If the label in
+#' to set labels with \code{labelled::var_label()}. If the label in
 #' \code{DDict} is empty or \code{NA}, an error is returned.
 #'
 #' @name labelDDict
@@ -300,7 +299,7 @@ S7::method(renDDict, DDict) <- function(
 #'
 #' @return \code{data} with labels added to the columns.
 #'
-#' @importFrom sjlabelled set_label
+#' @importFrom labelled var_label
 #'
 #' @export
 #'
@@ -339,8 +338,10 @@ S7::method(labelDDict, DDict) <- function(
 
   if (nrow(lbl) == 0) {
     msg_head <- cli::col_yellow("There are no label to apply.")
-    msg_body <- c("i" = sprintf("Table: %s", table_nm),
-                  "i" = "Verify the label columnin the data dictionary.")
+    msg_body <- c(
+      "i" = sprintf("Table: %s", table_nm),
+      "i" = "Verify the label columnin the data dictionary."
+    )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
       message = msg,
@@ -348,9 +349,11 @@ S7::method(labelDDict, DDict) <- function(
     )
   }
 
-  the_labels <- lbl$label
+  the_labels <- as.list(lbl$label)
   names(the_labels) <- lbl$name
+  # cat("\n", "labelDDict: the_labels", "\n")
+  # print(the_labels)
 
-
-  sjlabelled::set_label(data, label = the_labels)
+  labelled::var_label(data) <- the_labels
+  data
 }
