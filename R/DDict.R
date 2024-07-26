@@ -55,7 +55,7 @@ DDict <- S7::new_class("DDict",
     )
     check <- checkmate::check_data_frame(
       self@data,
-      types = rep("character", times = 8L),
+      types = rep("character", times = length(nms)),
       ncols = length(nms))
     if (is.character(check)) {
       rlang::abort(
@@ -279,13 +279,13 @@ S7::method(renDDict, DDict) <- function(
   data
 }
 
-#' Add Labels to Columns Using a \code{DDict}.
+#' Set Labels to Columns Using a \code{DDict}.
 #'
-#' Add labels to columns using a \code{DDict}.
+#' Set labels to columns using a \code{DDict}.
 #'
 #' The labels, stored in an object of class \code{DDict}, are used by
-#' \pkg{sjlabelled} to add labels. If the label is empty or \code{NA}, no label
-#' is assigned.
+#' to set labels with \code{sjlabelled::set_label()}. If the label in
+#' \code{DDict} is empty or \code{NA}, an error is returned.
 #'
 #' @name labelDDict
 #'
@@ -294,9 +294,14 @@ S7::method(renDDict, DDict) <- function(
 #' \describe{
 #'    \item{data}{Data.frame with variables to label.}
 #'    \item{table_nm}{Name of the table.}
+#'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
+#' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
 #' }
 #'
 #' @return \code{data} with labels added to the columns.
+#'
+#' @importFrom sjlabelled set_label
+#'
 #' @export
 #'
 #' @examples
@@ -306,14 +311,46 @@ S7::method(renDDict, DDict) <- function(
 labelDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(labelDDict, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data))) {
+    object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
   checkmate::assert_data_frame(data)
 
-  message("TODO")
+  # cat("\n", "labelDDict: table_nm", "\n")
+  # print(table_nm)
 
-  the_table <- table_nm
-  # cat("\n", "table", "\n")
-  # print(the_table)
-  # cat("\n", "variables", "\n")
-  object
+  ddict <- object@data |>
+    dplyr::filter(table == table_nm)
+
+  # cat("\n", "labelDDict: ddict", "\n")
+  # print(ddict)
+
+  if (!is_raw_nm) {
+    lbl <- ddict |>
+      dplyr::select(name, label)
+  } else {
+    lbl <- ddict |>
+      dplyr::select(raw_name, label) |>
+      dplyr::rename(name = raw_name)
+  }
+
+  lbl <- lbl |>
+    dplyr::filter(nchar(label) >= 1L)
+  # cat("\n", "labelDDict: lbl", "\n")
+  # print(lbl)
+
+  if (nrow(lbl) == 0) {
+    msg_head <- cli::col_yellow("There are no label to apply.")
+    msg_body <- c("i" = sprintf("Table: %s", table_nm),
+                  "i" = "Verify the label columnin the data dictionary.")
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
+  the_labels <- lbl$label
+  names(the_labels) <- lbl$name
+
+
+  sjlabelled::set_label(data, label = the_labels)
 }

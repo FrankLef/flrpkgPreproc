@@ -182,3 +182,114 @@ test_that("renDDict: Rename columns using a DDict", {
   # testthat::skip("debug")
   expect_identical(names(out), ddict@data$name)
 })
+
+test_that("labelDDict: Label columns using a DDict: Use name", {
+  ddict <- DDict()
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  # cat("\n", "ddict", "\n")
+  # print(df3)
+  ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict", "\n")
+  # print(ddict)
+
+
+  out <- labelDDict(ddict, data = df3, is_raw_nm = FALSE)
+  # cat("\n", "out", "\n")
+  # print(out)
+  out_lbl <- sjlabelled::get_label(out)
+  # cat("\n", "out labels", "\n")
+  # print(out_lbl)
+
+  target <- c("varInt" = "integer var 1",
+              "varIntish" = "integer var 2",
+              "varDbl" = "double var 1",
+              "varChar" = "character var 1",
+              "varDate" = "date var 1",
+              "varPOSIXct" = "posix var 1",
+              "varFactor" = "factor var 1")
+  # cat("\n", "target labels", "\n")
+  # print(target)
+  expect_identical(out_lbl, target)
+})
+
+test_that("labelDDict: Use raw_name = TRUE", {
+  ddict <- DDict()
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  # cat("\n", "ddict", "\n")
+  # print(df3)
+  ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict", "\n")
+  # print(ddict)
+
+
+  out <- labelDDict(ddict, data = df3, is_raw_nm = TRUE)
+  # cat("\n", "out", "\n")
+  # print(out)
+  out_lbl <- sjlabelled::get_label(out)
+  # cat("\n", "out labels", "\n")
+  # print(out_lbl)
+
+  target <- c("varInt" = "integer var 1",
+              "varIntish" = "integer var 2",
+              "varDbl" = "double var 1",
+              "varChar" = "character var 1",
+              "varDate" = "date var 1",
+              "varPOSIXct" = "posix var 1",
+              "varFactor" = "factor var 1")
+  # cat("\n", "target labels", "\n")
+  # print(target)
+  expect_identical(out_lbl, target)
+})
+
+
+test_that("labelDDict: Use raw_name = FALSE", {
+  ddict <- DDict()
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  # cat("\n", "ddict", "\n")
+  # print(df3)
+  ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict", "\n")
+  # print(ddict)
+
+
+  out <- labelDDict(ddict, data = df3, is_raw_nm = FALSE)
+  # cat("\n", "out", "\n")
+  # print(out)
+  out_lbl <- sjlabelled::get_label(out)
+  # cat("\n", "out labels", "\n")
+  # print(out_lbl)
+
+  target <- c("varInt" = "integer var 1",
+              "varIntish" = "integer var 2",
+              "varDbl" = "double var 1",
+              "varChar" = "character var 1",
+              "varDate" = "date var 1",
+              "varPOSIXct" = "posix var 1",
+              "varFactor" = "factor var 1")
+  # cat("\n", "target labels", "\n")
+  # print(target)
+  expect_identical(out_lbl, target)
+})
+
+test_that("labelDDict: No labels", {
+  ddict <- DDict()
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  # cat("\n", "ddict", "\n")
+  # print(df3)
+  ddict@data <- df_ddict(nm = "ddict3")
+  ddict@data$label <- NA_character_
+  # cat("\n", "ddict", "\n")
+  # print(ddict)
+
+  expect_error({out <- labelDDict(ddict, data = df3)},
+               class = "ValueError",
+               regexp = "There are no label to apply")
+})

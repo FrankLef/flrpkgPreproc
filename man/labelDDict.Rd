@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{labelDDict}
 \alias{labelDDict}
-\title{Add Labels to Columns Using a \code{DDict}.}
+\title{Set Labels to Columns Using a \code{DDict}.}
 \usage{
 labelDDict(object, ...)
 }
@@ -13,18 +13,20 @@ labelDDict(object, ...)
 \describe{
 \item{data}{Data.frame with variables to label.}
 \item{table_nm}{Name of the table.}
+\item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
+\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
 }}
 }
 \value{
 \code{data} with labels added to the columns.
 }
 \description{
-Add labels to columns using a \code{DDict}.
+Set labels to columns using a \code{DDict}.
 }
 \details{
 The labels, stored in an object of class \code{DDict}, are used by
-\pkg{sjlabelled} to add labels. If the label is empty or \code{NA}, no label
-is assigned.
+to set labels with \code{sjlabelled::set_label()}. If the label in
+\code{DDict} is empty or \code{NA}, an error is returned.
 }
 \examples{
 \dontrun{

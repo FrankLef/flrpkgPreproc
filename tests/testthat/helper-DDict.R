@@ -94,7 +94,9 @@ df_ddict <- function(nm) {
         "varPOSIXct", "varFactor"
       ),
       name = c("Int", "Intish", "Dbl", "Char", "Date", "POSIXct", "Factor"),
-      label = NA_character_,
+      label = c("integer var 1", "integer var 2", "double var 1",
+                "character var 1", "date var 1", "posix var 1",
+                "factor var 1"),
       desc = NA_character_,
       note = NA_character_,
       raw_dtype = c(
