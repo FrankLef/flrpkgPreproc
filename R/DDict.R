@@ -445,7 +445,7 @@ S7::method(castDDict, DDict) <- function(
   data
 }
 
-#' Cast Data to new data type.
+#' Cast Data to New Data Type.
 #'
 #' @param object Object of class \code{DDict}.
 #' @param x Vector.

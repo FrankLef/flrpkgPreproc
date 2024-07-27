@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{cast_data}
 \alias{cast_data}
-\title{Cast Data to new data type.}
+\title{Cast Data to New Data Type.}
 \usage{
 cast_data(object, x, dtype)
 }
@@ -17,5 +17,5 @@ cast_data(object, x, dtype)
 x with new data type.
 }
 \description{
-Cast Data to new data type.
+Cast Data to New Data Type.
 }
