@@ -2,12 +2,12 @@
 % Please edit documentation in R/DDict.R
 \name{DDict}
 \alias{DDict}
-\title{Create a data Dictionary}
+\title{Create a Data Dictionary}
 \usage{
 DDict(data = class_missing)
 }
 \arguments{
-\item{data}{Data.frame of info on the variables.}
+\item{data}{Data dictionary.}
 }
 \value{
 Object of class \code{DDict}.

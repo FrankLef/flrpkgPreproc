@@ -1,4 +1,4 @@
-#' Create a data Dictionary
+#' Create a Data Dictionary
 #'
 #' Create a data Dictionary.
 #'
@@ -25,7 +25,7 @@
 #'    \item{note}{Optional note.}
 #'    }
 #'
-#' @param data Data.frame of info on the variables.
+#' @param data Data dictionary.
 #'
 #' @return Object of class \code{DDict}.
 #'
@@ -233,6 +233,7 @@ extractDDict <- S7::new_generic("DDict", dispatch_args = "object")
 S7::method(extractDDict, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
+  checkmate::assert_string(table_nm, min.chars = 1)
   # cat("\n", "table", "\n")
   # print(the_table)
   # cat("\n", "variables", "\n")
@@ -283,6 +284,7 @@ renDDict <- S7::new_generic("DDict", dispatch_args = "object")
 S7::method(renDDict, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
+  checkmate::assert_string(table_nm, min.chars = 1)
 
   the_table <- table_nm
   ddict <- object@data |>
@@ -330,6 +332,8 @@ labelDDict <- S7::new_generic("DDict", dispatch_args = "object")
 S7::method(labelDDict, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
   checkmate::assert_data_frame(data)
+  checkmate::assert_string(table_nm, min.chars = 1)
+  checkmate::assert_flag(is_raw_nm)
 
   # cat("\n", "labelDDict: table_nm", "\n")
   # print(table_nm)
@@ -411,6 +415,8 @@ castDDict <- S7::new_generic("DDict", dispatch_args = "object")
 S7::method(castDDict, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
   checkmate::assert_data_frame(data)
+  checkmate::assert_string(table_nm, min.chars = 1)
+  checkmate::assert_flag(is_raw_nm)
 
   the_choices <- object@dtypes
 
