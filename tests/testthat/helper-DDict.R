@@ -26,8 +26,6 @@ df_ddict <- function(nm) {
         "varPOSIXct", "varFactor"
       ),
       label = NA_character_,
-      desc = NA_character_,
-      note = NA_character_,
       raw_dtype = c(
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
@@ -35,7 +33,9 @@ df_ddict <- function(nm) {
       dtype = c(
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
-      )
+      ),
+      desc = NA_character_,
+      note = NA_character_
     )
     df2n <- 7L
     df2 <- data.frame(
@@ -62,8 +62,6 @@ df_ddict <- function(nm) {
         "varPOSIXct", "varFactor"
       ),
       label = NA_character_,
-      desc = NA_character_,
-      note = NA_character_,
       raw_dtype = c(
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
@@ -71,7 +69,9 @@ df_ddict <- function(nm) {
       dtype = c(
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
-      )
+      ),
+      desc = NA_character_,
+      note = NA_character_
     )
     df3n <- 9L
     df3 <- data.frame(
@@ -99,8 +99,6 @@ df_ddict <- function(nm) {
         "character var 1", "date var 1", "posix var 1",
         "factor var 1"
       ),
-      desc = NA_character_,
-      note = NA_character_,
       raw_dtype = c(
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
@@ -108,7 +106,9 @@ df_ddict <- function(nm) {
       dtype = c(
         "integer", "integer", "integer", "factor", "ymd",
         "Date", "character"
-      )
+      ),
+      desc = NA_character_,
+      note = NA_character_
     )
   })
   lst[[nm]]
@@ -122,10 +122,10 @@ df_ddict_err <- function(nm) {
       raw_name = c("varInt", "varChar", "varDate", "varPOSIXct", "varFactor"),
       name = c("varInt", "varChar", "varDate", "varPOSIXct", "varFactor"),
       label = NA_character_,
-      desc = NA_character_,
-      note = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
-      dtype = c("integer", "character", "Date", "POSIXct", "factor")
+      dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      desc = NA_character_,
+      note = NA_character_
     )
     # one column with invalid name
     ddict2 <- data.frame(
@@ -133,10 +133,10 @@ df_ddict_err <- function(nm) {
       raw_name = c("varInt", "varChar", "varDate", "varPOSIXct", "varFactor"),
       name = c("varInt", "varChar", "varDate", "varPOSIXct", "varFactor"),
       label = NA_character_,
-      desc = NA_character_,
-      note = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
-      dtype = c("integer", "character", "Date", "POSIXct", "factor")
+      dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      desc = NA_character_,
+      note = NA_character_
     )
     # invalid raw_name
     ddict3 <- data.frame(
@@ -144,10 +144,10 @@ df_ddict_err <- function(nm) {
       raw_name = c("varInt", "", "varDate", "varPOSIXct", "varFactor"),
       name = c("integer", "character", "date", "pOSIXct", "factor"),
       label = NA_character_,
-      desc = NA_character_,
-      note = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
-      dtype = c("integer", "character", "Date", "POSIXct", "factor")
+      dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      desc = NA_character_,
+      note = NA_character_
     )
     # invalid raw_name
     ddict4 <- data.frame(
@@ -155,10 +155,10 @@ df_ddict_err <- function(nm) {
       raw_name = c("varInt", "varChar", "varDate", "varPOSIXct", "varFactor"),
       name = c("integer", "character", NA_character_, "pOSIXct", "factor"),
       label = NA_character_,
-      desc = NA_character_,
-      note = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
-      dtype = c("integer", "character", "Date", "POSIXct", "factor")
+      dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      desc = NA_character_,
+      note = NA_character_
     )
   })
   lst[[nm]]

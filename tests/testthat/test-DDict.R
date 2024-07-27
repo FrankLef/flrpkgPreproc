@@ -6,10 +6,10 @@ test_that("DDict: Create DDictionnary: data", {
     raw_name = character(),
     name = character(),
     label = character(),
-    desc = character(),
-    note = character(),
     raw_dtype = character(),
-    dtype = character()
+    dtype = character(),
+    desc = character(),
+    note = character()
   )
   expect_identical(ddict@data, target)
 })
@@ -19,8 +19,10 @@ test_that("DDict: Create DDictionnary: dtypes", {
   # cat("\n", "ddict@dtypes", "\n")
   # print(ddict@dtypes)
 
-  dtypes <- c("integer", "numeric", "character", "factor",
-              "Date", "POSIXct", "ymd")
+  dtypes <- c(
+    "integer", "numeric", "character", "logical",
+    "factor", "Date", "POSIXct", "ymd"
+  )
   expect_identical(ddict@dtypes, dtypes)
 })
 
@@ -303,10 +305,12 @@ test_that("castDDict: Use name, i.e. raw_name = FALSE", {
   # cat("\n", "df3 dtypes", "\n")
   # print(df3_dtypes)
 
-  target_dtypes <- c("Int" = "integer", "Intish" = "integer",
-                     "Dbl" = "numeric", "Char" = "factor",
-                     "Date" = "Date", "POSIXct" = "Date",
-                     "Factor" = "character")
+  target_dtypes <- c(
+    "Int" = "integer", "Intish" = "integer",
+    "Dbl" = "numeric", "Char" = "factor",
+    "Date" = "Date", "POSIXct" = "Date",
+    "Factor" = "character"
+  )
   # cat("\n", "target dtypes", "\n")
   # print(target_dtypes)
 
@@ -315,7 +319,7 @@ test_that("castDDict: Use name, i.e. raw_name = FALSE", {
   # cat("\n", "out dtypes", "\n")
   # print(out_dtypes)
 
-  target = c("a", "b")
+  target <- c("a", "b")
   expect_identical(out_dtypes, target_dtypes)
 })
 
@@ -335,10 +339,12 @@ test_that("castDDict: Use name, i.e. raw_name = TRUE", {
   # cat("\n", "ddict3", "\n")
   # print(ddict@data)
 
-  target_dtypes <- c("varInt" = "integer", "varIntish" = "integer",
-                     "varDbl" = "numeric", "varChar" = "factor",
-                     "varDate" = "Date", "varPOSIXct" = "Date",
-                     "varFactor" = "character")
+  target_dtypes <- c(
+    "varInt" = "integer", "varIntish" = "integer",
+    "varDbl" = "numeric", "varChar" = "factor",
+    "varDate" = "Date", "varPOSIXct" = "Date",
+    "varFactor" = "character"
+  )
   # cat("\n", "target dtypes", "\n")
   # print(target_dtypes)
 
@@ -347,6 +353,6 @@ test_that("castDDict: Use name, i.e. raw_name = TRUE", {
   # cat("\n", "out dtypes", "\n")
   # print(out_dtypes)
 
-  target = c("a", "b")
+  target <- c("a", "b")
   expect_identical(out_dtypes, target_dtypes)
 })

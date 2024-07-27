@@ -30,13 +30,14 @@ The \code{data} property is a data.frame with:
 \item{raw_name}{Name of the variable as shown in the original data.frame.}
 \item{name}{New name to assign to the variable..}
 \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
-\item{desc}{Description of the variable.}
-\item{note}{Discretionary note on the variable.}
 \item{raw_dtype}{Data type of raw data.}
 \item{dtype}{Data type of used data.}
+\item{desc}{Description of the variable.}
+\item{note}{Discretionary note on the variable.}
 }
 }
 
 \examples{
-DDict <- DDict()
+ddict <- DDict()
+stopifnot(S7::S7_inherits(ddict, class = DDict))
 }

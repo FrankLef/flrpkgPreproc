@@ -15,30 +15,33 @@
 #'    \item{raw_name}{Name of the variable as shown in the original data.frame.}
 #'    \item{name}{New name to assign to the variable..}
 #'    \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
-#'    \item{desc}{Description of the variable.}
-#'    \item{note}{Discretionary note on the variable.}
 #'    \item{raw_dtype}{Data type of raw data.}
 #'    \item{dtype}{Data type of used data.}
+#'    \item{desc}{Description of the variable.}
+#'    \item{note}{Discretionary note on the variable.}
 #'    }
 #'
 #' @param data Data.frame of info on the variables.
 #'
 #' @return Object of class \code{DDict}.
 #'
-#' @importFrom forcats as_factor
-#'
 #' @export
 #'
 #' @examples
-#' DDict <- DDict()
+#' ddict <- DDict()
+#' stopifnot(S7::S7_inherits(ddict, class = DDict))
 DDict <- S7::new_class("DDict",
   package = "flpkgrWrap",
   properties = list(
     dtypes = S7::new_property(
       class = S7::class_character,
       getter = function(self) {
-        c("integer", "numeric", "character", "factor", "Date", "POSIXct", "ymd")
-        }),
+        c(
+          "integer", "numeric", "character", "logical",
+          "factor", "Date", "POSIXct", "ymd"
+        )
+      }
+    ),
     data = S7::new_property(
       class = S7::class_data.frame,
       default = data.frame(
@@ -46,17 +49,16 @@ DDict <- S7::new_class("DDict",
         raw_name = character(),
         name = character(),
         label = character(),
-        desc = character(),
-        note = character(),
         raw_dtype = character(),
-        dtype = character()
+        dtype = character(),
+        desc = character(),
+        note = character()
       )
     )
   ),
   validator = function(self) {
     nms <- c(
-      "table", "raw_name", "name", "label", "desc", "note",
-      "raw_dtype", "dtype"
+      "table", "raw_name", "name", "label", "raw_dtype", "dtype", "desc", "note"
     )
     check <- checkmate::check_data_frame(
       self@data,
@@ -231,10 +233,10 @@ S7::method(extractDDict, DDict) <- function(
     raw_name = names(the_variables),
     name = names(the_variables),
     label = NA_character_,
-    desc = NA_character_,
-    note = NA_character_,
     raw_dtype = unname(the_variables),
-    dtype = unname(the_variables)
+    dtype = unname(the_variables),
+    desc = NA_character_,
+    note = NA_character_
   )
   object@data <- rbind(object@data, df)
   object
@@ -384,6 +386,9 @@ S7::method(labelDDict, DDict) <- function(
 #'
 #' @return \code{data} with recasted columns.
 #'
+#' @importFrom forcats as_factor
+#' @importFrom lubridate ymd
+#'
 #' @export
 #'
 #' @examples
@@ -456,33 +461,40 @@ cast_data <- function(object, x, dtype) {
   if (dtype == "integer") {
     tryCatch(
       expr = {
-        x <- checkmate::assert_integerish(x, coerce = TRUE,
-                                          tol = sqrt(.Machine$double.eps))
+        x <- checkmate::assert_integerish(x,
+          coerce = TRUE,
+          tol = sqrt(.Machine$double.eps)
+        )
       },
       error = function(e) {
         return(x)
-      })
-    } else if (dtype == "numeric") {
-      x <- as.numeric(x)
-    } else if (dtype == "character") {
-      x <- as.character(x)
-    } else if (dtype == "factor") {
-      x <- forcats::as_factor(x)
-    } else if (dtype == "Date") {
-      x <- as.Date(x)
-    } else if (dtype == "POSIXct") {
-      x <- as.POSIXct(x)
-    } else if (dtype == "ymd") {
-      x <- lubridate::ymd(x)
-    } else {
-      msg_head <- cli::col_yellow("There are no data type to cast.")
-      msg_body <- c(
-        "i" = sprintf("Data type: %s", dtype),
-        "i" = "Verify the dtype criteria in `cast_data()`.")
-      msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-      rlang::abort(
-        message = msg,
-        class = "ValueError")
-    }
+      }
+    )
+  } else if (dtype == "numeric") {
+    x <- as.numeric(x)
+  } else if (dtype == "character") {
+    x <- as.character(x)
+  } else if (dtype == "logical") {
+    x <- as.logical(x)
+  } else if (dtype == "factor") {
+    x <- forcats::as_factor(x)
+  } else if (dtype == "Date") {
+    x <- as.Date(x)
+  } else if (dtype == "POSIXct") {
+    x <- as.POSIXct(x)
+  } else if (dtype == "ymd") {
+    x <- lubridate::ymd(x)
+  } else {
+    msg_head <- cli::col_yellow("There are no data type to cast.")
+    msg_body <- c(
+      "i" = sprintf("Data type: %s", dtype),
+      "i" = "Verify the dtype criteria in `cast_data()`."
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
   x
 }
