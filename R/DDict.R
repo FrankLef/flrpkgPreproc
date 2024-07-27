@@ -355,7 +355,7 @@ S7::method(labelDDict, DDict) <- function(
   # print(lbl)
 
   if (nrow(lbl) == 0) {
-    msg_head <- cli::col_yellow("There are no label to apply.")
+    msg_head <- cli::col_red("There are no label to apply.")
     msg_body <- c(
       "i" = sprintf("Table: %s", table_nm),
       "i" = "Verify the label columnin the data dictionary."
@@ -440,7 +440,7 @@ S7::method(castDDict, DDict) <- function(
   # print(the_dtypes)
 
   if (nrow(the_dtypes) == 0) {
-    msg_head <- cli::col_yellow("There are no data type to cast.")
+    msg_head <- cli::col_red("There are no data type to cast.")
     msg_body <- c(
       "i" = sprintf("Table: %s", table_nm),
       "i" = "Verify the dtype column in the data dictionary."
@@ -502,9 +502,9 @@ cast_data <- function(object, x, dtype) {
       "i" = "Verify the dtype criteria in `cast_data()`."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::abort(
+    rlang::warn(
       message = msg,
-      class = "ValueError"
+      class = "ValueWarning"
     )
   }
   x
