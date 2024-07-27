@@ -5,6 +5,7 @@
 #' Create data Dictionary with the following properties.
 #' \describe{
 #'    \item{data}{Dataframe of info on the variables. See details.}
+#'    \item{dtypes}{Data types allowed by the object. Read-only property.}
 #' }
 #'
 #' @section Content of \code{data}:
