@@ -19,7 +19,8 @@ Create a data Dictionary.
 Create data Dictionary with the following properties.
 \describe{
 \item{data}{Dataframe of info on the variables. See details.}
-\item{dtypes}{Data types allowed by the object. Read-only property.}
+\item{dtypes}{Character vector of data types allowed by \code{DDict}.
+Read-only property.}
 }
 }
 \section{Content of \code{data}}{
@@ -33,8 +34,8 @@ The \code{data} property is a data.frame with:
 \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 \item{raw_dtype}{Data type of raw data.}
 \item{dtype}{Data type of used data.}
-\item{desc}{Description of the variable.}
-\item{note}{Discretionary note on the variable.}
+\item{desc}{Optional description.}
+\item{note}{Optional note.}
 }
 }
 

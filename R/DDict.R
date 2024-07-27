@@ -5,7 +5,8 @@
 #' Create data Dictionary with the following properties.
 #' \describe{
 #'    \item{data}{Dataframe of info on the variables. See details.}
-#'    \item{dtypes}{Data types allowed by the object. Read-only property.}
+#'    \item{dtypes}{Character vector of data types allowed by \code{DDict}.
+#'    Read-only property.}
 #' }
 #'
 #' @section Content of \code{data}:
@@ -18,8 +19,8 @@
 #'    \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 #'    \item{raw_dtype}{Data type of raw data.}
 #'    \item{dtype}{Data type of used data.}
-#'    \item{desc}{Description of the variable.}
-#'    \item{note}{Discretionary note on the variable.}
+#'    \item{desc}{Optional description.}
+#'    \item{note}{Optional note.}
 #'    }
 #'
 #' @param data Data.frame of info on the variables.
@@ -58,13 +59,15 @@ DDict <- S7::new_class("DDict",
     )
   ),
   validator = function(self) {
-    nms <- c(
-      "table", "raw_name", "name", "label", "raw_dtype", "dtype", "desc", "note"
-    )
+    vars <- c(
+      "table" = "character", "raw_name" = "character",
+      "name" = "character", "label" = "character",
+      "raw_dtype" = "character", "dtype" = "character",
+      "desc" = "character", "note" = "character")
     check <- checkmate::check_data_frame(
       self@data,
-      types = rep("character", times = length(nms)),
-      ncols = length(nms)
+      types = vars,
+      ncols = length(vars)
     )
     if (is.character(check)) {
       rlang::abort(
@@ -72,7 +75,8 @@ DDict <- S7::new_class("DDict",
         class = "ValueError"
       )
     }
-    check <- checkmate::check_names(names(self@data), permutation.of = nms)
+    check <- checkmate::check_names(names(self@data),
+                                    permutation.of = names(vars))
     if (is.character(check)) {
       rlang::abort(
         message = check,
