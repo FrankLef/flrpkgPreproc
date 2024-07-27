@@ -8,6 +8,7 @@ test_that("DDict: Create DDictionnary: data", {
     label = character(),
     raw_dtype = character(),
     dtype = character(),
+    vtype = character(),
     desc = character(),
     note = character()
   )
@@ -97,9 +98,9 @@ test_that("addDDict: Add variable to DDictionnary.", {
   ddict <- DDict()
 
   vars <- c(
-    "table" = "tbl", "raw_name" = "var", "name" = "nm",
-    "label" = "lbl", "desc" = "description", "note" = "a note",
-    "raw_dtype" = "character", "dtype" = "character"
+    "table" = "tbl", "raw_name" = "var", "name" = "nm", "label" = "lbl",
+    "raw_dtype" = "char", "dtype" = "char", "vtype" = "a type",
+    "desc" = "description", "note" = "a note"
   )
 
   target <- ddict
@@ -118,14 +119,14 @@ test_that("rmDDict: Remove variable from DDictionnary.", {
   ddict <- DDict()
 
   vars1 <- c(
-    "table" = "table1", "raw_name" = "var1", "name" = "nm1",
-    "label" = "lbl", "desc" = "description", "note" = "a note",
-    "raw_dtype" = "character", "dtype" = "character"
+    "table" = "table1", "raw_name" = "var1", "name" = "nm1", "label" = "lbl",
+    "raw_dtype" = "character", "dtype" = "character", "vtype" = "a type",
+    "desc" = "description", "note" = "a note"
   )
   vars2 <- c(
-    "table" = "table2", "raw_name" = "var2", "name" = "nm2",
-    "label" = "lbl", "desc" = "description", "note" = "a note",
-    "raw_dtype" = "integer", "dtype" = "integer"
+    "table" = "table2", "raw_name" = "var2", "name" = "nm2", "label" = "lbl",
+    "raw_dtype" = "integer", "dtype" = "integer", "vtype" = "a type",
+    "desc" = "description", "note" = "a note"
   )
   ddict <- addDDict(ddict, vars = vars1)
   ddict <- addDDict(ddict, vars = vars2)

@@ -19,6 +19,8 @@
 #'    \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 #'    \item{raw_dtype}{Data type of raw data.}
 #'    \item{dtype}{Data type of used data.}
+#'    \item{vtype}{Variable type. Discretionary type assigned to the variable.
+#'    No validity check performed. e.g. "key" to flag keys in the data.}
 #'    \item{desc}{Optional description.}
 #'    \item{note}{Optional note.}
 #'    }
@@ -53,6 +55,7 @@ DDict <- S7::new_class("DDict",
         label = character(),
         raw_dtype = character(),
         dtype = character(),
+        vtype = character(),
         desc = character(),
         note = character()
       )
@@ -63,7 +66,8 @@ DDict <- S7::new_class("DDict",
       "table" = "character", "raw_name" = "character",
       "name" = "character", "label" = "character",
       "raw_dtype" = "character", "dtype" = "character",
-      "desc" = "character", "note" = "character")
+      "vtype" = "character", "desc" = "character", "note" = "character"
+    )
     check <- checkmate::check_data_frame(
       self@data,
       types = vars,
@@ -76,7 +80,8 @@ DDict <- S7::new_class("DDict",
       )
     }
     check <- checkmate::check_names(names(self@data),
-                                    permutation.of = names(vars))
+      permutation.of = names(vars)
+    )
     if (is.character(check)) {
       rlang::abort(
         message = check,
@@ -240,6 +245,7 @@ S7::method(extractDDict, DDict) <- function(
     label = NA_character_,
     raw_dtype = unname(the_variables),
     dtype = unname(the_variables),
+    vtype = NA_character_,
     desc = NA_character_,
     note = NA_character_
   )

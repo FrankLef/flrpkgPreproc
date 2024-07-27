@@ -34,6 +34,7 @@ df_ddict <- function(nm) {
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
       ),
+      vtype = NA_character_,
       desc = NA_character_,
       note = NA_character_
     )
@@ -70,6 +71,7 @@ df_ddict <- function(nm) {
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
       ),
+      vtype = NA_character_,
       desc = NA_character_,
       note = NA_character_
     )
@@ -107,6 +109,7 @@ df_ddict <- function(nm) {
         "integer", "integer", "integer", "factor", "ymd",
         "Date", "character"
       ),
+      vtype = NA_character_,
       desc = NA_character_,
       note = NA_character_
     )
@@ -124,6 +127,7 @@ df_ddict_err <- function(nm) {
       label = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      vtype = NA_character_,
       desc = NA_character_,
       note = NA_character_
     )
@@ -135,6 +139,7 @@ df_ddict_err <- function(nm) {
       label = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      vtype = NA_character_,
       desc = NA_character_,
       note = NA_character_
     )
@@ -146,6 +151,7 @@ df_ddict_err <- function(nm) {
       label = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      vtype = NA_character_,
       desc = NA_character_,
       note = NA_character_
     )
@@ -157,6 +163,7 @@ df_ddict_err <- function(nm) {
       label = NA_character_,
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
+      vtype = NA_character_,
       desc = NA_character_,
       note = NA_character_
     )
