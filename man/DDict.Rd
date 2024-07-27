@@ -30,7 +30,7 @@ The \code{data} property is a data.frame with:
 \describe{
 \item{table}{Name of the data.frame containing the variable.}
 \item{raw_name}{Name of the variable as shown in the original data.frame.}
-\item{name}{New name to assign to the variable..}
+\item{name}{New name to assign to the variable.}
 \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 \item{raw_dtype}{Data type of raw data.}
 \item{dtype}{Data type of used data.}

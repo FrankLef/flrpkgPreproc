@@ -15,7 +15,7 @@
 #' \describe{
 #'    \item{table}{Name of the data.frame containing the variable.}
 #'    \item{raw_name}{Name of the variable as shown in the original data.frame.}
-#'    \item{name}{New name to assign to the variable..}
+#'    \item{name}{New name to assign to the variable.}
 #'    \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 #'    \item{raw_dtype}{Data type of raw data.}
 #'    \item{dtype}{Data type of used data.}
@@ -453,9 +453,9 @@ S7::method(castDDict, DDict) <- function(
   }
 
   for (nm in the_dtypes$name) {
-    x <- data[, nm]
+    x <- data[[nm]]
     a_dtype <- the_dtypes$dtype[the_dtypes$name == nm]
-    data[, nm] <- cast_data(object, x = x, dtype = a_dtype)
+    data[[nm]] <- cast_data(object, x = x, dtype = a_dtype)
   }
 
   data
