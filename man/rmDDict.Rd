@@ -19,7 +19,7 @@ rmDDict(object, ...)
 Object of class \code{DDict}
 }
 \description{
-Remove a Variable from a data dictionary
+Remove a variable from a data dictionary.
 }
 \details{
 Remove all information about a variable from a DDictionary.

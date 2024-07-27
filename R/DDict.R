@@ -172,7 +172,7 @@ S7::method(addDDict, DDict) <- function(object, vars) {
 
 #' Remove a Variable from a Data Dictionnary
 #'
-#' Remove a Variable from a data dictionary
+#' Remove a variable from a data dictionary.
 #'
 #' Remove all information about a variable from a DDictionary.
 #'
@@ -205,7 +205,7 @@ S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
   object
 }
 
-#' Extract Information About Data to a Data Dictionary.
+#' Extract Information About Data to a Data Dictionary
 #'
 #' Extract information about data to a data dictionary.
 #'
@@ -254,7 +254,7 @@ S7::method(extractDDict, DDict) <- function(
   object
 }
 
-#' Rename Columns Using a \code{DDict}.
+#' Rename Columns Using a \code{DDict}
 #'
 #' Rename columns using a \code{DDict}.
 #'
@@ -298,7 +298,7 @@ S7::method(renDDict, DDict) <- function(
   data
 }
 
-#' Set Labels to Columns Using a \code{DDict}.
+#' Set Labels to Columns Using a \code{DDict}
 #'
 #' Set labels to columns using a \code{DDict}.
 #'
@@ -380,7 +380,7 @@ S7::method(labelDDict, DDict) <- function(
   data
 }
 
-#' Cast Data Types of Columns Using a \code{DDict}.
+#' Cast Data Types of Columns Using a \code{DDict}
 #'
 #' Cast data types of columns using a \code{DDict}.
 #'

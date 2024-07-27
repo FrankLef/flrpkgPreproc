@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{renDDict}
 \alias{renDDict}
-\title{Rename Columns Using a \code{DDict}.}
+\title{Rename Columns Using a \code{DDict}}
 \usage{
 renDDict(object, ...)
 }

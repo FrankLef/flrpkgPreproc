@@ -1,4 +1,9 @@
+#' Print "Hello" message to console
+#'
 #' Print message that begins with "Hello" to console.
+#'
+#' This function is used for testing. The setup of \code{rnlang::abort()}
+#' inside is useful.
 #'
 #' @param msg Message to print.
 #'

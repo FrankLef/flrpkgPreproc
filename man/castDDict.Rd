@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{castDDict}
 \alias{castDDict}
-\title{Cast Data Types of Columns Using a \code{DDict}.}
+\title{Cast Data Types of Columns Using a \code{DDict}}
 \usage{
 castDDict(object, ...)
 }

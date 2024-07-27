@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{extractDDict}
 \alias{extractDDict}
-\title{Extract Information About Data to a Data Dictionary.}
+\title{Extract Information About Data to a Data Dictionary}
 \usage{
 extractDDict(object, ...)
 }

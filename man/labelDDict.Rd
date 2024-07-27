@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{labelDDict}
 \alias{labelDDict}
-\title{Set Labels to Columns Using a \code{DDict}.}
+\title{Set Labels to Columns Using a \code{DDict}}
 \usage{
 labelDDict(object, ...)
 }

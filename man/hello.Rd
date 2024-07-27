@@ -2,7 +2,7 @@
 % Please edit documentation in R/hello.R
 \name{hello}
 \alias{hello}
-\title{Print message that begins with "Hello" to console.}
+\title{Print "Hello" message to console}
 \usage{
 hello(msg = "Hello, world!")
 }
@@ -14,6 +14,10 @@ Message, invisibly.
 }
 \description{
 Print message that begins with "Hello" to console.
+}
+\details{
+This function is used for testing. The setup of \code{rnlang::abort()}
+inside is useful.
 }
 \examples{
 hello()
