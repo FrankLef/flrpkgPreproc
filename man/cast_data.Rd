@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{cast_data}
 \alias{cast_data}
-\title{Cast Data to New Data Type.}
+\title{Cast Data to New Data Type}
 \usage{
 cast_data(object, x, dtype)
 }
@@ -17,5 +17,12 @@ cast_data(object, x, dtype)
 x with new data type.
 }
 \description{
-Cast Data to New Data Type.
+Cast data to new data type.
+}
+\details{
+This function is used by \code{castDDict()}. When \code{dtype} is invalid,
+an error message is issued.
+}
+\seealso{
+\code{\link[=castDDict]{castDDict()}}
 }

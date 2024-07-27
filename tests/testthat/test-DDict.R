@@ -324,7 +324,7 @@ test_that("castDDict: Use name, i.e. raw_name = FALSE", {
   expect_identical(out_dtypes, target_dtypes)
 })
 
-test_that("castDDict: Use name, i.e. raw_name = TRUE", {
+test_that("castDDict: Use raw_name, i.e. raw_name = TRUE", {
   # testthat::skip("debug")
   ddict <- DDict()
 
@@ -356,4 +356,30 @@ test_that("castDDict: Use name, i.e. raw_name = TRUE", {
 
   target <- c("a", "b")
   expect_identical(out_dtypes, target_dtypes)
+})
+
+test_that("castDDict: Warning", {
+  # testthat::skip("debug")
+  ddict <- DDict()
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  # cat("\n", "df3", "\n")
+  # print(df3)
+  df3_dtypes <- sapply(df3, FUN = \(x) class(x)[1])
+  # cat("\n", "df3 dtypes", "\n")
+  # print(df3_dtypes)
+
+  ddict@data <- df_ddict(nm = "ddict3")
+  ddict@data$raw_dtype <- ddict@data$dtype
+  # cat("\n", "ddict3", "\n")
+  # print(ddict@data)
+
+  expect_warning(
+    {
+      out <- castDDict(ddict, data = df3, is_raw_nm = TRUE)
+    },
+    class = "ValueWarning",
+    regexp = "There is no data type to cast"
+  )
 })

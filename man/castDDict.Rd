@@ -18,7 +18,7 @@ castDDict(object, ...)
 }}
 }
 \value{
-\code{data} with recasted columns.
+\code{data} with new data types..
 }
 \description{
 Cast data types of columns using a \code{DDict}.
@@ -26,7 +26,7 @@ Cast data types of columns using a \code{DDict}.
 \details{
 The columns data type is recast to the data type specified in \code{dtype}
 when it differ from the data type specified in \code{raw_dtype}. Nothing is
-done When \code{dtype} is \code{NA} or empty.
+done When \code{dtype} is \code{NA} or empty and a warning is issued.
 }
 \examples{
 \dontrun{

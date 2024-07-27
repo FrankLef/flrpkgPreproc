@@ -382,7 +382,7 @@ S7::method(labelDDict, DDict) <- function(
 #'
 #' The columns data type is recast to the data type specified in \code{dtype}
 #' when it differ from the data type specified in \code{raw_dtype}. Nothing is
-#' done When \code{dtype} is \code{NA} or empty.
+#' done When \code{dtype} is \code{NA} or empty and a warning is issued.
 #'
 #' @name castDDict
 #'
@@ -395,7 +395,7 @@ S7::method(labelDDict, DDict) <- function(
 #' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
 #' }
 #'
-#' @return \code{data} with recasted columns.
+#' @return \code{data} with new data types..
 #'
 #' @importFrom forcats as_factor
 #' @importFrom lubridate ymd
@@ -440,16 +440,18 @@ S7::method(castDDict, DDict) <- function(
   # print(the_dtypes)
 
   if (nrow(the_dtypes) == 0) {
-    msg_head <- cli::col_red("There are no data type to cast.")
+    msg_head <- cli::col_yellow("There is no data type to cast.")
     msg_body <- c(
       "i" = sprintf("Table: %s", table_nm),
-      "i" = "Verify the dtype column in the data dictionary."
+      "i" = "Verify the dtype column in the data dictionary.",
+      "i" = "Input data is returned as is."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::abort(
+    rlang::warn(
       message = msg,
-      class = "ValueError"
+      class = "ValueWarning"
     )
+    return(data)
   }
 
   for (nm in the_dtypes$name) {
@@ -461,11 +463,18 @@ S7::method(castDDict, DDict) <- function(
   data
 }
 
-#' Cast Data to New Data Type.
+#' Cast Data to New Data Type
+#'
+#' Cast data to new data type.
+#'
+#' This function is used by \code{castDDict()}. When \code{dtype} is invalid,
+#' an error message is issued.
 #'
 #' @param object Object of class \code{DDict}.
 #' @param x Vector.
 #' @param dtype Name of data type.
+#'
+#' @seealso [castDDict()]
 #'
 #' @return x with new data type.
 cast_data <- function(object, x, dtype) {
@@ -496,15 +505,17 @@ cast_data <- function(object, x, dtype) {
   } else if (dtype == "ymd") {
     x <- lubridate::ymd(x)
   } else {
-    msg_head <- cli::col_yellow("There are no data type to cast.")
+    # NOTE: At this point this should not happen which is why it is an error
+    #       rather than a warning as in castDDict()..
+    msg_head <- cli::col_red("The data type is invalid.")
     msg_body <- c(
       "i" = sprintf("Data type: %s", dtype),
-      "i" = "Verify the dtype criteria in `cast_data()`."
+      "i" = "See DDict@dtypes for allowed data types."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::warn(
+    rlang::abort(
       message = msg,
-      class = "ValueWarning"
+      class = "ValueError"
     )
   }
   x
