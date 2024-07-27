@@ -475,7 +475,6 @@ cast_data <- function(object, x, dtype) {
     } else if (dtype == "ymd") {
       x <- lubridate::ymd(x)
     } else {
-      msg <- sprintf("Invalid data type %s.", dtype)
       msg_head <- cli::col_yellow("There are no data type to cast.")
       msg_body <- c(
         "i" = sprintf("Data type: %s", dtype),
