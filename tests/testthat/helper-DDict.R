@@ -106,7 +106,7 @@ df_ddict <- function(nm) {
         "POSIXct", "factor"
       ),
       dtype = c(
-        "integer", "integer", "integer", "factor", "POSIXct",
+        "integer", "integer", "integer", "factor", "ymd",
         "Date", "character"
       )
     )

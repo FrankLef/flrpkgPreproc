@@ -10,7 +10,7 @@ DDict(data = class_missing)
 \item{data}{Data.frame of info on the variables.}
 }
 \value{
-Object of class DDict.
+Object of class \code{DDict}.
 }
 \description{
 Create a data Dictionary.

@@ -1,4 +1,4 @@
-test_that("DDict: Create DDictionnary", {
+test_that("DDict: Create DDictionnary: data", {
   ddict <- DDict()
 
   target <- data.frame(
@@ -13,6 +13,17 @@ test_that("DDict: Create DDictionnary", {
   )
   expect_identical(ddict@data, target)
 })
+
+test_that("DDict: Create DDictionnary: dtypes", {
+  ddict <- DDict()
+  # cat("\n", "ddict@dtypes", "\n")
+  # print(ddict@dtypes)
+
+  dtypes <- c("integer", "numeric", "character", "factor",
+              "Date", "POSIXct", "ymd")
+  expect_identical(ddict@dtypes, dtypes)
+})
+
 
 test_that("DDict: Validate DDict@data", {
   ddict <- DDict()
@@ -65,30 +76,6 @@ test_that("DDict: Validate DDict@data", {
     },
     class = "ValueError",
     regexp = "has.+duplicate records"
-  )
-
-  # invalid raw_dtype
-  ddict <- DDict()
-  err5 <- df_ddict(nm = "ddict3")
-  err5$raw_dtype[1] <- "ERROR"
-  expect_error(
-    {
-      ddict@data <- err5
-    },
-    class = "ValueError",
-    regexp = "Names must be a subset of"
-  )
-
-  # invalid dtype
-  ddict <- DDict()
-  err6 <- df_ddict(nm = "ddict3")
-  err6$dtype[1] <- "ERROR"
-  expect_error(
-    {
-      ddict@data <- err6
-    },
-    class = "ValueError",
-    regexp = "Names must be a subset of"
   )
 })
 
@@ -299,22 +286,67 @@ test_that("labelDDict: No labels", {
 })
 
 
+test_that("castDDict: Use name, i.e. raw_name = FALSE", {
+  # testthat::skip("debug")
+  ddict <- DDict()
+
+  ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict3", "\n")
+  # print(ddict@data)
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  names(df3) <- ddict@data$name
+  # cat("\n", "df3", "\n")
+  # print(df3)
+  df3_dtypes <- sapply(df3, FUN = \(x) class(x)[1])
+  # cat("\n", "df3 dtypes", "\n")
+  # print(df3_dtypes)
+
+  target_dtypes <- c("Int" = "integer", "Intish" = "integer",
+                     "Dbl" = "numeric", "Char" = "factor",
+                     "Date" = "Date", "POSIXct" = "Date",
+                     "Factor" = "character")
+  # cat("\n", "target dtypes", "\n")
+  # print(target_dtypes)
+
+  out <- castDDict(ddict, data = df3, is_raw_nm = FALSE)
+  out_dtypes <- sapply(out, FUN = \(x) class(x)[1])
+  # cat("\n", "out dtypes", "\n")
+  # print(out_dtypes)
+
+  target = c("a", "b")
+  expect_identical(out_dtypes, target_dtypes)
+})
+
 test_that("castDDict: Use name, i.e. raw_name = TRUE", {
-  testthat::skip("debug")
+  # testthat::skip("debug")
   ddict <- DDict()
 
   # important to call it df3 to match the table in dictionary
   df3 <- df_ddict(nm = "df3")
-  cat("\n", "df3", "\n")
-  print(df3)
-  ddict@data <- df_ddict(nm = "ddict3")
-  cat("\n", "ddict3", "\n")
-  print(ddict@data)
+  # cat("\n", "df3", "\n")
+  # print(df3)
+  df3_dtypes <- sapply(df3, FUN = \(x) class(x)[1])
+  # cat("\n", "df3 dtypes", "\n")
+  # print(df3_dtypes)
 
-  out <- castDDict(ddict, data = df3, is_raw_nm = FALSE)
-  cat("\n", "out", "\n")
-  print(out)
+  ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict3", "\n")
+  # print(ddict@data)
+
+  target_dtypes <- c("varInt" = "integer", "varIntish" = "integer",
+                     "varDbl" = "numeric", "varChar" = "factor",
+                     "varDate" = "Date", "varPOSIXct" = "Date",
+                     "varFactor" = "character")
+  # cat("\n", "target dtypes", "\n")
+  # print(target_dtypes)
+
+  out <- castDDict(ddict, data = df3, is_raw_nm = TRUE)
+  out_dtypes <- sapply(out, FUN = \(x) class(x)[1])
+  # cat("\n", "out dtypes", "\n")
+  # print(out_dtypes)
 
   target = c("a", "b")
-  expect_identical(c("x", "y"), target)
+  expect_identical(out_dtypes, target_dtypes)
 })

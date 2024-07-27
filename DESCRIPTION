@@ -12,7 +12,9 @@ Imports:
     checkmate,
     cli,
     dplyr,
+    forcats,
     labelled,
+    lubridate,
     rlang,
     S7
 Suggests: 

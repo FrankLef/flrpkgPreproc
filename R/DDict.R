@@ -23,9 +23,9 @@
 #'
 #' @param data Data.frame of info on the variables.
 #'
-#' @return Object of class DDict.
+#' @return Object of class \code{DDict}.
 #'
-#' @importFrom checkmate check_data_frame check_names
+#' @importFrom forcats as_factor
 #'
 #' @export
 #'
@@ -34,6 +34,11 @@
 DDict <- S7::new_class("DDict",
   package = "flpkgrWrap",
   properties = list(
+    dtypes = S7::new_property(
+      class = S7::class_character,
+      getter = function(self) {
+        c("integer", "numeric", "character", "factor", "Date", "POSIXct", "ymd")
+        }),
     data = S7::new_property(
       class = S7::class_data.frame,
       default = data.frame(
@@ -110,27 +115,6 @@ DDict <- S7::new_class("DDict",
     if (check) {
       rlang::abort(
         message = sprintf("self@data has %d duplicate records.", check),
-        class = "ValueError"
-      )
-    }
-    the_choices <- c("integer", "numeric", "character", "Date", "POSIXct", "factor")
-    check <- checkmate::check_names(
-      self@data$raw_dtype,
-      subset.of = the_choices
-      )
-    if (is.character(check)) {
-      rlang::abort(
-        message = check,
-        class = "ValueError"
-      )
-    }
-    check <- checkmate::check_names(
-      self@data$dtype,
-      subset.of = the_choices
-    )
-    if (is.character(check)) {
-      rlang::abort(
-        message = check,
         class = "ValueError"
       )
     }
@@ -412,6 +396,8 @@ S7::method(castDDict, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
   checkmate::assert_data_frame(data)
 
+  the_choices <- object@dtypes
+
   # cat("\n", "castDDict: table_nm", "\n")
   # print(table_nm)
 
@@ -422,20 +408,22 @@ S7::method(castDDict, DDict) <- function(
   # print(ddict)
 
   if (!is_raw_nm) {
-    the_types <- ddict |>
+    the_dtypes <- ddict |>
       dplyr::select(name, raw_dtype, dtype)
   } else {
-    the_types <- ddict |>
+    the_dtypes <- ddict |>
       dplyr::select(raw_name, raw_dtype, dtype) |>
       dplyr::rename(name = raw_name)
   }
 
-  the_types <- the_types |>
-    dplyr::filter(nchar(dtype) >= 1L, !is.na(dtype), raw_dtype != dtype)
-  # cat("\n", "castDDict: the_types", "\n")
-  # print(the_types)
+  the_dtypes <- the_dtypes |>
+    dplyr::filter(nchar(dtype) >= 1L, !is.na(dtype), raw_dtype != dtype) |>
+    dplyr::filter(is.element(dtype, the_choices))
 
-  if (nrow(the_types) == 0) {
+  # cat("\n", "castDDict: the_types", "\n")
+  # print(the_dtypes)
+
+  if (nrow(the_dtypes) == 0) {
     msg_head <- cli::col_yellow("There are no data type to cast.")
     msg_body <- c(
       "i" = sprintf("Table: %s", table_nm),
@@ -448,12 +436,54 @@ S7::method(castDDict, DDict) <- function(
     )
   }
 
-
+  for (nm in the_dtypes$name) {
+    x <- data[, nm]
+    a_dtype <- the_dtypes$dtype[the_dtypes$name == nm]
+    data[, nm] <- cast_data(object, x = x, dtype = a_dtype)
+  }
 
   data
 }
 
-cast_data <- function(x, dtype) {
-
-
+#' Cast Data to new data type.
+#'
+#' @param object Object of class \code{DDict}.
+#' @param x Vector.
+#' @param dtype Name of data type.
+#'
+#' @return x with new data type.
+cast_data <- function(object, x, dtype) {
+  if (dtype == "integer") {
+    tryCatch(
+      expr = {
+        x <- checkmate::assert_integerish(x, coerce = TRUE,
+                                          tol = sqrt(.Machine$double.eps))
+      },
+      error = function(e) {
+        return(x)
+      })
+    } else if (dtype == "numeric") {
+      x <- as.numeric(x)
+    } else if (dtype == "character") {
+      x <- as.character(x)
+    } else if (dtype == "factor") {
+      x <- forcats::as_factor(x)
+    } else if (dtype == "Date") {
+      x <- as.Date(x)
+    } else if (dtype == "POSIXct") {
+      x <- as.POSIXct(x)
+    } else if (dtype == "ymd") {
+      x <- lubridate::ymd(x)
+    } else {
+      msg <- sprintf("Invalid data type %s.", dtype)
+      msg_head <- cli::col_yellow("There are no data type to cast.")
+      msg_body <- c(
+        "i" = sprintf("Data type: %s", dtype),
+        "i" = "Verify the dtype criteria in `cast_data()`.")
+      msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+      rlang::abort(
+        message = msg,
+        class = "ValueError")
+    }
+  x
 }
