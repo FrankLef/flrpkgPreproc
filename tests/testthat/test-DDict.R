@@ -181,6 +181,39 @@ test_that("extractDDict: ERROR extract data in DDict", {
   )
 })
 
+test_that("tableDDict: Table's data from a DDict", {
+  ddict <- DDict()
+
+  ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict@data", "\n")
+  # print(ddict@data)
+
+  out <- tableDDict(ddict, table = "df3")
+  # cat("\n", "out", "\n")
+  # print(out)
+
+  # testthat::skip("debug")
+  expect_identical(out, ddict@data)
+})
+
+
+
+test_that("tableDDict: ERROR", {
+  ddict <- DDict()
+
+  ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict@data", "\n")
+  # print(ddict@data)
+
+  expect_error(
+    {
+      out <- tableDDict(ddict, table = "ERROR")
+    },
+    class = "ValueError",
+    regexp = "No records returned from the data dictionary"
+  )
+})
+
 test_that("renDDict: Rename columns using a DDict", {
   ddict <- DDict()
 

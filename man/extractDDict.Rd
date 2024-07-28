@@ -12,7 +12,6 @@ extractDDict(object, ...)
 \item{...}{Additional arguments used by methods. Such as
 \describe{
 \item{data}{Data.frame from which to extract the variables' details.}
-\item{table_nm}{Name of the table.}
 }}
 }
 \value{

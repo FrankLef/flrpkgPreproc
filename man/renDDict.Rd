@@ -12,7 +12,6 @@ renDDict(object, ...)
 \item{...}{Additional arguments used by methods. Such as
 \describe{
 \item{data}{Data.frame with variables to rename.}
-\item{table_nm}{Name of the table.}
 }}
 }
 \value{

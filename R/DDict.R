@@ -217,7 +217,6 @@ S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame from which to extract the variables' details.}
-#'    \item{table_nm}{Name of the table.}
 #' }
 #'
 #' @return Object of class \code{DDict}.
@@ -230,9 +229,10 @@ S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
 #' }
 extractDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(extractDDict, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data))) {
+S7::method(extractDDict, DDict) <- function(object, data) {
   checkmate::assert_data_frame(data)
+
+  table_nm <- deparse1(substitute(data))
   checkmate::assert_string(table_nm, min.chars = 1)
   # cat("\n", "table", "\n")
   # print(the_table)
@@ -254,6 +254,56 @@ S7::method(extractDDict, DDict) <- function(
   object
 }
 
+
+#' Data About a Table from a \code{DDict}
+#'
+#' Data about a table from a \code{DDict}.
+#'
+#' The records are filtered using regular expressions (regex).
+#'
+#' @name tableDDict
+#'
+#' @param object Object of class \code{DDict}.
+#' @param ... Additional arguments used by methods. Such as
+#' \describe{
+#'    \item{table}{Regular expression to select the table. Default is \code{".*"}.}
+#' }
+#'
+#' @return \code{data} from \code{DDict} object.
+#'
+#' @importFrom dplyr filter
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
+tableDDict <- S7::new_generic("DDict", dispatch_args = "object")
+
+S7::method(tableDDict, DDict) <- function(object, table = ".*") {
+  checkmate::assert_string(table, min.chars = 1)
+
+  data <- object@data |>
+    dplyr::filter(grepl(pattern = {{ table }}, x = table, ignore.case = TRUE))
+
+  if (!nrow(data)) {
+    msg_head <- cli::col_red("No records returned from the data dictionary.")
+    msg_body <- c(
+      "i" = "Verify the table name used to filter the data.",
+      "x" = sprintf("Table: %s", table)
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
+  data
+}
+
+
 #' Rename Columns Using a \code{DDict}
 #'
 #' Rename columns using a \code{DDict}.
@@ -266,12 +316,9 @@ S7::method(extractDDict, DDict) <- function(
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame with variables to rename.}
-#'    \item{table_nm}{Name of the table.}
 #' }
 #'
 #' @return \code{data} with renamed columns.
-#'
-#' @importFrom dplyr filter
 #'
 #' @export
 #'
@@ -281,14 +328,29 @@ S7::method(extractDDict, DDict) <- function(
 #' }
 renDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(renDDict, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data))) {
+S7::method(renDDict, DDict) <- function(object, data) {
   checkmate::assert_data_frame(data)
+
+  table_nm <- deparse1(substitute(data))
   checkmate::assert_string(table_nm, min.chars = 1)
 
-  the_table <- table_nm
-  ddict <- object@data |>
-    dplyr::filter(table == {{ the_table }})
+  ddict <- tableDDict(object, table = table_nm)
+
+
+  if (!nrow(ddict)) {
+    msg_head <- cli::col_red("No records returned from the data dictionary.")
+    msg_body <- c(
+      "i" = "Verify the table name.",
+      "x" = sprintf("Table: %s", table_nm)
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
+
 
   pos <- match(ddict$raw_name, names(data))
   # cat("\n", "pos", "\n")
@@ -312,7 +374,6 @@ S7::method(renDDict, DDict) <- function(
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame with variables to label.}
-#'    \item{table_nm}{Name of the table.}
 #'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
 #' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
 #' }
@@ -330,16 +391,18 @@ S7::method(renDDict, DDict) <- function(
 labelDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(labelDDict, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
+    object, data, is_raw_nm = FALSE) {
   checkmate::assert_data_frame(data)
-  checkmate::assert_string(table_nm, min.chars = 1)
   checkmate::assert_flag(is_raw_nm)
+
+  table_nm <- deparse1(substitute(data))
+  checkmate::assert_string(table_nm, min.chars = 1)
 
   # cat("\n", "labelDDict: table_nm", "\n")
   # print(table_nm)
 
-  ddict <- object@data |>
-    dplyr::filter(table == table_nm)
+  ddict <- tableDDict(object, table = table_nm)
+
 
   # cat("\n", "labelDDict: ddict", "\n")
   # print(ddict)
@@ -358,11 +421,11 @@ S7::method(labelDDict, DDict) <- function(
   # cat("\n", "labelDDict: lbl", "\n")
   # print(lbl)
 
-  if (nrow(lbl) == 0) {
+  if (!nrow(lbl)) {
     msg_head <- cli::col_red("There are no label to apply.")
     msg_body <- c(
       "i" = sprintf("Table: %s", table_nm),
-      "i" = "Verify the label columnin the data dictionary."
+      "i" = "Verify the label column in the data dictionary."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
@@ -394,7 +457,6 @@ S7::method(labelDDict, DDict) <- function(
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame with variables to label.}
-#'    \item{table_nm}{Name of the table.}
 #'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
 #' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
 #' }
@@ -413,18 +475,19 @@ S7::method(labelDDict, DDict) <- function(
 castDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(castDDict, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
+    object, data, is_raw_nm = FALSE) {
   checkmate::assert_data_frame(data)
-  checkmate::assert_string(table_nm, min.chars = 1)
   checkmate::assert_flag(is_raw_nm)
+
+  table_nm <- deparse1(substitute(data))
+  checkmate::assert_string(table_nm, min.chars = 1)
 
   the_choices <- object@dtypes
 
   # cat("\n", "castDDict: table_nm", "\n")
   # print(table_nm)
 
-  ddict <- object@data |>
-    dplyr::filter(table == table_nm)
+  ddict <- tableDDict(object, table = table_nm)
 
   # cat("\n", "castDDict: ddict", "\n")
   # print(ddict)
