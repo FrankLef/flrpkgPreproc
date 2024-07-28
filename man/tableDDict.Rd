@@ -11,7 +11,7 @@ tableDDict(object, ...)
 
 \item{...}{Additional arguments used by methods. Such as
 \describe{
-\item{table}{Regular expression to select the table. Default is \code{".*"}.}
+\item{table_nm}{Name of the table.}
 }}
 }
 \value{

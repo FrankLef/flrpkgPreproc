@@ -188,7 +188,7 @@ test_that("tableDDict: Table's data from a DDict", {
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
 
-  out <- tableDDict(ddict, table = "df3")
+  out <- tableDDict(ddict, table_nm = "df3")
   # cat("\n", "out", "\n")
   # print(out)
 
@@ -199,6 +199,7 @@ test_that("tableDDict: Table's data from a DDict", {
 
 
 test_that("tableDDict: ERROR", {
+  # testthat::skip("debug")
   ddict <- DDict()
 
   ddict@data <- df_ddict(nm = "ddict3")
@@ -207,7 +208,7 @@ test_that("tableDDict: ERROR", {
 
   expect_error(
     {
-      out <- tableDDict(ddict, table = "ERROR")
+      out <- tableDDict(ddict, table_nm = "ERROR")
     },
     class = "ValueError",
     regexp = "No records returned from the data dictionary"
@@ -215,6 +216,7 @@ test_that("tableDDict: ERROR", {
 })
 
 test_that("renDDict: Rename columns using a DDict", {
+  # testthat::skip("debug")
   ddict <- DDict()
 
 
@@ -234,6 +236,7 @@ test_that("renDDict: Rename columns using a DDict", {
 })
 
 test_that("labelDDict: Use name, i.e. raw_name = FALSE", {
+  # testthat::skip("debug")
   ddict <- DDict()
 
   ddict@data <- df_ddict(nm = "ddict3")
@@ -269,6 +272,7 @@ test_that("labelDDict: Use name, i.e. raw_name = FALSE", {
 })
 
 test_that("labelDDict: Use name, i.e. raw_name = TRUE", {
+  # testthat::skip("debug")
   ddict <- DDict()
 
   ddict@data <- df_ddict(nm = "ddict3")
@@ -304,6 +308,7 @@ test_that("labelDDict: Use name, i.e. raw_name = TRUE", {
 
 
 test_that("labelDDict: No labels", {
+  # testthat::skip("debug")
   ddict <- DDict()
 
   # important to call it df3 to match the table in dictionary

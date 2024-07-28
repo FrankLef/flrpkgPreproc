@@ -267,7 +267,7 @@ S7::method(extractDDict, DDict) <- function(
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
-#'    \item{table}{Regular expression to select the table. Default is \code{".*"}.}
+#'    \item{table_nm}{Name of the table.}
 #' }
 #'
 #' @return \code{data} from \code{DDict} object.
@@ -282,17 +282,16 @@ S7::method(extractDDict, DDict) <- function(
 #' }
 tableDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(tableDDict, DDict) <- function(object, table = ".*") {
-  checkmate::assert_string(table, min.chars = 1)
+S7::method(tableDDict, DDict) <- function(object, table_nm) {
+  checkmate::assert_string(table_nm, min.chars = 1)
 
-  data <- object@data |>
-    dplyr::filter(grepl(pattern = {{ table }}, x = table, ignore.case = TRUE))
+  data <- dplyr::filter(object@data, table == table_nm)
 
   if (!nrow(data)) {
     msg_head <- cli::col_red("No records returned from the data dictionary.")
     msg_body <- c(
       "i" = "Verify the table name used to filter the data.",
-      "x" = sprintf("Table: %s", table)
+      "x" = sprintf("Table: %s", table_nm)
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
@@ -336,7 +335,7 @@ S7::method(renDDict, DDict) <- function(
   checkmate::assert_data_frame(data)
   checkmate::assert_string(table_nm, min.chars = 1)
 
-  ddict <- tableDDict(object, table = table_nm)
+  ddict <- tableDDict(object, table_nm = table_nm)
 
   ddict <- ddict |>
     dplyr::mutate(pos = match(raw_name, names(data))) |>
@@ -402,7 +401,7 @@ S7::method(labelDDict, DDict) <- function(
   # cat("\n", "labelDDict: table_nm", "\n")
   # print(table_nm)
 
-  ddict <- tableDDict(object, table = table_nm)
+  ddict <- tableDDict(object, table_nm = table_nm)
   # cat("\n", "labelDDict: ddict", "\n")
   # print(ddict)
 
@@ -502,7 +501,7 @@ S7::method(castDDict, DDict) <- function(
   # cat("\n", "castDDict: table_nm", "\n")
   # print(table_nm)
 
-  ddict <- tableDDict(object, table = table_nm)
+  ddict <- tableDDict(object, table_nm = table_nm)
 
   # cat("\n", "castDDict: ddict", "\n")
   # print(ddict)
@@ -539,9 +538,11 @@ S7::method(castDDict, DDict) <- function(
 
   for (var in ddict$name) {
     a_dtype <- ddict$dtype[ddict$name == var]
-    data <- cast_data(object, data, var = var,
-                      dtype = a_dtype,
-                      table_nm = table_nm)
+    data <- cast_data(object, data,
+      var = var,
+      dtype = a_dtype,
+      table_nm = table_nm
+    )
   }
 
   data
@@ -571,9 +572,10 @@ cast_data <- function(object, data, var, dtype, table_nm) {
         out <- dplyr::mutate(
           data,
           !!var := checkmate::assert_integerish(
-            .data[[var]], coerce = TRUE, tol = sqrt(.Machine$double.eps)
-            )
+            .data[[var]],
+            coerce = TRUE, tol = sqrt(.Machine$double.eps)
           )
+        )
       },
       error = function(e) {
         return(data)
@@ -608,7 +610,8 @@ cast_data <- function(object, data, var, dtype, table_nm) {
       "x" = sprintf("Table: %s", table_nm),
       "x" = sprintf("Column: %s", var),
       "x" = sprintf("Data type: %s", dtype),
-      "i" = "See DDict@dtypes for allowed data types.")
+      "i" = "See DDict@dtypes for allowed data types."
+    )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
       message = msg,
@@ -622,7 +625,8 @@ cast_data <- function(object, data, var, dtype, table_nm) {
       "x" = sprintf("Table: %s", table_nm),
       "x" = sprintf("Column: %s", var),
       "x" = sprintf("Data type: %s", dtype),
-      "i" = "See DDict@dtypes for allowed data types.")
+      "i" = "See DDict@dtypes for allowed data types."
+    )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
       message = msg,
