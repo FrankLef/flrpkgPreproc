@@ -147,8 +147,9 @@ DDict <- S7::new_class("DDict",
     }
     S7::new_object(
       DDict,
-      data = data)
-    }
+      data = data
+    )
+  }
 )
 
 
@@ -566,7 +567,7 @@ cast_data <- function(object, data, var, dtype, table_nm) {
     )
   }
 
-  if (nrow(data) != nrow(out)) {
+  if (!identical(dim(data), dim(out))) {
     msg_head <- cli::col_red("The data type change failed.")
     msg_body <- c(
       "x" = sprintf("Table: %s", table_nm),

@@ -1,17 +1,14 @@
 test_that("DDict: Create DDictionnary: data", {
+  ddict1_df <- df_ddict(nm = "ddict1")
+  ddict <- DDict(ddict1_df)
 
-  ddict1 <- df_ddict(nm = "ddict1")
-
-  ddict <- DDict(ddict1)
-
-  expect_identical(ddict@data, ddict1)
+  expect_identical(ddict@data, ddict1_df)
 })
 
 test_that("DDict: Create DDictionnary: dtypes", {
   # testthat::skip("debug")
-  ddict1 <- df_ddict(nm = "ddict1")
-
-  ddict <- DDict(ddict1)
+  ddict1_df <- df_ddict(nm = "ddict1")
+  ddict <- DDict(ddict1_df)
   # cat("\n", "ddict@dtypes", "\n")
   # print(ddict@dtypes)
 
@@ -71,11 +68,11 @@ test_that("DDict: Validate DDict@data", {
 test_that("extractDDict: Extract data in DDict", {
   # testthat::skip("debug")
   ddict <- DDict()
-
   df1 <- df_ddict(nm = "df1")
-  ddict1 <- df_ddict(nm = "ddict1")
 
-  target <- DDict(ddict1)
+  ddict1_df <- df_ddict(nm = "ddict1")
+
+  target <- DDict(ddict1_df)
   # target@data <- ddict1
   # cat("\n", "target", "\n")
   # print(target@data)
@@ -104,8 +101,8 @@ test_that("extractDDict: ERROR extract data in DDict", {
 
 test_that("tableDDict: Table's data from a DDict", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
 
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
@@ -122,8 +119,8 @@ test_that("tableDDict: Table's data from a DDict", {
 
 test_that("tableDDict: ERROR", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
 
@@ -136,8 +133,8 @@ test_that("tableDDict: ERROR", {
 
 test_that("renDDict: Rename columns using a DDict", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
 
@@ -156,8 +153,8 @@ test_that("renDDict: Rename columns using a DDict", {
 
 test_that("labelDDict: Use name, i.e. raw_name = FALSE", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
 
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
@@ -192,8 +189,8 @@ test_that("labelDDict: Use name, i.e. raw_name = FALSE", {
 
 test_that("labelDDict: Use name, i.e. raw_name = TRUE", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
 
@@ -227,9 +224,9 @@ test_that("labelDDict: Use name, i.e. raw_name = TRUE", {
 
 test_that("labelDDict: No labels", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  df_ddict$label <- NA_character_
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict_df$label <- NA_character_
+  ddict <- DDict(ddict_df)
   # cat("\n", "ddict", "\n")
   # print(ddict)
 
@@ -249,8 +246,8 @@ test_that("labelDDict: No labels", {
 
 test_that("castDDict: Use name, i.e. raw_name = FALSE", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
   # cat("\n", "ddict3", "\n")
   # print(ddict@data)
 
@@ -283,8 +280,8 @@ test_that("castDDict: Use name, i.e. raw_name = FALSE", {
 
 test_that("castDDict: Use raw_name, i.e. raw_name = TRUE", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
   # cat("\n", "ddict3", "\n")
   # print(ddict@data)
 
@@ -316,9 +313,9 @@ test_that("castDDict: Use raw_name, i.e. raw_name = TRUE", {
 
 test_that("castDDict: Warning", {
   # testthat::skip("debug")
-  df_ddict <- df_ddict(nm = "ddict3")
-  df_ddict$raw_dtype <- df_ddict$dtype
-  ddict <- DDict(df_ddict)
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict_df$raw_dtype <- ddict_df$dtype
+  ddict <- DDict(ddict_df)
 
   # important to call it df3 to match the table in dictionary
   df3 <- df_ddict(nm = "df3")
