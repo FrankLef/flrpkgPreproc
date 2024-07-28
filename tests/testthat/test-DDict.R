@@ -219,10 +219,13 @@ test_that("renDDict: Rename columns using a DDict", {
 
 
   df3 <- df_ddict(nm = "df3")
+  # cat("\n", "df3", "\n")
+  # print(df3)
   ddict@data <- df_ddict(nm = "ddict3")
+  # cat("\n", "ddict@data", "\n")
+  # print(ddict@data)
 
   out <- renDDict(ddict, data = df3)
-
   # cat("\n", "out", "\n")
   # print(out)
 

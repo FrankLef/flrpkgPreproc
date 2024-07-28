@@ -338,24 +338,14 @@ S7::method(renDDict, DDict) <- function(
 
   ddict <- tableDDict(object, table = table_nm)
 
-
+  ddict <- ddict |>
+    dplyr::filter(raw_name %in% names(data)) |>
+    dplyr::mutate(pos = match(raw_name, names(data))) |>
+    dplyr::filter(!is.na(pos))
+  # cat("\n", "ddict", "\n")
+  # print(ddict)
   if (!nrow(ddict)) {
-    msg_head <- cli::col_red("No records returned from the data dictionary.")
-    msg_body <- c(
-      "i" = "Verify the table name.",
-      "x" = sprintf("Table: %s", table_nm)
-    )
-    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::abort(
-      message = msg,
-      class = "ValueError"
-    )
-  }
-
-
-  pos <- na.omit(match(ddict$raw_name, names(data)))
-  if (!length(pos)) {
-    msg_head <- cli::col_red("No raw-name found in the data names.")
+    msg_head <- cli::col_red("No `raw_name` found in the data names.")
     msg_body <- c(
       "i" = "Maybe the names have already been changed?",
       "x" = sprintf("Table: %s", table_nm)
@@ -367,9 +357,7 @@ S7::method(renDDict, DDict) <- function(
     )
   }
 
-  # cat("\n", "pos", "\n")
-  # print(pos)
-  names(data)[pos] <- ddict$name
+  names(data)[ddict$pos] <- ddict$name
 
   data
 }
