@@ -353,8 +353,20 @@ S7::method(renDDict, DDict) <- function(
   }
 
 
+  pos <- na.omit(match(ddict$raw_name, names(data)))
+  if (!length(pos)) {
+    msg_head <- cli::col_red("No raw-name found in the data names.")
+    msg_body <- c(
+      "i" = "Maybe the names have already been changed?",
+      "x" = sprintf("Table: %s", table_nm)
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
 
-  pos <- match(ddict$raw_name, names(data))
   # cat("\n", "pos", "\n")
   # print(pos)
   names(data)[pos] <- ddict$name
