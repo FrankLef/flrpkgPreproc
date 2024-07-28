@@ -217,6 +217,8 @@ S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame from which to extract the variables' details.}
+#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
+#'    is from a function argument.}
 #' }
 #'
 #' @return Object of class \code{DDict}.
@@ -229,10 +231,9 @@ S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
 #' }
 extractDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(extractDDict, DDict) <- function(object, data) {
+S7::method(extractDDict, DDict) <- function(
+    object, data, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
-
-  table_nm <- deparse1(substitute(data))
   checkmate::assert_string(table_nm, min.chars = 1)
   # cat("\n", "table", "\n")
   # print(the_table)
@@ -316,6 +317,8 @@ S7::method(tableDDict, DDict) <- function(object, table = ".*") {
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame with variables to rename.}
+#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
+#'    is from a function argument.}
 #' }
 #'
 #' @return \code{data} with renamed columns.
@@ -328,10 +331,9 @@ S7::method(tableDDict, DDict) <- function(object, table = ".*") {
 #' }
 renDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(renDDict, DDict) <- function(object, data) {
+S7::method(renDDict, DDict) <- function(
+    object, data, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
-
-  table_nm <- deparse1(substitute(data))
   checkmate::assert_string(table_nm, min.chars = 1)
 
   ddict <- tableDDict(object, table = table_nm)
@@ -376,6 +378,8 @@ S7::method(renDDict, DDict) <- function(object, data) {
 #'    \item{data}{Data.frame with variables to label.}
 #'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
 #' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
+#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
+#'    is from a function argument.}
 #' }
 #'
 #' @return \code{data} with labels added to the columns.
@@ -391,11 +395,9 @@ S7::method(renDDict, DDict) <- function(object, data) {
 labelDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(labelDDict, DDict) <- function(
-    object, data, is_raw_nm = FALSE) {
+    object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
   checkmate::assert_flag(is_raw_nm)
-
-  table_nm <- deparse1(substitute(data))
   checkmate::assert_string(table_nm, min.chars = 1)
 
   # cat("\n", "labelDDict: table_nm", "\n")
@@ -459,6 +461,8 @@ S7::method(labelDDict, DDict) <- function(
 #'    \item{data}{Data.frame with variables to label.}
 #'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
 #' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
+#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
+#'    is from a function argument.}
 #' }
 #'
 #' @return \code{data} with new data types..
@@ -475,11 +479,9 @@ S7::method(labelDDict, DDict) <- function(
 castDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(castDDict, DDict) <- function(
-    object, data, is_raw_nm = FALSE) {
+    object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
   checkmate::assert_flag(is_raw_nm)
-
-  table_nm <- deparse1(substitute(data))
   checkmate::assert_string(table_nm, min.chars = 1)
 
   the_choices <- object@dtypes

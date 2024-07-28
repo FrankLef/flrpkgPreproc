@@ -14,6 +14,8 @@ castDDict(object, ...)
 \item{data}{Data.frame with variables to label.}
 \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
 \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
+\item{table_nm}{Name of table. Used when doing loop or when \code{data}
+is from a function argument.}
 }}
 }
 \value{
