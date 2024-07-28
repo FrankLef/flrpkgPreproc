@@ -339,7 +339,6 @@ S7::method(renDDict, DDict) <- function(
   ddict <- tableDDict(object, table = table_nm)
 
   ddict <- ddict |>
-    dplyr::filter(raw_name %in% names(data)) |>
     dplyr::mutate(pos = match(raw_name, names(data))) |>
     dplyr::filter(!is.na(pos))
   # cat("\n", "ddict", "\n")
@@ -404,8 +403,6 @@ S7::method(labelDDict, DDict) <- function(
   # print(table_nm)
 
   ddict <- tableDDict(object, table = table_nm)
-
-
   # cat("\n", "labelDDict: ddict", "\n")
   # print(ddict)
 
@@ -416,6 +413,22 @@ S7::method(labelDDict, DDict) <- function(
     lbl <- ddict |>
       dplyr::select(raw_name, label) |>
       dplyr::rename(name = raw_name)
+  }
+
+  lbl <- lbl |>
+    dplyr::filter(name %in% names(data))
+
+  if (!nrow(lbl)) {
+    msg_head <- cli::col_red("The variables to label where not found.")
+    msg_body <- c(
+      "i" = sprintf("Table: %s", table_nm),
+      "i" = "Verify the raw_name/name columns in the data dictionary."
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
   }
 
   lbl <- lbl |>

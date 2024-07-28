@@ -320,7 +320,7 @@ test_that("labelDDict: No labels", {
       out <- labelDDict(ddict, data = df3)
     },
     class = "ValueError",
-    regexp = "There are no label to apply"
+    regexp = "The variables to label where not found"
   )
 })
 
