@@ -13,7 +13,8 @@ doNormalz(object, ...)
 \describe{
 \item{data}{Data.frame to normalize.}
 \item{vars}{Columns to normalize.}
-\item{inverse}{Perform inverse normalization.}
+\item{inverse}{Perform inverse normalization. The suffix \code{sufx} is
+not used when \code{inverse=TRUE}}
 \item{keep}{Keep the \code{base_var} in the output.}
 }}
 }

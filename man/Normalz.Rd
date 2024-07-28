@@ -4,7 +4,7 @@
 \alias{Normalz}
 \title{Create a Normalz Object}
 \usage{
-Normalz(basis, id_vars, base_var = "base_amt", scale = 1)
+Normalz(basis, id_vars, base_var = "base_amt", scale = 1, sufx = "nmz")
 }
 \arguments{
 \item{basis}{Data.frame of data used to perform the normalization.}
@@ -14,6 +14,9 @@ Normalz(basis, id_vars, base_var = "base_amt", scale = 1)
 \item{base_var}{Name of the the base amount column is in \code{basis}.}
 
 \item{scale}{Number used to multiply the resulting data.}
+
+\item{sufx}{Character(1) for suffix to use in \code{.name} of \code{across}.
+Default value is "nmz".}
 }
 \value{
 Object of class \code{DDict}.

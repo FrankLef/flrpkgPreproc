@@ -62,7 +62,9 @@ test_that("doNormalz", {
   # cat("\n", "out", "\n")
   # print(out)
 
-  expect_identical(dim(lst$data), dim(out))
+  target_dim <- dim(lst$data)
+  target_dim[2] <- target_dim[2] + 2L
+  expect_identical(dim(out), target_dim)
 })
 
 
@@ -74,6 +76,8 @@ test_that("doNormalz: inverse = TRUE", {
     basis = lst$basis, id_vars = lst$id_vars,
     base_var = lst$base_var, scale = lst$scale
   )
+  # cat("\n", "data", "\n")
+  # print(lst$data)
 
 
   out <- doNormalz(normlz,
@@ -81,18 +85,22 @@ test_that("doNormalz: inverse = TRUE", {
     vars = c("amt1", "amt2"),
     inverse = FALSE, keep = FALSE
   )
+  # cat("\n", "out", "\n")
+  # print(out)
 
   inv <- doNormalz(normlz,
     data = out,
-    vars = c("amt1", "amt2"),
+    vars = c("amt1_nmz", "amt2_nmz"),
     inverse = TRUE, keep = FALSE
   )
+  # cat("\n", "inv", "\n")
+  # print(inv)
 
 
-  expect_identical(sum(is.na(inv$amt1)), 3L)
-  expect_identical(sum(is.na(inv$amt2)), 3L)
-  expect_true(all(lst$data$amt1 == inv$amt1, na.rm = TRUE))
-  expect_true(all(lst$data$amt2 == inv$amt2, na.rm = TRUE))
+  expect_identical(sum(is.na(inv$amt1_nmz)), 3L)
+  expect_identical(sum(is.na(inv$amt2_nmz)), 3L)
+  expect_true(all(lst$data$amt1 == inv$amt1_nmz, na.rm = TRUE))
+  expect_true(all(lst$data$amt2 == inv$amt2_nmz, na.rm = TRUE))
 })
 
 
@@ -107,9 +115,12 @@ test_that("doNormalz: keep = TRUE", {
     data = lst$data, vars = c("amt1", "amt2"),
     inverse = FALSE, keep = TRUE
   )
-
   # cat("\n", "out", "\n")
   # print(out)
 
-  expect_identical(names(out), c(names(lst$data), lst$base_var))
+  target_nm <- c(
+    "group", "year", "amt1", "amt2", "base_amt",
+    "amt1_nmz", "amt2_nmz"
+  )
+  expect_identical(names(out), target_nm)
 })
