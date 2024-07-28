@@ -10,7 +10,7 @@
 #' @docType package
 #' @name flrpkgPreproc
 #'
-#' @importFrom rlang .data
+#' @importFrom rlang .data :=
 #'
 #' @keywords internal
 "_PACKAGE"

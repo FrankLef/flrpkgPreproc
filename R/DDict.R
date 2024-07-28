@@ -508,25 +508,24 @@ S7::method(castDDict, DDict) <- function(
   # print(ddict)
 
   if (!is_raw_nm) {
-    the_dtypes <- ddict |>
+    ddict <- ddict |>
       dplyr::select(name, raw_dtype, dtype)
   } else {
-    the_dtypes <- ddict |>
+    ddict <- ddict |>
       dplyr::select(raw_name, raw_dtype, dtype) |>
       dplyr::rename(name = raw_name)
   }
 
-  the_dtypes <- the_dtypes |>
-    dplyr::filter(nchar(dtype) >= 1L, !is.na(dtype), raw_dtype != dtype) |>
-    dplyr::filter(is.element(dtype, the_choices))
-
+  ddict <- ddict |>
+    dplyr::filter(raw_dtype != dtype) |>
+    dplyr::filter(dtype %in% the_choices)
   # cat("\n", "castDDict: the_types", "\n")
   # print(the_dtypes)
 
-  if (nrow(the_dtypes) == 0) {
+  if (!nrow(ddict)) {
     msg_head <- cli::col_yellow("There is no data type to cast.")
     msg_body <- c(
-      "i" = sprintf("Table: %s", table_nm),
+      "!" = sprintf("Table: %s", table_nm),
       "i" = "Verify the dtype column in the data dictionary.",
       "i" = "Input data is returned as is."
     )
@@ -538,10 +537,11 @@ S7::method(castDDict, DDict) <- function(
     return(data)
   }
 
-  for (nm in the_dtypes$name) {
-    x <- data[[nm]]
-    a_dtype <- the_dtypes$dtype[the_dtypes$name == nm]
-    data[[nm]] <- cast_data(object, x = x, dtype = a_dtype)
+  for (var in ddict$name) {
+    a_dtype <- ddict$dtype[ddict$name == var]
+    data <- cast_data(object, data, var = var,
+                      dtype = a_dtype,
+                      table_nm = table_nm)
   }
 
   data
@@ -555,52 +555,80 @@ S7::method(castDDict, DDict) <- function(
 #' an error message is issued.
 #'
 #' @param object Object of class \code{DDict}.
-#' @param x Vector.
+#' @param data Data frame.
+#' @param var Name of the variable to cast.
 #' @param dtype Name of data type.
+#' @param table_nm Name of table. Only used by error message.
 #'
-#' @seealso [castDDict()]
+#' @seealso castDDict
 #'
-#' @return x with new data type.
-cast_data <- function(object, x, dtype) {
+#' @return \code{data} with new data type.
+cast_data <- function(object, data, var, dtype, table_nm) {
+  out <- data
   if (dtype == "integer") {
     tryCatch(
       expr = {
-        x <- checkmate::assert_integerish(x,
-          coerce = TRUE,
-          tol = sqrt(.Machine$double.eps)
-        )
+        out <- dplyr::mutate(
+          data,
+          !!var := checkmate::assert_integerish(
+            .data[[var]], coerce = TRUE, tol = sqrt(.Machine$double.eps)
+            )
+          )
       },
       error = function(e) {
-        return(x)
+        return(data)
       }
     )
   } else if (dtype == "numeric") {
-    x <- as.numeric(x)
+    out <- dplyr::mutate(data, !!var := as.numeric(.data[[var]]))
+    # y <- as.numeric(x)
   } else if (dtype == "character") {
-    x <- as.character(x)
+    out <- dplyr::mutate(data, !!var := as.character(.data[[var]]))
+    # y <- as.character(x)
   } else if (dtype == "logical") {
-    x <- as.logical(x)
+    out <- dplyr::mutate(data, !!var := as.logical(.data[[var]]))
+    # y <- as.logical(x)
   } else if (dtype == "factor") {
-    x <- forcats::as_factor(x)
+    out <- dplyr::mutate(data, !!var := forcats::as_factor(.data[[var]]))
+    # y <- forcats::as_factor(x)
   } else if (dtype == "Date") {
-    x <- as.Date(x)
+    out <- dplyr::mutate(data, !!var := as.Date(.data[[var]]))
+    # y <- as.Date(x)
   } else if (dtype == "POSIXct") {
-    x <- as.POSIXct(x)
+    out <- dplyr::mutate(data, !!var := as.POSIXct(.data[[var]]))
+    # y <- as.POSIXct(x)
   } else if (dtype == "ymd") {
-    x <- lubridate::ymd(x)
+    out <- dplyr::mutate(data, !!var := lubridate::ymd(.data[[var]]))
+    # y <- lubridate::ymd(x)
   } else {
     # NOTE: At this point this should not happen which is why it is an error
     #       rather than a warning as in castDDict()..
     msg_head <- cli::col_red("The data type is invalid.")
     msg_body <- c(
-      "i" = sprintf("Data type: %s", dtype),
-      "i" = "See DDict@dtypes for allowed data types."
-    )
+      "x" = sprintf("Table: %s", table_nm),
+      "x" = sprintf("Column: %s", var),
+      "x" = sprintf("Data type: %s", dtype),
+      "i" = "See DDict@dtypes for allowed data types.")
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
       message = msg,
       class = "ValueError"
     )
   }
-  x
+
+  if (nrow(data) != nrow(out)) {
+    msg_head <- cli::col_red("The data type change failed.")
+    msg_body <- c(
+      "x" = sprintf("Table: %s", table_nm),
+      "x" = sprintf("Column: %s", var),
+      "x" = sprintf("Data type: %s", dtype),
+      "i" = "See DDict@dtypes for allowed data types.")
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
+  out
 }
