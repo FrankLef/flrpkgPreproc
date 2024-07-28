@@ -121,7 +121,12 @@ S7::method(doNormalz, Normalz) <- function(object, data, vars,
   the_ids <- object@id_vars
   the_base_var <- object@base_var
   the_scale <- object@scale
-  the_sufx <- paste("{.col}", object@sufx, sep = "_")
+  the_sufx <- object@sufx
+  if (nchar(the_sufx)) {
+    the_sufx <- paste("{.col}", the_sufx, sep = "_")
+  } else {
+    the_sufx <- "{.col}"
+  }
 
   # cat("\n", "doNormalz: the_basis", "\n")
   # print(the_basis)
