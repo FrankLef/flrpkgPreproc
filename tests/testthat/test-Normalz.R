@@ -68,6 +68,27 @@ test_that("doNormalz", {
 })
 
 
+test_that("doNormalz: no suffix", {
+  lst <- df_normalz()
+  normlz <- Normalz(
+    basis = lst$basis, id_vars = lst$id_vars,
+    base_var = lst$base_var, scale = lst$scale,
+    sufx = ""
+  )
+
+  out <- doNormalz(normlz,
+    data = lst$data, vars = c("amt1", "amt2"),
+    inverse = FALSE, keep = FALSE
+  )
+
+  # cat("\n", "out", "\n")
+  # print(out)
+
+  target_dim <- dim(lst$data)
+  target_dim[2] <- target_dim[2]
+  expect_identical(dim(out), target_dim)
+})
+
 test_that("doNormalz: inverse = TRUE", {
   # testthat::skip("debug")
 

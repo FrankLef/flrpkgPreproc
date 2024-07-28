@@ -11,7 +11,8 @@
 #' @param base_var Name of the the base amount column is in \code{basis}.
 #' @param scale Number used to multiply the resulting data.
 #' @param sufx Character(1) for suffix to use in \code{.name} of \code{across}.
-#' Default value is "nmz".
+#' Default value is "nmz". If no suffix is desired, set it as an empty string
+#' \code{sufx = ""}.
 #'
 #' @return Object of class \code{DDict}.
 #'
@@ -24,7 +25,7 @@
 #' )
 #' normlz <- Normalz(
 #'   basis = basis, id_vars = "year",
-#'   base_var = "amt", scale = 0.0001
+#'   base_var = "amt", scale = 1000
 #' )
 #' stopifnot(S7::S7_inherits(normlz, class = Normalz))
 Normalz <- S7::new_class("Normalz",
@@ -125,7 +126,7 @@ S7::method(doNormalz, Normalz) <- function(object, data, vars,
   if (nchar(the_sufx)) {
     the_sufx <- paste("{.col}", the_sufx, sep = "_")
   } else {
-    the_sufx <- "{.col}"
+    the_sufx <- NULL
   }
 
   # cat("\n", "doNormalz: the_basis", "\n")

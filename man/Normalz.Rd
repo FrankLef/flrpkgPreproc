@@ -16,7 +16,8 @@ Normalz(basis, id_vars, base_var = "base_amt", scale = 1, sufx = "nmz")
 \item{scale}{Number used to multiply the resulting data.}
 
 \item{sufx}{Character(1) for suffix to use in \code{.name} of \code{across}.
-Default value is "nmz".}
+Default value is "nmz". If no suffix is desired, set it as an empty string
+\code{sufx = ""}.}
 }
 \value{
 Object of class \code{DDict}.
@@ -36,7 +37,7 @@ basis <- data.frame(
 )
 normlz <- Normalz(
   basis = basis, id_vars = "year",
-  base_var = "amt", scale = 0.0001
+  base_var = "amt", scale = 1000
 )
 stopifnot(S7::S7_inherits(normlz, class = Normalz))
 }
