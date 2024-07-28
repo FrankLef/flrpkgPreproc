@@ -4,7 +4,7 @@
 \alias{DDict}
 \title{Create a Data Dictionary}
 \usage{
-DDict(data = class_missing)
+DDict(data = NULL)
 }
 \arguments{
 \item{data}{Data dictionary.}

@@ -130,80 +130,27 @@ DDict <- S7::new_class("DDict",
         class = "ValueError"
       )
     }
-  }
+  },
+  constructor = function(data = NULL) {
+    if (is.null(data)) {
+      data <- data.frame(
+        table = character(),
+        raw_name = character(),
+        name = character(),
+        label = character(),
+        raw_dtype = character(),
+        dtype = character(),
+        vtype = character(),
+        desc = character(),
+        note = character()
+      )
+    }
+    S7::new_object(
+      DDict,
+      data = data)
+    }
 )
 
-#' Add a Variable to a Data Dictionnary
-#'
-#' Add a Variable to a data Dictionary.
-#'
-#' Add information about a variable to a DDictionary. The vector \code{vars}
-#' must include the same information, in any order, as the one found  in the
-#' \code{data} property of \code{DDict}.
-#'
-#' @name addDDict
-#'
-#' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{vars}{Named vector of variables to add to the DDictionary.}
-#' }
-#'
-#'
-#' @return Object of class \code{DDict}.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' TODO
-#' }
-addDDict <- S7::new_generic("addDDict", dispatch_args = "object")
-
-
-# No need to document methods in S7.
-# source: https://cran.r-project.org/web/packages/S7/vignettes/packages.html
-
-S7::method(addDDict, DDict) <- function(object, vars) {
-  checkmate::assert_vector(vars, names = "named")
-  checkmate::assert_names(names(vars), permutation.of = names(object@data))
-  object@data <- rbind(object@data, as.data.frame(t(vars)))
-  object
-}
-
-#' Remove a Variable from a Data Dictionnary
-#'
-#' Remove a variable from a data dictionary.
-#'
-#' Remove all information about a variable from a DDictionary.
-#'
-#' @name rmDDict
-#'
-#' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{table}{Name of table from which to remove the variable.}
-#'    \item{raw_name}{Name of variable to remove.}
-#' }
-#'
-#' @return Object of class \code{DDict}
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' TODO
-#' }
-rmDDict <- S7::new_generic("rmDDict", dispatch_args = "object")
-
-
-# No need to document methods in S7.
-# source: https://cran.r-project.org/web/packages/S7/vignettes/packages.html
-
-S7::method(rmDDict, DDict) <- function(object, table, raw_name) {
-  checkmate::assert_string(raw_name)
-  object@data <- object@data |>
-    dplyr::filter(table != {{ table }}, raw_name != {{ raw_name }})
-  object
-}
 
 #' Extract Information About Data to a Data Dictionary
 #'
@@ -251,8 +198,8 @@ S7::method(extractDDict, DDict) <- function(
     desc = NA_character_,
     note = NA_character_
   )
-  object@data <- rbind(object@data, df)
-  object
+  new_data <- rbind(object@data, df)
+  DDict(new_data)
 }
 
 
