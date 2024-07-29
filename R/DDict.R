@@ -578,3 +578,60 @@ cast_data <- function(object, data, var, dtype, table_nm) {
 
   out
 }
+
+#' Analyse the Status of a Table in \code{DDict}
+#'
+#' Analyse the status of a table in \code{DDict}.
+#'
+#' A data frame is returned with the following information
+#' \describe{
+#'    \item{table}{Name of the table.}
+#'    \item{variable}{Name of the variable.}
+#'    \item{is_ddict}{Flag. \code{TRUE}: the variable is in the data dictionary,
+#'    \code{FALSE} if it is not.}
+#'    \item{is_data}{Flag. \code{TRUE}: the variable is in the data,
+#'    \code{FALSE} if it is not.}
+#' }
+#'
+#' @name statusDDict
+#'
+#' @param object Object of class \code{DDict}.
+#' @param ... Additional arguments used by methods. Such as
+#' \describe{
+#'    \item{data}{Data.frame with variables to label.}
+#'    \item{table_nm}{Name of the table.}
+#' }
+#'
+#' @return Data frame with status information.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
+statusDDict <- S7::new_generic("DDict", dispatch_args = "object")
+
+S7::method(statusDDict, DDict) <- function(
+    object, data, table_nm = deparse1(substitute(data))) {
+  checkmate::assert_data_frame(data, min.cols = 1)
+  checkmate::assert_string(table_nm, min.chars = 1)
+
+  ddict <- tableDDict(object, table_nm = table_nm)
+
+  ddict_nms <- ddict$name
+  data_nms <- names(data)
+  status_nms <- unique(c(ddict_nms, data_nms))
+
+  status_df <- data.frame(
+    table = table_nm,
+    variable = status_nms
+  ) |>
+    dplyr::mutate(
+      is_ddict = variable %in% ddict_nms,
+      is_data = variable %in% data_nms
+    ) |>
+    dplyr::arrange(variable)
+
+  status_df
+}
