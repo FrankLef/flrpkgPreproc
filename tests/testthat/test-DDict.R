@@ -1,11 +1,11 @@
-test_that("DDict: Create DDictionnary: data", {
+test_that("DDict: data property", {
   ddict1_df <- df_ddict(nm = "ddict1")
   ddict <- DDict(ddict1_df)
 
   expect_identical(ddict@data, ddict1_df)
 })
 
-test_that("DDict: Create DDictionnary: dtypes", {
+test_that("DDict: dtypes property", {
   # testthat::skip("debug")
   ddict1_df <- df_ddict(nm = "ddict1")
   ddict <- DDict(ddict1_df)
@@ -17,6 +17,24 @@ test_that("DDict: Create DDictionnary: dtypes", {
     "factor", "Date", "POSIXct", "ymd"
   )
   expect_identical(ddict@dtypes, dtypes)
+})
+
+
+test_that("DDict: File name properties", {
+  ddict <- DDict()
+  # print(ddict@data_path)
+  # print(ddict@data_base_fn)
+  # print(ddict@status_base_fn)
+
+  # data file name
+  fn <- paste0(paste("ddict_data", Sys.Date(), sep = "_"), ".xlsx")
+  target <- file.path(getwd(), fn)
+  expect_identical(ddict@data_fn, target)
+
+  # status file name
+  fn <- paste0(paste("ddict_status", Sys.Date(), sep = "_"), ".xlsx")
+  target <- file.path(getwd(), fn)
+  expect_identical(ddict@status_fn, target)
 })
 
 
