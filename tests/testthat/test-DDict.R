@@ -361,6 +361,10 @@ test_that("statusDDict: Get status of data", {
       is_data = variable %in% data_nms
     ) |>
     dplyr::arrange(variable)
+  target$data_dtype <- c(
+    "character", "Date", "numeric", "factor",
+    "integer", NA_character_, "character", "POSIXct"
+  )
   # cat("\n", "target", "\n")
   # print(target)
 

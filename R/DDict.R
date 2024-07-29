@@ -620,8 +620,8 @@ S7::method(statusDDict, DDict) <- function(
   ddict <- tableDDict(object, table_nm = table_nm)
 
   ddict_nms <- ddict$name
-  data_nms <- names(data)
-  status_nms <- unique(c(ddict_nms, data_nms))
+  data_nms <- sapply(X = data, FUN = \(x) class(x)[1])
+  status_nms <- unique(c(ddict_nms, names(data_nms)))
 
   status_df <- data.frame(
     table = table_nm,
@@ -629,9 +629,13 @@ S7::method(statusDDict, DDict) <- function(
   ) |>
     dplyr::mutate(
       is_ddict = variable %in% ddict_nms,
-      is_data = variable %in% data_nms
+      is_data = variable %in% names(data_nms),
+      data_dtype = NA_character_
     ) |>
     dplyr::arrange(variable)
+
+  pos <- match(names(data_nms), status_df$variable)
+  status_df$data_dtype[pos] <- unname(data_nms)
 
   status_df
 }
