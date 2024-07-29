@@ -34,10 +34,12 @@ The \code{data} property is a data.frame with:
 \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 \item{raw_dtype}{Data type of raw data.}
 \item{dtype}{Data type of used data.}
-\item{vtype}{Variable type. Discretionary type assigned to the variable.
+\item{vtype}{Variable's type. Discretionary type assigned to the variable.
 No validity check performed. e.g. "key" to flag keys in the data.}
-\item{desc}{Optional description.}
-\item{note}{Optional note.}
+\item{rule}{Text to identify a rule applicable to the variable. Typically
+used with the \pkg{validate} package. No validity check performed.}
+\item{desc}{Description.}
+\item{note}{Some notes.}
 }
 }
 
