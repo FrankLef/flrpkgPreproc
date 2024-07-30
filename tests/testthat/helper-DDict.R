@@ -35,6 +35,7 @@ df_ddict <- function(nm) {
         "POSIXct", "factor"
       ),
       vtype = NA_character_,
+      process = NA_character_,
       rule = NA_character_,
       desc = NA_character_,
       note = NA_character_
@@ -73,6 +74,7 @@ df_ddict <- function(nm) {
         "POSIXct", "factor"
       ),
       vtype = NA_character_,
+      process = NA_character_,
       rule = NA_character_,
       desc = NA_character_,
       note = NA_character_
@@ -112,6 +114,7 @@ df_ddict <- function(nm) {
         "Date", "character"
       ),
       vtype = NA_character_,
+      process = NA_character_,
       rule = NA_character_,
       desc = NA_character_,
       note = NA_character_
@@ -131,6 +134,7 @@ df_ddict_err <- function(nm) {
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       vtype = NA_character_,
+      process = NA_character_,
       rule = NA_character_,
       desc = NA_character_,
       note = NA_character_
@@ -144,6 +148,7 @@ df_ddict_err <- function(nm) {
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       vtype = NA_character_,
+      process = NA_character_,
       rule = NA_character_,
       desc = NA_character_,
       note = NA_character_
@@ -157,6 +162,7 @@ df_ddict_err <- function(nm) {
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       vtype = NA_character_,
+      process = NA_character_,
       rule = NA_character_,
       desc = NA_character_,
       note = NA_character_
@@ -170,6 +176,7 @@ df_ddict_err <- function(nm) {
       raw_dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       dtype = c("integer", "character", "Date", "POSIXct", "factor"),
       vtype = NA_character_,
+      process = NA_character_,
       rule = NA_character_,
       desc = NA_character_,
       note = NA_character_

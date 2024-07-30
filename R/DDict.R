@@ -28,6 +28,9 @@
 #'    \item{dtype}{Data type of used data.}
 #'    \item{vtype}{Variable's type. Discretionary type assigned to the variable.
 #'    No validity check performed. e.g. "key" to flag keys in the data.}
+#'    \item{process}{text to identify transformations, etc., applied to the
+#'    variable. No validity check performed. For example, "lg" could be used to
+#'    flag a variable for logarithmic transformation.}
 #'    \item{rule}{Text to identify a rule applicable to the variable. Typically
 #'    used with the \pkg{validate} package. No validity check performed.}
 #'    \item{desc}{Description.}
@@ -90,8 +93,8 @@ DDict <- S7::new_class("DDict",
       "table" = "character", "raw_name" = "character",
       "name" = "character", "label" = "character",
       "raw_dtype" = "character", "dtype" = "character",
-      "vtype" = "character", "rule" = "character",
-      "desc" = "character", "note" = "character"
+      "vtype" = "character", "process" = "character" ,
+      "rule" = "character", "desc" = "character", "note" = "character"
     )
     check <- checkmate::check_data_frame(
       self@data,
@@ -166,6 +169,7 @@ DDict <- S7::new_class("DDict",
         raw_dtype = character(),
         dtype = character(),
         vtype = character(),
+        process = character(),
         rule = character(),
         desc = character(),
         note = character()
@@ -225,6 +229,7 @@ S7::method(extractDDict, DDict) <- function(
     raw_dtype = unname(the_variables),
     dtype = unname(the_variables),
     vtype = NA_character_,
+    process = NA_character_,
     rule = NA_character_,
     desc = NA_character_,
     note = NA_character_
