@@ -11,7 +11,7 @@ filterDDict(object, ...)
 
 \item{...}{Additional arguments used by methods. Such as
 \describe{
-\item{table_rgx}{Regular expression to filter \strong{table}.}
+\item{table_nm}{Compulsory name of the table..}
 \item{vtype_rgx}{Regular expression to filter \strong{vtype}.}
 \item{process_rgx}{Regular expression to filter \strong{process}.}
 \item{rule_rgx}{Regular expression to filter \strong{rule}.}
@@ -24,7 +24,8 @@ filterDDict(object, ...)
 Filter from a \code{DDict}.
 }
 \details{
-The records are filtered using regular expressions.
+The records are filtered using regular expressions. If no criteria is
+provided for \strong{vtype}, \strong{process} and \strong{rule}, the full data is returned.
 }
 \examples{
 \dontrun{

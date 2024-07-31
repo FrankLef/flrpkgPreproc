@@ -291,14 +291,15 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
 #'
 #' Filter from a \code{DDict}.
 #'
-#' The records are filtered using regular expressions.
+#' The records are filtered using regular expressions. If no criteria is
+#' provided for **vtype**, **process** and **rule**, the full data is returned.
 #'
 #' @name filterDDict
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
-#'    \item{table_rgx}{Regular expression to filter **table**.}
+#'    \item{table_nm}{Compulsory name of the table..}
 #'    \item{vtype_rgx}{Regular expression to filter **vtype**.}
 #'    \item{process_rgx}{Regular expression to filter **process**.}
 #'    \item{rule_rgx}{Regular expression to filter **rule**.}
@@ -317,26 +318,34 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
 filterDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(filterDDict, DDict) <- function(
-    object, table_rgx = ".*", vtype_rgx = ".*", process_rgx = ".*", rule_rgx = ".*") {
-  checkmate::assert_string(table_rgx, min.chars = 1)
-  checkmate::assert_string(vtype_rgx, min.chars = 1)
-  checkmate::assert_string(process_rgx, min.chars = 1)
-  checkmate::assert_string(rule_rgx, min.chars = 1)
+    object, table_nm = "", vtype_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+  checkmate::assert_string(table_nm, min.chars = 1)
+  checkmate::assert_string(vtype_rgx, null.ok = TRUE)
+  checkmate::assert_string(process_rgx, null.ok = TRUE)
+  checkmate::assert_string(rule_rgx, null.ok = TRUE)
 
-  data <- dplyr::filter(object@data,
-                        grepl(pattern = table_rgx, x = table),
-                        grepl(pattern = vtype_rgx, x = vtype),
-                        grepl(pattern = process_rgx, x = process),
-                        grepl(pattern = rule_rgx, x = rule))
+  ddict <- tableDDict(object, table_nm = table_nm)
 
-  if (!nrow(data)) {
+  params <- c("vtype" = vtype_rgx, "process" = process_rgx, "rule" = rule_rgx)
+
+  for (nm in names(params)) {
+    rgx <- params[nm]
+    if (!is.na(rgx)) {
+      ddict <- filter(ddict, grepl(pattern = rgx, x = .data[[nm]]))
+    } else {
+      ddict <- filter(ddict, is.na(.data[[nm]]))
+    }
+  }
+
+
+  if (!nrow(ddict)) {
     msg_head <- cli::col_red("No records returned from the data dictionary.")
     msg_body <- c(
       "i" = "Verify the regular expressions used to filter the data.",
-      "x" = sprintf("table: %s", table_rgx),
-      "x" = sprintf("vtype: %s", vtype_rgx),
-      "x" = sprintf("process: %s", process_rgx),
-      "x" = sprintf("rule: %s", rule_rgx)
+      "x" = sprintf("table name: %s", table_nm),
+      "x" = sprintf("vtype regex: %s", vtype_rgx),
+      "x" = sprintf("process regex: %s", process_rgx),
+      "x" = sprintf("rule regex: %s", rule_rgx)
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
@@ -345,7 +354,7 @@ S7::method(filterDDict, DDict) <- function(
     )
   }
 
-  data
+  ddict
 }
 
 
