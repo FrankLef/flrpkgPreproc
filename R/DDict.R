@@ -93,7 +93,7 @@ DDict <- S7::new_class("DDict",
       "table" = "character", "raw_name" = "character",
       "name" = "character", "label" = "character",
       "raw_dtype" = "character", "dtype" = "character",
-      "role" = "character", "process" = "character" ,
+      "role" = "character", "process" = "character",
       "rule" = "character", "desc" = "character", "note" = "character"
     )
     check <- checkmate::check_data_frame(
@@ -561,10 +561,10 @@ S7::method(castDDict, DDict) <- function(
 
   if (!is_raw_nm) {
     ddict <- ddict |>
-      dplyr::select(name, raw_dtype, dtype)
+      dplyr::select(name, role, raw_dtype, dtype)
   } else {
     ddict <- ddict |>
-      dplyr::select(raw_name, raw_dtype, dtype) |>
+      dplyr::select(raw_name, role, raw_dtype, dtype) |>
       dplyr::rename(name = raw_name)
   }
 
@@ -573,6 +573,24 @@ S7::method(castDDict, DDict) <- function(
     dplyr::filter(dtype %in% the_choices)
   # cat("\n", "castDDict: the_types", "\n")
   # print(the_dtypes)
+
+  check <- ddict |>
+    filter(is.na(role)) |>
+    nrow()
+  if (check) {
+    msg_head <- cli::col_red("variables must have a role.")
+    msg_body <- c(
+      "i" = sprintf("Table: %s", table_nm),
+      "x" = sprintf("Nb of invalid variables: %s", check),
+      "i" = "Verify the role of variables where raw_dtype \u2260 dtype."
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
 
   if (!nrow(ddict)) {
     msg_head <- cli::col_yellow("There is no data type to cast.")

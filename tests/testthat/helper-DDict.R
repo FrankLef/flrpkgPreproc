@@ -73,9 +73,18 @@ df_ddict <- function(nm) {
         "integer", "numeric", "numeric", "character", "Date",
         "POSIXct", "factor"
       ),
-      role = NA_character_,
-      process = NA_character_,
-      rule = NA_character_,
+      role = c(
+        "role1", "role1", "role2", NA_character_, "role3",
+        NA_character_, NA_character_
+      ),
+      process = c(
+        "proc1", "proc2", NA_character_, "proc3", NA_character_,
+        "proc_extra", NA_character_
+      ),
+      rule = c(
+        "rule1", NA_character_, "rule2", "rule3", NA_character_,
+        NA_character_, "rule_extra"
+      ),
       desc = NA_character_,
       note = NA_character_
     )
@@ -113,12 +122,18 @@ df_ddict <- function(nm) {
         "integer", "integer", "integer", "factor", "ymd",
         "Date", "character"
       ),
-      role = c("role1", "role1", "role2", NA_character_, "role_extra",
-                NA_character_, NA_character_),
-      process = c("proc1", "proc2", NA_character_, "proc3", NA_character_,
-                  "proc_extra", NA_character_),
-      rule = c("rule1", NA_character_,"rule2", "rule3", NA_character_,
-               NA_character_, "rule_extra"),
+      role = c(
+        "role1", "role1", "role2", "role2", "role3",
+        "role3", "role3"
+      ),
+      process = c(
+        "proc1", "proc2", NA_character_, "proc3", NA_character_,
+        "proc_extra", NA_character_
+      ),
+      rule = c(
+        "rule1", NA_character_, "rule2", "rule3", NA_character_,
+        NA_character_, "rule_extra"
+      ),
       desc = NA_character_,
       note = NA_character_
     )

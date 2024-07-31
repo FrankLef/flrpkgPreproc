@@ -84,31 +84,32 @@ test_that("DDict: Validate DDict@data", {
 
 
 test_that("filterDDict: Filter data dict", {
-  ddict_df <- df_ddict(nm = "ddict3")
+  ddict_df <- df_ddict(nm = "ddict2")
   ddict <- DDict(ddict_df)
 
   # no selection returns the full table.
-  out <- filterDDict(ddict, table_nm = "df3")
+  out <- filterDDict(ddict, table_nm = "df2")
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), dim(ddict_df))
 
-  out <- filterDDict(ddict, table_nm = "df3", role_rgx = r"(\brole1\b)")
+  out <- filterDDict(ddict, table_nm = "df2", role_rgx = r"(\brole1\b)")
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(2L, length(ddict_df)))
 
-  out <- filterDDict(ddict, table_nm = "df3", role_rgx = NA_character_)
+  out <- filterDDict(ddict, table_nm = "df2", role_rgx = NA_character_)
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(3L, length(ddict_df)))
 
-  out <- filterDDict(ddict, table_nm = "df3",
-                     role_rgx = r"(\brole1\b)", process_rgx = r"(\proc1\b)")
+  out <- filterDDict(ddict,
+    table_nm = "df2",
+    role_rgx = r"(\brole1\b)", process_rgx = r"(\proc1\b)"
+  )
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(1L, length(ddict_df)))
-
 })
 
 test_that("filterDDict: ERROR", {
@@ -116,13 +117,14 @@ test_that("filterDDict: ERROR", {
   ddict <- DDict(ddict_df)
 
   expect_error(filterDDict(ddict, table_nm = "ERROR", role_rgx = r"(\brole1\b)"),
-               class = "ValueError",
-               regexp = "No records returned from the data dictionary")
+    class = "ValueError",
+    regexp = "No records returned from the data dictionary"
+  )
 
   expect_error(filterDDict(ddict, table_nm = "df3", role_rgx = "ERROR"),
-               class = "ValueError",
-               regexp = "No records returned from the data dictionary")
-
+    class = "ValueError",
+    regexp = "No records returned from the data dictionary"
+  )
 })
 
 test_that("extractDDict: Extract data in DDict", {
@@ -387,6 +389,25 @@ test_that("castDDict: Warning", {
     castDDict(ddict, data = df3, is_raw_nm = TRUE),
     class = "ValueWarning",
     regexp = "There is no data type to cast"
+  )
+})
+
+test_that("castDDict: Error about role", {
+  # testthat::skip("debug")
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict_df$role <- NA_character_
+  ddict <- DDict(ddict_df)
+
+  # important to call it df3 to match the table in dictionary
+  df3 <- df_ddict(nm = "df3")
+  # cat("\n", "df3", "\n")
+  # print(df3)
+
+
+  expect_error(
+    castDDict(ddict, data = df3, is_raw_nm = TRUE),
+    class = "ValueError",
+    regexp = "variables must have a role"
   )
 })
 
