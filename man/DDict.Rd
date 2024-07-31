@@ -41,9 +41,9 @@ The \code{data} property is a data.frame with:
 \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 \item{raw_dtype}{Data type of raw data.}
 \item{dtype}{Data type of used data.}
-\item{vtype}{Variable's type. Discretionary type assigned to the variable.
+\item{role}{Text to identify the role of a variable.
 No validity check performed. e.g. "key" to flag keys in the data.}
-\item{process}{text to identify transformations, etc., applied to the
+\item{process}{Text to identify transformations, etc., applied to the
 variable. No validity check performed. For example, "lg" could be used to
 flag a variable for logarithmic transformation.}
 \item{rule}{Text to identify a rule applicable to the variable. Typically

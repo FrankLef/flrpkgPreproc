@@ -93,18 +93,18 @@ test_that("filterDDict: Filter data dict", {
   # print(out)
   expect_identical(dim(out), dim(ddict_df))
 
-  out <- filterDDict(ddict, table_nm = "df3", vtype_rgx = r"(\btype1\b)")
+  out <- filterDDict(ddict, table_nm = "df3", role_rgx = r"(\brole1\b)")
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(2L, length(ddict_df)))
 
-  out <- filterDDict(ddict, table_nm = "df3", vtype_rgx = NA_character_)
+  out <- filterDDict(ddict, table_nm = "df3", role_rgx = NA_character_)
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(3L, length(ddict_df)))
 
   out <- filterDDict(ddict, table_nm = "df3",
-                     vtype_rgx = r"(\btype1\b)", process_rgx = r"(\proc1\b)")
+                     role_rgx = r"(\brole1\b)", process_rgx = r"(\proc1\b)")
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(1L, length(ddict_df)))
@@ -115,11 +115,11 @@ test_that("filterDDict: ERROR", {
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
 
-  expect_error(filterDDict(ddict, table_nm = "ERROR", vtype_rgx = r"(\btype1\b)"),
+  expect_error(filterDDict(ddict, table_nm = "ERROR", role_rgx = r"(\brole1\b)"),
                class = "ValueError",
                regexp = "No records returned from the data dictionary")
 
-  expect_error(filterDDict(ddict, table_nm = "df3", vtype_rgx = "ERROR"),
+  expect_error(filterDDict(ddict, table_nm = "df3", role_rgx = "ERROR"),
                class = "ValueError",
                regexp = "No records returned from the data dictionary")
 

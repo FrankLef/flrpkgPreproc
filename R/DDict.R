@@ -26,9 +26,9 @@
 #'    \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
 #'    \item{raw_dtype}{Data type of raw data.}
 #'    \item{dtype}{Data type of used data.}
-#'    \item{vtype}{Variable's type. Discretionary type assigned to the variable.
+#'    \item{role}{Text to identify the role of a variable.
 #'    No validity check performed. e.g. "key" to flag keys in the data.}
-#'    \item{process}{text to identify transformations, etc., applied to the
+#'    \item{process}{Text to identify transformations, etc., applied to the
 #'    variable. No validity check performed. For example, "lg" could be used to
 #'    flag a variable for logarithmic transformation.}
 #'    \item{rule}{Text to identify a rule applicable to the variable. Typically
@@ -93,7 +93,7 @@ DDict <- S7::new_class("DDict",
       "table" = "character", "raw_name" = "character",
       "name" = "character", "label" = "character",
       "raw_dtype" = "character", "dtype" = "character",
-      "vtype" = "character", "process" = "character" ,
+      "role" = "character", "process" = "character" ,
       "rule" = "character", "desc" = "character", "note" = "character"
     )
     check <- checkmate::check_data_frame(
@@ -168,7 +168,7 @@ DDict <- S7::new_class("DDict",
         label = character(),
         raw_dtype = character(),
         dtype = character(),
-        vtype = character(),
+        role = character(),
         process = character(),
         rule = character(),
         desc = character(),
@@ -228,7 +228,7 @@ S7::method(extractDDict, DDict) <- function(
     label = NA_character_,
     raw_dtype = unname(the_variables),
     dtype = unname(the_variables),
-    vtype = NA_character_,
+    role = NA_character_,
     process = NA_character_,
     rule = NA_character_,
     desc = NA_character_,
@@ -292,7 +292,7 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
 #' Filter from a \code{DDict}.
 #'
 #' The records are filtered using regular expressions. If no criteria is
-#' provided for **vtype**, **process** and **rule**, the full data is returned.
+#' provided for **role**, **process** and **rule**, the full data is returned.
 #'
 #' @name filterDDict
 #'
@@ -300,7 +300,7 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{table_nm}{Compulsory name of the table..}
-#'    \item{vtype_rgx}{Regular expression to filter **vtype**.}
+#'    \item{role_rgx}{Regular expression to filter **role**.}
 #'    \item{process_rgx}{Regular expression to filter **process**.}
 #'    \item{rule_rgx}{Regular expression to filter **rule**.}
 #' }
@@ -318,15 +318,15 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
 filterDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(filterDDict, DDict) <- function(
-    object, table_nm = "", vtype_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+    object, table_nm = "", role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
   checkmate::assert_string(table_nm, min.chars = 1)
-  checkmate::assert_string(vtype_rgx, na.ok = TRUE, null.ok = TRUE)
+  checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
   checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
   checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
 
   ddict <- tableDDict(object, table_nm = table_nm)
 
-  params <- c("vtype" = vtype_rgx, "process" = process_rgx, "rule" = rule_rgx)
+  params <- c("role" = role_rgx, "process" = process_rgx, "rule" = rule_rgx)
   for (nm in names(params)) {
     rgx <- params[nm]
     if (!is.na(rgx)) {
@@ -342,7 +342,7 @@ S7::method(filterDDict, DDict) <- function(
     msg_body <- c(
       "i" = "Verify the regular expressions used to filter the data.",
       "x" = sprintf("table name: %s", table_nm),
-      "x" = sprintf("vtype regex: %s", vtype_rgx),
+      "x" = sprintf("role regex: %s", role_rgx),
       "x" = sprintf("process regex: %s", process_rgx),
       "x" = sprintf("rule regex: %s", rule_rgx)
     )
