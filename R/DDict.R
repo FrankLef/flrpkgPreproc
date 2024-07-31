@@ -243,7 +243,7 @@ S7::method(extractDDict, DDict) <- function(
 #'
 #' Data about a table from a \code{DDict}.
 #'
-#' The records are filtered using regular expressions (regex).
+#' An error message is returned if no data on the table is available.
 #'
 #' @name tableDDict
 #'
@@ -275,6 +275,68 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
     msg_body <- c(
       "i" = "Verify the table name used to filter the data.",
       "x" = sprintf("Table: %s", table_nm)
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
+  data
+}
+
+
+#' Filter from a \code{DDict}
+#'
+#' Filter from a \code{DDict}.
+#'
+#' The records are filtered using regular expressions.
+#'
+#' @name filterDDict
+#'
+#' @param object Object of class \code{DDict}.
+#' @param ... Additional arguments used by methods. Such as
+#' \describe{
+#'    \item{table_rgx}{Regular expression to filter **table**.}
+#'    \item{vtype_rgx}{Regular expression to filter **vtype**.}
+#'    \item{process_rgx}{Regular expression to filter **process**.}
+#'    \item{rule_rgx}{Regular expression to filter **rule**.}
+#' }
+#'
+#' @return \code{data} from \code{DDict} object.
+#'
+#' @importFrom dplyr filter
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
+filterDDict <- S7::new_generic("DDict", dispatch_args = "object")
+
+S7::method(filterDDict, DDict) <- function(
+    object, table_rgx = ".*", vtype_rgx = ".*", process_rgx = ".*", rule_rgx = ".*") {
+  checkmate::assert_string(table_rgx, min.chars = 1)
+  checkmate::assert_string(vtype_rgx, min.chars = 1)
+  checkmate::assert_string(process_rgx, min.chars = 1)
+  checkmate::assert_string(rule_rgx, min.chars = 1)
+
+  data <- dplyr::filter(object@data,
+                        grepl(pattern = table_rgx, x = table),
+                        grepl(pattern = vtype_rgx, x = vtype),
+                        grepl(pattern = process_rgx, x = process),
+                        grepl(pattern = rule_rgx, x = rule))
+
+  if (!nrow(data)) {
+    msg_head <- cli::col_red("No records returned from the data dictionary.")
+    msg_body <- c(
+      "i" = "Verify the regular expressions used to filter the data.",
+      "x" = sprintf("table: %s", table_rgx),
+      "x" = sprintf("vtype: %s", vtype_rgx),
+      "x" = sprintf("process: %s", process_rgx),
+      "x" = sprintf("rule: %s", rule_rgx)
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(

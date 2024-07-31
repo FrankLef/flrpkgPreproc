@@ -21,7 +21,7 @@ tableDDict(object, ...)
 Data about a table from a \code{DDict}.
 }
 \details{
-The records are filtered using regular expressions (regex).
+An error message is returned if no data on the table is available.
 }
 \examples{
 \dontrun{

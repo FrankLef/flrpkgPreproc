@@ -83,6 +83,18 @@ test_that("DDict: Validate DDict@data", {
 })
 
 
+test_that("filterDDict: Filter data dict", {
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
+  out <- filterDDict(ddict, vtype_rgx = r"(\btype1\b)")
+  expect_identical(dim(out), c(1L, length(ddict_df)))
+
+  expect_error(filterDDict(ddict, vtype_rgx = "ERROR"),
+               class = "ValueError",
+               regexp = "No records returned")
+
+})
+
 test_that("extractDDict: Extract data in DDict", {
   # testthat::skip("debug")
   ddict <- DDict()
