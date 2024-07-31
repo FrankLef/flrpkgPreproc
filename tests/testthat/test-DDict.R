@@ -96,7 +96,18 @@ test_that("filterDDict: Filter data dict", {
   out <- filterDDict(ddict, table_nm = "df3", vtype_rgx = r"(\btype1\b)")
   # cat("\n", "out", "\n")
   # print(out)
+  expect_identical(dim(out), c(2L, length(ddict_df)))
+
+  out <- filterDDict(ddict, table_nm = "df3", vtype_rgx = NA_character_)
+  # cat("\n", "out", "\n")
+  # print(out)
   expect_identical(dim(out), c(3L, length(ddict_df)))
+
+  out <- filterDDict(ddict, table_nm = "df3",
+                     vtype_rgx = r"(\btype1\b)", process_rgx = r"(\proc1\b)")
+  # cat("\n", "out", "\n")
+  # print(out)
+  expect_identical(dim(out), c(1L, length(ddict_df)))
 
 })
 

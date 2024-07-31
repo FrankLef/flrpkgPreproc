@@ -113,7 +113,7 @@ df_ddict <- function(nm) {
         "integer", "integer", "integer", "factor", "ymd",
         "Date", "character"
       ),
-      vtype = c("type1", "type1", "type1", NA_character_, "type_extra",
+      vtype = c("type1", "type1", "type2", NA_character_, "type_extra",
                 NA_character_, NA_character_),
       process = c("proc1", "proc2", NA_character_, "proc3", NA_character_,
                   "proc_extra", NA_character_),

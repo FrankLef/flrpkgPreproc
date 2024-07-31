@@ -320,14 +320,13 @@ filterDDict <- S7::new_generic("DDict", dispatch_args = "object")
 S7::method(filterDDict, DDict) <- function(
     object, table_nm = "", vtype_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
   checkmate::assert_string(table_nm, min.chars = 1)
-  checkmate::assert_string(vtype_rgx, null.ok = TRUE)
-  checkmate::assert_string(process_rgx, null.ok = TRUE)
-  checkmate::assert_string(rule_rgx, null.ok = TRUE)
+  checkmate::assert_string(vtype_rgx, na.ok = TRUE, null.ok = TRUE)
+  checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
+  checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
 
   ddict <- tableDDict(object, table_nm = table_nm)
 
   params <- c("vtype" = vtype_rgx, "process" = process_rgx, "rule" = rule_rgx)
-
   for (nm in names(params)) {
     rgx <- params[nm]
     if (!is.na(rgx)) {
