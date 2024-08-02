@@ -29,7 +29,7 @@
 #' )
 #' stopifnot(S7::S7_inherits(normlz, class = Normalz))
 Normalz <- S7::new_class("Normalz",
-  package = "flpkgrWrap",
+  package = "flrpkgPreproc",
   properties = list(
     basis = S7::class_data.frame,
     id_vars = S7::class_character,

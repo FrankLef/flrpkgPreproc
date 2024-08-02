@@ -47,7 +47,7 @@
 #' ddict <- DDict()
 #' stopifnot(S7::S7_inherits(ddict, class = DDict))
 DDict <- S7::new_class("DDict",
-  package = "flpkgrWrap",
+  package = "flrpkgPreproc",
   properties = list(
     dtypes = S7::new_property(
       class = S7::class_character,

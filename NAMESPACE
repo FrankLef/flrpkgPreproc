@@ -2,6 +2,7 @@
 
 export(DDict)
 export(Normalz)
+export(Rules)
 export(castDDict)
 export(doNormalz)
 export(extractDDict)

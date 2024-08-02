@@ -1,11 +1,11 @@
-test_that("Normalz: Create new class", {
+test_that("Normalz: Instantiate new object.", {
   lst <- df_normalz()
   basis <- lst$basis
   normlz <- Normalz(
     basis = basis, id_vars = lst$id_vars,
     base_var = lst$base_var, scale = lst$scale
   )
-  expect_true(S7::S7_inherits(normlz), Normalz)
+  expect_true(S7::S7_inherits(normlz))
 
   # cat("\n", "normlz", "\n")
   # print(normlz)
