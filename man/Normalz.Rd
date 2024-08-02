@@ -4,7 +4,7 @@
 \alias{Normalz}
 \title{Create a Normalz Object}
 \usage{
-Normalz(basis, id_vars, base_var = "base_amt", scale = 1, sufx = "nmz")
+Normalz(basis, id_vars, base_var = "base_amt", scale = 1, suffix = "nmz")
 }
 \arguments{
 \item{basis}{Data.frame of data used to perform the normalization.}
@@ -15,9 +15,9 @@ Normalz(basis, id_vars, base_var = "base_amt", scale = 1, sufx = "nmz")
 
 \item{scale}{Number used to multiply the resulting data.}
 
-\item{sufx}{Character(1) for suffix to use in \code{.name} of \code{across}.
+\item{suffix}{Character(1) for suffix to use in \code{.name} of \code{across}.
 Default value is "nmz". If no suffix is desired, set it as an empty string
-\code{sufx = ""}.}
+\code{suffix = ""}.}
 }
 \value{
 Object of class \code{DDict}.

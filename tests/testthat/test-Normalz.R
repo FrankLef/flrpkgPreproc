@@ -73,7 +73,7 @@ test_that("doNormalz: no suffix", {
   normlz <- Normalz(
     basis = lst$basis, id_vars = lst$id_vars,
     base_var = lst$base_var, scale = lst$scale,
-    sufx = ""
+    suffix = ""
   )
 
   out <- doNormalz(normlz,

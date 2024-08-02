@@ -10,9 +10,9 @@
 #' @param id_vars Names of columns used to join \code{data} and \code{base}.
 #' @param base_var Name of the the base amount column is in \code{basis}.
 #' @param scale Number used to multiply the resulting data.
-#' @param sufx Character(1) for suffix to use in \code{.name} of \code{across}.
+#' @param suffix Character(1) for suffix to use in \code{.name} of \code{across}.
 #' Default value is "nmz". If no suffix is desired, set it as an empty string
-#' \code{sufx = ""}.
+#' \code{suffix = ""}.
 #'
 #' @return Object of class \code{DDict}.
 #'
@@ -35,7 +35,7 @@ Normalz <- S7::new_class("Normalz",
     id_vars = S7::class_character,
     base_var = S7::class_character,
     scale = S7::class_numeric,
-    sufx = S7::class_character
+    suffix = S7::class_character
   ),
   validator = function(self) {
     check <- checkmate::check_data_frame(
@@ -66,14 +66,14 @@ Normalz <- S7::new_class("Normalz",
     }
   },
   constructor = function(basis, id_vars, base_var = "base_amt",
-                         scale = 1, sufx = "nmz") {
+                         scale = 1, suffix = "nmz") {
     S7::new_object(
       Normalz,
       basis = basis,
       id_vars = id_vars,
       base_var = base_var,
       scale = scale,
-      sufx = sufx
+      suffix = suffix
     )
   }
 )
@@ -91,7 +91,7 @@ Normalz <- S7::new_class("Normalz",
 #' \describe{
 #'    \item{data}{Data.frame to normalize.}
 #'    \item{vars}{Columns to normalize.}
-#'    \item{inverse}{Perform inverse normalization. The suffix \code{sufx} is
+#'    \item{inverse}{Perform inverse normalization. The suffix \code{suffix} is
 #'    not used when \code{inverse=TRUE}}
 #'    \item{keep}{Keep the \code{base_var} in the output.}
 #' }
@@ -122,11 +122,11 @@ S7::method(doNormalz, Normalz) <- function(object, data, vars,
   the_ids <- object@id_vars
   the_base_var <- object@base_var
   the_scale <- object@scale
-  the_sufx <- object@sufx
-  if (nchar(the_sufx)) {
-    the_sufx <- paste("{.col}", the_sufx, sep = "_")
+  the_suffix <- object@suffix
+  if (nchar(the_suffix)) {
+    the_suffix <- paste("{.col}", the_suffix, sep = "_")
   } else {
-    the_sufx <- NULL
+    the_suffix <- NULL
   }
 
   # cat("\n", "doNormalz: the_basis", "\n")
@@ -141,7 +141,7 @@ S7::method(doNormalz, Normalz) <- function(object, data, vars,
       dplyr::mutate(dplyr::across(
         .cols = tidyselect::all_of(vars),
         .fns = \(x) x * the_scale / .data[[the_base_var]],
-        .names = the_sufx
+        .names = the_suffix
       ))
   } else {
     data <- data |>
