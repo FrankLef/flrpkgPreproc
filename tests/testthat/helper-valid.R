@@ -20,3 +20,55 @@ df_valid <- function() {
   df |>
     dplyr::mutate(dplyr::across(.cols = where(is.numeric), .fns = \(x) round(x, 2)))
 }
+
+rng_valid <- function(suffix = c("hb", "madn")) {
+  suffix <- match.arg(suffix)
+
+  if (suffix == "hb") {
+    out <- list(
+      "varNorm" = c("min" = 0.72, "max" = 11.56),
+      "varLognorm" = c("min" = 4.46, "max" = 71.32),
+      "varExp" = c("min" = 0.99, "max" = 15.88),
+      "varBeta" = c("min" = 1.17, "max" = 18.76)
+    )
+  } else if (suffix == "madn") {
+    out <- list(
+      "varNorm" = c("min" = 1.73, "max" = 4.05),
+      "varLognorm" = c("min" = 5.6, "max" = 30.06),
+      "varExp" = c("min" = 0.65, "max" = 7.29),
+      "varBeta" = c("min" = 2.53, "max" = 6.85)
+    )
+  } else {
+    msg <- sprintf("%s is an invalid suffix.", suffix)
+  }
+  out
+}
+
+rules_valid <- function(suffix = c("hb", "madn")) {
+  if (suffix == "hb") {
+    out <- data.frame(
+      "name" = c("varNorm_oob", "varLognorm_oob", "varExp_oob", "varBeta_oob"),
+      "label" = c("varNorm_oob", "varLognorm_oob", "varExp_oob", "varBeta_oob"),
+      "rule" = c(
+        "in_range(varNorm, min = 0.72, max = 11.56)",
+        "in_range(varLognorm, min = 4.46, max = 71.32)",
+        "in_range(varExp, min = 0.99, max = 15.88)",
+        "in_range(varBeta, min = 1.17, max = 18.76)"
+      )
+    )
+  } else if (suffix == "madn") {
+    out <- data.frame(
+      "name" = c("varNorm_oob", "varLognorm_oob", "varExp_oob", "varBeta_oob"),
+      "label" = c("varNorm_oob", "varLognorm_oob", "varExp_oob", "varBeta_oob"),
+      "rule" = c(
+        "in_range(varNorm, min = 1.73, max = 4.05)",
+        "in_range(varLognorm, min = 5.6, max = 30.06)",
+        "in_range(varExp, min = 0.65, max = 7.29)",
+        "in_range(varBeta, min = 2.53, max = 6.85)"
+      )
+    )
+  } else {
+    msg <- sprintf("%s is an invalid suffix.", suffix)
+  }
+  out
+}

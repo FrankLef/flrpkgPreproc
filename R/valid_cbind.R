@@ -12,7 +12,7 @@
 #' @param validation Object of class \code{validation} from \pkg{validate}.
 #' @param suffix String to add as a suffix to the new columns.
 #'
-#' @return Augmrnted data.frame with new columns.
+#' @return Augmented data.frame with new columns.
 #' @export
 #'
 #' @examples
