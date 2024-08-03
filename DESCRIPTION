@@ -9,14 +9,18 @@ License: MIT + file LICENSE
 URL: https://github.com/FrankLef/flrpkgPreproc
 BugReports: https://github.com/FrankLef/flrpkgPreproc/issues
 Imports: 
+    assertthat,
     checkmate,
     cli,
     dplyr,
     forcats,
     labelled,
     lubridate,
+    purrr,
     rlang,
-    S7
+    S7,
+    tidyselect,
+    validate
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
