@@ -11,7 +11,7 @@ prune_upd(data, flags, id, id_var = "prune_id", default = "ok")
 
 \item{flags}{Logical vector.}
 
-\item{id}{String value to update to.}
+\item{id}{String value to update to. Must NOT be the same as \code{default}.}
 
 \item{id_var}{Name of the prune id column. Default is \emph{prune_id}.}
 
@@ -32,6 +32,9 @@ the value in \code{id_var} will be equal to \code{default}.
 df <- data.frame(x = letters[1:3], prune_id = c("ok", "ok", "X"))
 df <- prune_upd(df, flags = c(TRUE, FALSE, TRUE), id = "Y")
 stopifnot(
- identical(df, data.frame(x = letters[1:3], prune_id = c("Y", "ok", "X")))
- )
+  identical(df, data.frame(x = letters[1:3], prune_id = c("Y", "ok", "X")))
+)
+}
+\seealso{
+\code{\link[=prune_reset]{prune_reset()}}
 }

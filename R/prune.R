@@ -34,9 +34,11 @@ prune_reset <- function(data, id_var = "prune_id", default = "ok") {
 #'
 #' @param data Data.frame.
 #' @param flags Logical vector.
-#' @param id String value to update to.
+#' @param id String value to update to. Must NOT be the same as \code{default}.
 #' @param id_var Name of the prune id column. Default is \emph{prune_id}.
 #' @param default Default value in the \code{id_var} column. Default is \emph{ok}.
+#'
+#' @seealso [prune_reset()]
 #'
 #' @return Data.frame with updated \code{id_var} column.
 #' @export

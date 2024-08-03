@@ -27,7 +27,7 @@ overwritten with \code{default}.
 df <- data.frame(x = letters[1:3])
 df <- prune_reset(df)
 stopifnot(
- identical(df, data.frame(x = letters[1:3], prune_id = "ok"))
- )
+  identical(df, data.frame(x = letters[1:3], prune_id = "ok"))
+)
 
 }
