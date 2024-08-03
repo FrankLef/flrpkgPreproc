@@ -1,5 +1,5 @@
 df_valid <- function() {
-  set.seed(1019)
+  set.seed(1019L)
   n <- 25L
   nhrdl <- 5L
   df <- data.frame(
