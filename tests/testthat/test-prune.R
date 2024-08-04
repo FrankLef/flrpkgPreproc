@@ -31,7 +31,7 @@ test_that("prune_upd: ERROR, using ok as id", {
   df <- df_prune()
 
   expect_error(prune_upd(df, flags = "ERROR", id = "Y"),
-               regexp = "Assertion on 'flags' failed"
+    regexp = "Assertion on 'flags' failed"
   )
 
   expect_error(prune_upd(df, flags = "varLog", id = "ok"),

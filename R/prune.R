@@ -46,8 +46,9 @@ prune_reset <- function(data, id_var = "prune_id", default = "ok") {
 #' @examples
 #' df <- data.frame(
 #'   x = letters[1:3],
-#'   flags =  c(TRUE, FALSE, TRUE),
-#'   prune_id = c("ok", "ok", "X"))
+#'   flags = c(TRUE, FALSE, TRUE),
+#'   prune_id = c("ok", "ok", "X")
+#' )
 #' df <- df |> prune_upd(flags = "flags", id = "Y")
 prune_upd <- function(data, flags, id, id_var = "prune_id", default = "ok") {
   checkmate::assert_data_frame(data)
@@ -56,8 +57,8 @@ prune_upd <- function(data, flags, id, id_var = "prune_id", default = "ok") {
   checkmate::assert_names(id, disjunct.from = {{ default }})
   data |>
     dplyr::mutate(!!id_var := dplyr::if_else(
-      .data[[flags]] & (.data[[id_var]] == {{default}}),
+      .data[[flags]] & (.data[[id_var]] == {{ default }}),
       {{ id }},
-      .data[[id_var]])
-      )
+      .data[[id_var]]
+    ))
 }
