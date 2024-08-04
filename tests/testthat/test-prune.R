@@ -6,20 +6,21 @@ test_that("prune_reset", {
   expect_identical(out, target)
 })
 
-test_that("prune_upd", {
+
+test_that("prune_upd: with dplyr", {
+  # testthat::skip("debug")
+
   df <- df_prune()
-  df <- prune_reset(df)
-  df$prune_id[df$varInt == 2L] <- "X"
   # cat("\n", "df", "\n")
   # print(df)
 
-  the_flags <- (df$varInt == 3L)
-  out <- prune_upd(df, flags = the_flags, id = "Y")
+  out <- df |>
+    prune_upd(flags = "varLog", id = "Y")
   # cat("\n", "out", "\n")
   # print(out)
 
   target <- df
-  target$prune_id[target$varInt == 3L] <- "Y"
+  target$prune_id[df$varChar != "a" & target$varInt == 2L] <- "Y"
   # cat("\n", "target", "\n")
   # print(target)
 
@@ -28,13 +29,12 @@ test_that("prune_upd", {
 
 test_that("prune_upd: ERROR, using ok as id", {
   df <- df_prune()
-  df <- prune_reset(df)
-  df$prune_id[df$varInt == 2L] <- "X"
-  # cat("\n", "df", "\n")
-  # print(df)
 
-  the_flags <- (df$varInt == 3L)
-  expect_error(prune_upd(df, flags = the_flags, id = "ok"),
+  expect_error(prune_upd(df, flags = "ERROR", id = "Y"),
+               regexp = "Assertion on 'flags' failed"
+  )
+
+  expect_error(prune_upd(df, flags = "varLog", id = "ok"),
     regexp = "Assertion on 'id' failed"
   )
 })
