@@ -31,8 +31,9 @@ the value in \code{id_var} will be equal to \code{default}.
 \examples{
 df <- data.frame(
   x = letters[1:3],
-  flags =  c(TRUE, FALSE, TRUE),
-  prune_id = c("ok", "ok", "X"))
+  flags = c(TRUE, FALSE, TRUE),
+  prune_id = c("ok", "ok", "X")
+)
 df <- df |> prune_upd(flags = "flags", id = "Y")
 }
 \seealso{

@@ -728,6 +728,8 @@ cast_data <- function(object, data, var, dtype, table_nm) {
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame with variables to label.}
+#'    \item{do_abort}{TRUE (default): Throw error message when there
+#'    is outstanding status.}
 #'    \item{table_nm}{Name of the table.}
 #' }
 #'
@@ -742,7 +744,8 @@ cast_data <- function(object, data, var, dtype, table_nm) {
 statusDDict <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(statusDDict, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data))) {
+    object, data, do_abort = TRUE,
+    table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data, min.cols = 1)
   checkmate::assert_string(table_nm, min.chars = 1)
 
@@ -765,6 +768,22 @@ S7::method(statusDDict, DDict) <- function(
 
   pos <- match(names(data_nms), status_df$variable)
   status_df$data_dtype[pos] <- unname(data_nms)
+
+  check <- nrow(status_df)
+  if (check & do_abort) {
+    # inform user and abort.
+    msg_head <- cli::col_red("Data dictionary should be updated.")
+    msg_body <- c(
+      "x" = sprintf("Nb of new variables: %d.", check),
+      "i" = "To omit this error message, set `do_abort = TRUE`."
+    )
+    msg_body <- rlang::format_error_bullets(msg_body)
+    msg <- paste(msg_head, msg_body, sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "RuntimeError"
+    )
+  }
 
   status_df
 }

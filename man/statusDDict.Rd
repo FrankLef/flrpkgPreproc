@@ -12,6 +12,8 @@ statusDDict(object, ...)
 \item{...}{Additional arguments used by methods. Such as
 \describe{
 \item{data}{Data.frame with variables to label.}
+\item{do_abort}{TRUE (default): Throw error message when there
+is outstanding status.}
 \item{table_nm}{Name of the table.}
 }}
 }

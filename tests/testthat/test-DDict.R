@@ -426,7 +426,7 @@ test_that("statusDDict: Get status of data", {
   # cat("\n", "df1", "\n")
   # print(df1)
 
-  out <- statusDDict(ddict, data = df1)
+  out <- statusDDict(ddict, data = df1, do_abort = FALSE)
   # cat("\n", "out", "\n")
   # print(out)
 
@@ -448,6 +448,12 @@ test_that("statusDDict: Get status of data", {
   )
   # cat("\n", "target", "\n")
   # print(target)
-
   expect_identical(out, target)
+
+  # return error when do_abort = TRUE
+  expect_error(
+    statusDDict(ddict, data = df1, do_abort = TRUE),
+    class = "RuntimeError",
+    regexp = "Data dictionary should be updated"
+  )
 })
