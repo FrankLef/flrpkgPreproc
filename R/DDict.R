@@ -769,7 +769,7 @@ S7::method(statusDDict, DDict) <- function(
   pos <- match(names(data_nms), status_df$variable)
   status_df$data_dtype[pos] <- unname(data_nms)
 
-  check <- nrow(status_df)
+  check <- sum(!status_df$is_ddict & status_df$is_data)
   if (check & do_abort) {
     # inform user and abort.
     msg_head <- cli::col_red("Data dictionary should be updated.")
