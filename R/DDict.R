@@ -775,7 +775,7 @@ S7::method(statusDDict, DDict) <- function(
     msg_head <- cli::col_red("Data dictionary should be updated.")
     msg_body <- c(
       "x" = sprintf("Nb of new variables: %d.", check),
-      "i" = "To omit this error message, set `do_abort = TRUE`."
+      "i" = "To omit this error message, set `do_abort = FALSE`."
     )
     msg_body <- rlang::format_error_bullets(msg_body)
     msg <- paste(msg_head, msg_body, sep = "\n")
