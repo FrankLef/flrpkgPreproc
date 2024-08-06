@@ -1,4 +1,4 @@
-#' Add the Flags from \code{validation} to Data
+#' Add the flags from \code{validation} to data
 #'
 #' Add the Flags from \code{validation} to data.
 #'

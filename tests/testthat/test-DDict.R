@@ -83,27 +83,27 @@ test_that("DDict: Validate DDict@data", {
 })
 
 
-test_that("filterDDict: Filter data dict", {
+test_that("ddict_filter: Filter data dict", {
   ddict_df <- df_ddict(nm = "ddict2")
   ddict <- DDict(ddict_df)
 
   # no selection returns the full table.
-  out <- filterDDict(ddict, table_nm = "df2")
+  out <- ddict_filter(ddict, table_nm = "df2")
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), dim(ddict_df))
 
-  out <- filterDDict(ddict, table_nm = "df2", role_rgx = r"(\brole1\b)")
+  out <- ddict_filter(ddict, table_nm = "df2", role_rgx = r"(\brole1\b)")
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(2L, length(ddict_df)))
 
-  out <- filterDDict(ddict, table_nm = "df2", role_rgx = NA_character_)
+  out <- ddict_filter(ddict, table_nm = "df2", role_rgx = NA_character_)
   # cat("\n", "out", "\n")
   # print(out)
   expect_identical(dim(out), c(3L, length(ddict_df)))
 
-  out <- filterDDict(ddict,
+  out <- ddict_filter(ddict,
     table_nm = "df2",
     role_rgx = r"(\brole1\b)", process_rgx = r"(\proc1\b)"
   )
@@ -112,22 +112,22 @@ test_that("filterDDict: Filter data dict", {
   expect_identical(dim(out), c(1L, length(ddict_df)))
 })
 
-test_that("filterDDict: ERROR", {
+test_that("ddict_filter: ERROR", {
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
 
-  expect_error(filterDDict(ddict, table_nm = "ERROR", role_rgx = r"(\brole1\b)"),
+  expect_error(ddict_filter(ddict, table_nm = "ERROR", role_rgx = r"(\brole1\b)"),
     class = "ValueError",
     regexp = "No records returned from the data dictionary"
   )
 
-  expect_error(filterDDict(ddict, table_nm = "df3", role_rgx = "ERROR"),
+  expect_error(ddict_filter(ddict, table_nm = "df3", role_rgx = "ERROR"),
     class = "ValueError",
     regexp = "No records returned from the data dictionary"
   )
 })
 
-test_that("extractDDict: Extract data in DDict", {
+test_that("ddict_extract: Extract data in DDict", {
   # testthat::skip("debug")
   ddict <- DDict()
   df1 <- df_ddict(nm = "df1")
@@ -139,29 +139,29 @@ test_that("extractDDict: Extract data in DDict", {
   # cat("\n", "target", "\n")
   # print(target@data)
 
-  out <- extractDDict(ddict, df1)
+  out <- ddict_extract(ddict, df1)
   # cat("\n", "out", "\n")
   # print(out@data)
 
   expect_identical(out, target)
 })
 
-test_that("extractDDict: ERROR extract data in DDict", {
+test_that("ddict_extract: ERROR extract data in DDict", {
   # testthat::skip("debug")
   ddict <- DDict()
 
   df1 <- df_ddict(nm = "df1")
 
-  out <- extractDDict(ddict, df1)
+  out <- ddict_extract(ddict, df1)
 
   expect_error(
-    extractDDict(out, df1),
+    ddict_extract(out, df1),
     class = "ValueError",
     regexp = ".*has.+duplicate records.*"
   )
 })
 
-test_that("tableDDict: Table's data from a DDict", {
+test_that("ddict_table: Table's data from a DDict", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
@@ -169,7 +169,7 @@ test_that("tableDDict: Table's data from a DDict", {
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
 
-  out <- tableDDict(ddict, table_nm = "df3")
+  out <- ddict_table(ddict, table_nm = "df3")
   # cat("\n", "out", "\n")
   # print(out)
 
@@ -179,7 +179,7 @@ test_that("tableDDict: Table's data from a DDict", {
 
 
 
-test_that("tableDDict: ERROR", {
+test_that("ddict_table: ERROR", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
@@ -187,13 +187,13 @@ test_that("tableDDict: ERROR", {
   # print(ddict@data)
 
   expect_error(
-    tableDDict(ddict, table_nm = "ERROR"),
+    ddict_table(ddict, table_nm = "ERROR"),
     class = "ValueError",
     regexp = "No records returned from the data dictionary"
   )
 })
 
-test_that("renDDict: Rename columns using a DDict", {
+test_that("ddict_ren: Rename columns using a DDict", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
@@ -205,7 +205,7 @@ test_that("renDDict: Rename columns using a DDict", {
   # cat("\n", "df3", "\n")
   # print(df3)
 
-  out <- renDDict(ddict, data = df3)
+  out <- ddict_ren(ddict, data = df3)
   # cat("\n", "out", "\n")
   # print(out)
 
@@ -213,7 +213,7 @@ test_that("renDDict: Rename columns using a DDict", {
   expect_identical(names(out), ddict@data$name)
 })
 
-test_that("labelDDict: Use name, i.e. raw_name = FALSE", {
+test_that("ddict_label: Use name, i.e. raw_name = FALSE", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
@@ -228,7 +228,7 @@ test_that("labelDDict: Use name, i.e. raw_name = FALSE", {
   # print(df3)
 
 
-  out <- labelDDict(ddict, data = df3, is_raw_nm = FALSE)
+  out <- ddict_label(ddict, data = df3, is_raw_nm = FALSE)
   # cat("\n", "out", "\n")
   # print(out)
   out_lbl <- labelled::var_label(out)
@@ -249,7 +249,7 @@ test_that("labelDDict: Use name, i.e. raw_name = FALSE", {
   expect_identical(out_lbl, target)
 })
 
-test_that("labelDDict: Use name, i.e. raw_name = TRUE", {
+test_that("ddict_label: Use name, i.e. raw_name = TRUE", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
@@ -262,7 +262,7 @@ test_that("labelDDict: Use name, i.e. raw_name = TRUE", {
   # print(df3)
 
 
-  out <- labelDDict(ddict, data = df3, is_raw_nm = TRUE)
+  out <- ddict_label(ddict, data = df3, is_raw_nm = TRUE)
   # cat("\n", "out", "\n")
   # print(out)
   out_lbl <- labelled::var_label(out)
@@ -284,7 +284,7 @@ test_that("labelDDict: Use name, i.e. raw_name = TRUE", {
 })
 
 
-test_that("labelDDict: No labels", {
+test_that("ddict_label: No labels", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict_df$label <- NA_character_
@@ -299,14 +299,14 @@ test_that("labelDDict: No labels", {
   # print(df3)
 
   expect_error(
-    labelDDict(ddict, data = df3),
+    ddict_label(ddict, data = df3),
     class = "ValueError",
     regexp = "The variables to label where not found"
   )
 })
 
 
-test_that("castDDict: Use name, i.e. raw_name = FALSE", {
+test_that("ddict_cast: Use name, i.e. raw_name = FALSE", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
@@ -331,7 +331,7 @@ test_that("castDDict: Use name, i.e. raw_name = FALSE", {
   # cat("\n", "target dtypes", "\n")
   # print(target_dtypes)
 
-  out <- castDDict(ddict, data = df3, is_raw_nm = FALSE)
+  out <- ddict_cast(ddict, data = df3, is_raw_nm = FALSE)
   out_dtypes <- sapply(out, FUN = \(x) class(x)[1])
   # cat("\n", "out dtypes", "\n")
   # print(out_dtypes)
@@ -340,7 +340,7 @@ test_that("castDDict: Use name, i.e. raw_name = FALSE", {
   expect_identical(out_dtypes, target_dtypes)
 })
 
-test_that("castDDict: Use raw_name, i.e. raw_name = TRUE", {
+test_that("ddict_cast: Use raw_name, i.e. raw_name = TRUE", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
@@ -364,7 +364,7 @@ test_that("castDDict: Use raw_name, i.e. raw_name = TRUE", {
   # cat("\n", "target dtypes", "\n")
   # print(target_dtypes)
 
-  out <- castDDict(ddict, data = df3, is_raw_nm = TRUE)
+  out <- ddict_cast(ddict, data = df3, is_raw_nm = TRUE)
   out_dtypes <- sapply(out, FUN = \(x) class(x)[1])
   # cat("\n", "out dtypes", "\n")
   # print(out_dtypes)
@@ -373,7 +373,7 @@ test_that("castDDict: Use raw_name, i.e. raw_name = TRUE", {
   expect_identical(out_dtypes, target_dtypes)
 })
 
-test_that("castDDict: Warning", {
+test_that("ddict_cast: Warning", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict_df$raw_dtype <- ddict_df$dtype
@@ -386,13 +386,13 @@ test_that("castDDict: Warning", {
 
 
   expect_warning(
-    castDDict(ddict, data = df3, is_raw_nm = TRUE),
+    ddict_cast(ddict, data = df3, is_raw_nm = TRUE),
     class = "ValueWarning",
     regexp = "There is no data type to cast"
   )
 })
 
-test_that("castDDict: Error about role", {
+test_that("ddict_cast: Error about role", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict_df$role <- NA_character_
@@ -405,13 +405,13 @@ test_that("castDDict: Error about role", {
 
 
   expect_error(
-    castDDict(ddict, data = df3, is_raw_nm = TRUE),
+    ddict_cast(ddict, data = df3, is_raw_nm = TRUE),
     class = "ValueError",
     regexp = "variables must have a role"
   )
 })
 
-test_that("statusDDict: Get status of data", {
+test_that("ddict_status: Get status of data", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict1")
   ddict_df <- ddict_df[-3, ]
@@ -426,7 +426,7 @@ test_that("statusDDict: Get status of data", {
   # cat("\n", "df1", "\n")
   # print(df1)
 
-  out <- statusDDict(ddict, data = df1, do_abort = FALSE)
+  out <- ddict_status(ddict, data = df1, do_abort = FALSE)
   # cat("\n", "out", "\n")
   # print(out)
 
@@ -452,7 +452,7 @@ test_that("statusDDict: Get status of data", {
 
   # return error when do_abort = TRUE
   expect_error(
-    statusDDict(ddict, data = df1, do_abort = TRUE),
+    ddict_status(ddict, data = df1, do_abort = TRUE),
     class = "RuntimeError",
     regexp = "Data dictionary should be updated"
   )

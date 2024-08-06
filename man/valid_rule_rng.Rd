@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid_rules.R
 \name{valid_rule_rng}
 \alias{valid_rule_rng}
-\title{Write a String for a Rule With Range}
+\title{Write a string for a rule With range}
 \usage{
 valid_rule_rng(x, rng)
 }

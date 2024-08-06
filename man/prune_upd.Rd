@@ -2,7 +2,7 @@
 % Please edit documentation in R/prune.R
 \name{prune_upd}
 \alias{prune_upd}
-\title{Update the Prune ID Column.}
+\title{Update the prune ID column.}
 \usage{
 prune_upd(data, flags, id, id_var = "prune_id", default = "ok")
 }

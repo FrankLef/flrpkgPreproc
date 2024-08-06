@@ -47,14 +47,14 @@ test_that("Normalz: Validate", {
 })
 
 
-test_that("doNormalz", {
+test_that("normalz_do", {
   lst <- df_normalz()
   normlz <- Normalz(
     basis = lst$basis, id_vars = lst$id_vars,
     base_var = lst$base_var, scale = lst$scale
   )
 
-  out <- doNormalz(normlz,
+  out <- normalz_do(normlz,
     data = lst$data, vars = c("amt1", "amt2"),
     inverse = FALSE, keep = FALSE
   )
@@ -68,7 +68,7 @@ test_that("doNormalz", {
 })
 
 
-test_that("doNormalz: no suffix", {
+test_that("normalz_do: no suffix", {
   lst <- df_normalz()
   normlz <- Normalz(
     basis = lst$basis, id_vars = lst$id_vars,
@@ -76,7 +76,7 @@ test_that("doNormalz: no suffix", {
     suffix = ""
   )
 
-  out <- doNormalz(normlz,
+  out <- normalz_do(normlz,
     data = lst$data, vars = c("amt1", "amt2"),
     inverse = FALSE, keep = FALSE
   )
@@ -89,7 +89,7 @@ test_that("doNormalz: no suffix", {
   expect_identical(dim(out), target_dim)
 })
 
-test_that("doNormalz: inverse = TRUE", {
+test_that("normalz_do: inverse = TRUE", {
   # testthat::skip("debug")
 
   lst <- df_normalz()
@@ -101,7 +101,7 @@ test_that("doNormalz: inverse = TRUE", {
   # print(lst$data)
 
 
-  out <- doNormalz(normlz,
+  out <- normalz_do(normlz,
     data = lst$data,
     vars = c("amt1", "amt2"),
     inverse = FALSE, keep = FALSE
@@ -109,7 +109,7 @@ test_that("doNormalz: inverse = TRUE", {
   # cat("\n", "out", "\n")
   # print(out)
 
-  inv <- doNormalz(normlz,
+  inv <- normalz_do(normlz,
     data = out,
     vars = c("amt1_nmz", "amt2_nmz"),
     inverse = TRUE, keep = FALSE
@@ -125,14 +125,14 @@ test_that("doNormalz: inverse = TRUE", {
 })
 
 
-test_that("doNormalz: keep = TRUE", {
+test_that("normalz_do: keep = TRUE", {
   lst <- df_normalz()
   normlz <- Normalz(
     basis = lst$basis, id_vars = lst$id_vars,
     base_var = lst$base_var, scale = lst$scale
   )
 
-  out <- doNormalz(normlz,
+  out <- normalz_do(normlz,
     data = lst$data, vars = c("amt1", "amt2"),
     inverse = FALSE, keep = TRUE
   )

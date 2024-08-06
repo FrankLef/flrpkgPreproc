@@ -30,7 +30,7 @@ valid_rules <- function(ranges, suffix = c("oob", "madn")) {
 }
 
 
-#' Write a String for a Rule With Range
+#' Write a string for a rule With range
 #'
 #' Write a string for a rule with range.
 #'

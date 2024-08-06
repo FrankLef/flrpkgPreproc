@@ -1,4 +1,4 @@
-#' Create a Normalz Object
+#' Create a Normalz object
 #'
 #' Create a Normalz object.
 #'
@@ -78,13 +78,13 @@ Normalz <- S7::new_class("Normalz",
   }
 )
 
-#' Apply Conditional Normalization
+#' Apply conditional normalization
 #'
 #' Apply conditional Normalization.
 #'
 #' Normalize \code{data} depending on the \code{id_vars} from \code{Normalz}.
 #'
-#' @name doNormalz
+#' @name normalz_do
 #'
 #' @param object Object of class \code{Normalz}.
 #' @param ... Additional arguments used by methods. Such as
@@ -104,13 +104,13 @@ Normalz <- S7::new_class("Normalz",
 #' \dontrun{
 #' TODO
 #' }
-doNormalz <- S7::new_generic("doNormalz", dispatch_args = "object")
+normalz_do <- S7::new_generic("normalz_do", dispatch_args = "object")
 
 # No need to document methods in S7.
 # source: https://cran.r-project.org/web/packages/S7/vignettes/packages.html
 
-S7::method(doNormalz, Normalz) <- function(object, data, vars,
-                                           inverse = FALSE, keep = FALSE) {
+S7::method(normalz_do, Normalz) <- function(object, data, vars,
+                                            inverse = FALSE, keep = FALSE) {
   checkmate::assert_data_frame(data, min.cols = 2, min.rows = 1)
   checkmate::assert_names(vars, subset.of = names(data))
   checkmate::assert_names(object@id_vars, subset.of = names(data))
@@ -129,9 +129,9 @@ S7::method(doNormalz, Normalz) <- function(object, data, vars,
     the_suffix <- NULL
   }
 
-  # cat("\n", "doNormalz: the_basis", "\n")
+  # cat("\n", "normalz_do: the_basis", "\n")
   # print(the_basis)
-  # cat("\n", "doNormalz: the_ids", "\n")
+  # cat("\n", "normalz_do: the_ids", "\n")
   # print(the_ids)
 
   data <- dplyr::left_join(x = data, y = the_basis, by = the_ids)

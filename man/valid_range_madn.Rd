@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid_range.R
 \name{valid_range_madn}
 \alias{valid_range_madn}
-\title{Get the Range Using the Normalized MAD}
+\title{Get the range using the normalized MAD}
 \usage{
 valid_range_madn(data, cols, tol = 0.95, na.rm = TRUE)
 }

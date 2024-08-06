@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid_cbind.R
 \name{valid_cbind}
 \alias{valid_cbind}
-\title{Add the Flags from \code{validation} to Data}
+\title{Add the flags from \code{validation} to data}
 \usage{
 valid_cbind(data, validation, suffix)
 }

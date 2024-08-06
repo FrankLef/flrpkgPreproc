@@ -1,4 +1,4 @@
-#' Create a Data Dictionary
+#' Create a data dictionary
 #'
 #' Create a data Dictionary.
 #'
@@ -186,13 +186,13 @@ DDict <- S7::new_class("DDict",
 )
 
 
-#' Extract Information About Data to a Data Dictionary
+#' Extract information about data to a \code{DDict}
 #'
-#' Extract information about data to a data dictionary.
+#' Extract information about data to a \code{DDict}.
 #'
 #' The information will be stored in an object of class \code{DDict}.
 #'
-#' @name extractDDict
+#' @name ddict_extract
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
@@ -210,9 +210,9 @@ DDict <- S7::new_class("DDict",
 #' \dontrun{
 #' TODO
 #' }
-extractDDict <- S7::new_generic("DDict", dispatch_args = "object")
+ddict_extract <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(extractDDict, DDict) <- function(
+S7::method(ddict_extract, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
   checkmate::assert_string(table_nm, min.chars = 1)
@@ -239,13 +239,13 @@ S7::method(extractDDict, DDict) <- function(
 }
 
 
-#' Data About a Table from a \code{DDict}
+#' Data about a table from a \code{DDict}
 #'
 #' Data about a table from a \code{DDict}.
 #'
 #' An error message is returned if no data on the table is available.
 #'
-#' @name tableDDict
+#' @name ddict_table
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
@@ -263,9 +263,9 @@ S7::method(extractDDict, DDict) <- function(
 #' \dontrun{
 #' TODO
 #' }
-tableDDict <- S7::new_generic("DDict", dispatch_args = "object")
+ddict_table <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(tableDDict, DDict) <- function(object, table_nm) {
+S7::method(ddict_table, DDict) <- function(object, table_nm) {
   checkmate::assert_string(table_nm, min.chars = 1)
 
   data <- dplyr::filter(object@data, table == table_nm)
@@ -294,7 +294,7 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
 #' The records are filtered using regular expressions. If no criteria is
 #' provided for **role**, **process** and **rule**, the full data is returned.
 #'
-#' @name filterDDict
+#' @name ddict_filter
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
@@ -315,16 +315,16 @@ S7::method(tableDDict, DDict) <- function(object, table_nm) {
 #' \dontrun{
 #' TODO
 #' }
-filterDDict <- S7::new_generic("DDict", dispatch_args = "object")
+ddict_filter <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(filterDDict, DDict) <- function(
+S7::method(ddict_filter, DDict) <- function(
     object, table_nm = "", role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
   checkmate::assert_string(table_nm, min.chars = 1)
   checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
   checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
   checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
 
-  ddict <- tableDDict(object, table_nm = table_nm)
+  ddict <- ddict_table(object, table_nm = table_nm)
 
   params <- c("role" = role_rgx, "process" = process_rgx, "rule" = rule_rgx)
   for (nm in names(params)) {
@@ -357,13 +357,13 @@ S7::method(filterDDict, DDict) <- function(
 }
 
 
-#' Rename Columns Using a \code{DDict}
+#' Rename columns using a \code{DDict}
 #'
 #' Rename columns using a \code{DDict}.
 #'
 #' The information is stored in an object of class \code{DDict}.
 #'
-#' @name renDDict
+#' @name ddict_ren
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
@@ -381,20 +381,19 @@ S7::method(filterDDict, DDict) <- function(
 #' \dontrun{
 #' TODO
 #' }
-renDDict <- S7::new_generic("DDict", dispatch_args = "object")
+ddict_ren <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(renDDict, DDict) <- function(
+S7::method(ddict_ren, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
   checkmate::assert_string(table_nm, min.chars = 1)
 
-  ddict <- tableDDict(object, table_nm = table_nm)
+  ddict <- ddict_table(object, table_nm = table_nm)
 
   ddict <- ddict |>
     dplyr::mutate(pos = match(raw_name, names(data))) |>
     dplyr::filter(!is.na(pos))
-  # cat("\n", "ddict", "\n")
-  # print(ddict)
+
   if (!nrow(ddict)) {
     msg_head <- cli::col_red("No `raw_name` found in the data names.")
     msg_body <- c(
@@ -408,12 +407,29 @@ S7::method(renDDict, DDict) <- function(
     )
   }
 
+  ddict <- ddict |>
+    dplyr::filter(raw_name != name)
+
+  if (!nrow(ddict)) {
+    msg_head <- cli::col_yellow("There is no column to rename.")
+    msg_body <- c(
+      "!" = sprintf("Table: %s", table_nm),
+      "i" = "The data dictionary for a raw_name different than name."
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::warn(
+      message = msg,
+      class = "ValueWarning"
+    )
+    return(data)
+  }
+
   names(data)[ddict$pos] <- ddict$name
 
   data
 }
 
-#' Set Labels to Columns Using a \code{DDict}
+#' Set labels to columns using a \code{DDict}
 #'
 #' Set labels to columns using a \code{DDict}.
 #'
@@ -421,7 +437,7 @@ S7::method(renDDict, DDict) <- function(
 #' to set labels with \code{labelled::var_label()}. If the label in
 #' \code{DDict} is empty or \code{NA}, an error is returned.
 #'
-#' @name labelDDict
+#' @name ddict_label
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
@@ -443,19 +459,19 @@ S7::method(renDDict, DDict) <- function(
 #' \dontrun{
 #' TODO
 #' }
-labelDDict <- S7::new_generic("DDict", dispatch_args = "object")
+ddict_label <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(labelDDict, DDict) <- function(
+S7::method(ddict_label, DDict) <- function(
     object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
   checkmate::assert_flag(is_raw_nm)
   checkmate::assert_string(table_nm, min.chars = 1)
 
-  # cat("\n", "labelDDict: table_nm", "\n")
+  # cat("\n", "ddict_label: table_nm", "\n")
   # print(table_nm)
 
-  ddict <- tableDDict(object, table_nm = table_nm)
-  # cat("\n", "labelDDict: ddict", "\n")
+  ddict <- ddict_table(object, table_nm = table_nm)
+  # cat("\n", "ddict_label: ddict", "\n")
   # print(ddict)
 
   if (!is_raw_nm) {
@@ -485,7 +501,7 @@ S7::method(labelDDict, DDict) <- function(
 
   lbl <- lbl |>
     dplyr::filter(nchar(label) >= 1L, !is.na(label))
-  # cat("\n", "labelDDict: lbl", "\n")
+  # cat("\n", "ddict_label: lbl", "\n")
   # print(lbl)
 
   if (!nrow(lbl)) {
@@ -503,14 +519,14 @@ S7::method(labelDDict, DDict) <- function(
 
   the_labels <- as.list(lbl$label)
   names(the_labels) <- lbl$name
-  # cat("\n", "labelDDict: the_labels", "\n")
+  # cat("\n", "ddict_label: the_labels", "\n")
   # print(the_labels)
 
   labelled::var_label(data) <- the_labels
   data
 }
 
-#' Cast Data Types of Columns Using a \code{DDict}
+#' Cast data types of columns using a \code{DDict}
 #'
 #' Cast data types of columns using a \code{DDict}.
 #'
@@ -518,7 +534,7 @@ S7::method(labelDDict, DDict) <- function(
 #' when it differ from the data type specified in \code{raw_dtype}. Nothing is
 #' done When \code{dtype} is \code{NA} or empty and a warning is issued.
 #'
-#' @name castDDict
+#' @name ddict_cast
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
@@ -541,9 +557,9 @@ S7::method(labelDDict, DDict) <- function(
 #' \dontrun{
 #' TODO
 #' }
-castDDict <- S7::new_generic("DDict", dispatch_args = "object")
+ddict_cast <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(castDDict, DDict) <- function(
+S7::method(ddict_cast, DDict) <- function(
     object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
   checkmate::assert_flag(is_raw_nm)
@@ -551,12 +567,12 @@ S7::method(castDDict, DDict) <- function(
 
   the_choices <- object@dtypes
 
-  # cat("\n", "castDDict: table_nm", "\n")
+  # cat("\n", "ddict_cast: table_nm", "\n")
   # print(table_nm)
 
-  ddict <- tableDDict(object, table_nm = table_nm)
+  ddict <- ddict_table(object, table_nm = table_nm)
 
-  # cat("\n", "castDDict: ddict", "\n")
+  # cat("\n", "ddict_cast: ddict", "\n")
   # print(ddict)
 
   if (!is_raw_nm) {
@@ -571,7 +587,7 @@ S7::method(castDDict, DDict) <- function(
   ddict <- ddict |>
     dplyr::filter(raw_dtype != dtype) |>
     dplyr::filter(dtype %in% the_choices)
-  # cat("\n", "castDDict: the_types", "\n")
+  # cat("\n", "ddict_cast: the_types", "\n")
   # print(the_dtypes)
 
   check <- ddict |>
@@ -619,11 +635,11 @@ S7::method(castDDict, DDict) <- function(
   data
 }
 
-#' Cast Data to New Data Type
+#' Cast data to new data Type
 #'
 #' Cast data to new data type.
 #'
-#' This function is used by \code{castDDict()}. When \code{dtype} is invalid,
+#' This function is used by \code{ddict_cast()}. When \code{dtype} is invalid,
 #' an error message is issued.
 #'
 #' @param object Object of class \code{DDict}.
@@ -632,7 +648,7 @@ S7::method(castDDict, DDict) <- function(
 #' @param dtype Name of data type.
 #' @param table_nm Name of table. Only used by error message.
 #'
-#' @seealso castDDict
+#' @seealso ddict_cast
 #'
 #' @return \code{data} with new data type.
 cast_data <- function(object, data, var, dtype, table_nm) {
@@ -675,7 +691,7 @@ cast_data <- function(object, data, var, dtype, table_nm) {
     # y <- lubridate::ymd(x)
   } else {
     # NOTE: At this point this should not happen which is why it is an error
-    #       rather than a warning as in castDDict()..
+    #       rather than a warning as in ddict_cast()..
     msg_head <- cli::col_red("The data type is invalid.")
     msg_body <- c(
       "x" = sprintf("Table: %s", table_nm),
@@ -708,7 +724,7 @@ cast_data <- function(object, data, var, dtype, table_nm) {
   out
 }
 
-#' Analyse the Status of a Table in \code{DDict}
+#' Analyse the status of a table in \code{DDict}
 #'
 #' Analyse the status of a table in \code{DDict}.
 #'
@@ -722,7 +738,7 @@ cast_data <- function(object, data, var, dtype, table_nm) {
 #'    \code{FALSE} if it is not.}
 #' }
 #'
-#' @name statusDDict
+#' @name ddict_status
 #'
 #' @param object Object of class \code{DDict}.
 #' @param ... Additional arguments used by methods. Such as
@@ -741,15 +757,15 @@ cast_data <- function(object, data, var, dtype, table_nm) {
 #' \dontrun{
 #' TODO
 #' }
-statusDDict <- S7::new_generic("DDict", dispatch_args = "object")
+ddict_status <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(statusDDict, DDict) <- function(
+S7::method(ddict_status, DDict) <- function(
     object, data, do_abort = TRUE,
     table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data, min.cols = 1)
   checkmate::assert_string(table_nm, min.chars = 1)
 
-  ddict <- tableDDict(object, table_nm = table_nm)
+  ddict <- ddict_table(object, table_nm = table_nm)
 
   ddict_nms <- ddict$name
   data_nms <- sapply(X = data, FUN = \(x) class(x)[1])

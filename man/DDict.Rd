@@ -2,7 +2,7 @@
 % Please edit documentation in R/DDict.R
 \name{DDict}
 \alias{DDict}
-\title{Create a Data Dictionary}
+\title{Create a data dictionary}
 \usage{
 DDict(data = NULL)
 }

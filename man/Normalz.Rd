@@ -2,7 +2,7 @@
 % Please edit documentation in R/Normalz.R
 \name{Normalz}
 \alias{Normalz}
-\title{Create a Normalz Object}
+\title{Create a Normalz object}
 \usage{
 Normalz(basis, id_vars, base_var = "base_amt", scale = 1, suffix = "nmz")
 }

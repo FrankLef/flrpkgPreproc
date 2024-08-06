@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid_range.R
 \name{valid_range_hb}
 \alias{valid_range_hb}
-\title{Get the Range Using a Factor of the Median}
+\title{Get the range using a factor of the median}
 \usage{
 valid_range_hb(data, cols, tol = 80/20, na.rm = TRUE)
 }

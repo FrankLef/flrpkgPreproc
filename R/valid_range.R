@@ -1,4 +1,4 @@
-#' Get the Range Using a Factor of the Median
+#' Get the range using a factor of the median
 #'
 #' Get the range using a factor of the median.
 #'
@@ -46,7 +46,7 @@ valid_range_hb <- function(data, cols, tol = 80 / 20, na.rm = TRUE) {
     })
 }
 
-#' Get the Range Using the Normalized MAD
+#' Get the range using the normalized MAD
 #'
 #' Get the range using the normalized MAD.
 #'

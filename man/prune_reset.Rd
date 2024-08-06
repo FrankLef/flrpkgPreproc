@@ -2,7 +2,7 @@
 % Please edit documentation in R/prune.R
 \name{prune_reset}
 \alias{prune_reset}
-\title{Reset the Prune ID Column}
+\title{Reset the prune ID column}
 \usage{
 prune_reset(data, id_var = "prune_id", default = "ok")
 }
