@@ -3,6 +3,8 @@
 export(DDict)
 export(Normalz)
 export(clean_NA)
+export(clean_cols_nzv)
+export(clean_cols_uniq)
 export(clean_empty)
 export(clean_inf)
 export(ddict_cast)
