@@ -2,6 +2,9 @@
 
 export(DDict)
 export(Normalz)
+export(clean_NA)
+export(clean_empty)
+export(clean_inf)
 export(ddict_cast)
 export(ddict_extract)
 export(ddict_filter)

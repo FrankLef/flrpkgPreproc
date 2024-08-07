@@ -19,6 +19,7 @@ Imports:
     purrr,
     rlang,
     S7,
+    stringr,
     tidyselect,
     validate
 Suggests: 
