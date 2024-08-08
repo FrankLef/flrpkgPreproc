@@ -1,17 +1,17 @@
-#' Create a Normalz object
+#' Create a \code{CScaler} object to conditionally scale
 #'
-#' Create a Normalz object.
+#' Create a \code{CScaler} object to conditionally scale.
 #'
-#' Create a \code{Normalz} object used to normalize conditionally with a given
-#' amount. A typical application, for example, is to normalize all expense based
-#' on the sales per year.
+#' Create a \code{CScaler} object used to conditionally rescale to a maximum
+#' amount conditional on some criteria. A typical application, for example, is
+#' to scale all expenses based on the sales per year.
 #'
-#' @param basis Data.frame of data used to perform the normalization.
+#' @param basis Data.frame of data used to perform the scale.
 #' @param id_vars Names of columns used to join \code{data} and \code{base}.
 #' @param base_var Name of the the base amount column is in \code{basis}.
 #' @param scale Number used to multiply the resulting data.
 #' @param suffix Character(1) for suffix to use in \code{.name} of \code{across}.
-#' Default value is "nmz". If no suffix is desired, set it as an empty string
+#' Default value is "scl". If no suffix is desired, set it as an empty string
 #' \code{suffix = ""}.
 #'
 #' @return Object of class \code{DDict}.
@@ -23,12 +23,12 @@
 #'   year = c(2020, 2021),
 #'   amt = c(1250000, 1500000)
 #' )
-#' normlz <- Normalz(
+#' cscaler <- CScaler(
 #'   basis = basis, id_vars = "year",
 #'   base_var = "amt", scale = 1000
 #' )
-#' stopifnot(S7::S7_inherits(normlz, class = Normalz))
-Normalz <- S7::new_class("Normalz",
+#' stopifnot(S7::S7_inherits(cscaler, class = CScaler))
+CScaler <- S7::new_class("CScaler",
   package = "flrpkgPreproc",
   properties = list(
     basis = S7::class_data.frame,
@@ -66,9 +66,9 @@ Normalz <- S7::new_class("Normalz",
     }
   },
   constructor = function(basis, id_vars, base_var = "base_amt",
-                         scale = 1, suffix = "nmz") {
+                         scale = 1, suffix = "scl") {
     S7::new_object(
-      Normalz,
+      CScaler,
       basis = basis,
       id_vars = id_vars,
       base_var = base_var,
@@ -78,20 +78,20 @@ Normalz <- S7::new_class("Normalz",
   }
 )
 
-#' Apply conditional normalization
+#' Apply conditional scales
 #'
-#' Apply conditional Normalization.
+#' Apply conditional scales.
 #'
-#' Normalize \code{data} depending on the \code{id_vars} from \code{Normalz}.
+#' Scale \code{data} depending on the \code{id_vars} from \code{CScaler}.
 #'
-#' @name normalz_do
+#' @name CScaler_do
 #'
-#' @param object Object of class \code{Normalz}.
+#' @param object Object of class \code{CScaler}.
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
-#'    \item{data}{Data.frame to normalize.}
-#'    \item{vars}{Columns to normalize.}
-#'    \item{inverse}{Perform inverse normalization. The suffix \code{suffix} is
+#'    \item{data}{Data.frame to scale.}
+#'    \item{vars}{Columns to scale}
+#'    \item{inverse}{Perform inverse scale The suffix \code{suffix} is
 #'    not used when \code{inverse=TRUE}}
 #'    \item{keep}{Keep the \code{base_var} in the output.}
 #' }
@@ -104,12 +104,9 @@ Normalz <- S7::new_class("Normalz",
 #' \dontrun{
 #' TODO
 #' }
-normalz_do <- S7::new_generic("normalz_do", dispatch_args = "object")
+CScaler_do <- S7::new_generic("CScaler_do", dispatch_args = "object")
 
-# No need to document methods in S7.
-# source: https://cran.r-project.org/web/packages/S7/vignettes/packages.html
-
-S7::method(normalz_do, Normalz) <- function(object, data, vars,
+S7::method(CScaler_do, CScaler) <- function(object, data, vars,
                                             inverse = FALSE, keep = FALSE) {
   checkmate::assert_data_frame(data, min.cols = 2, min.rows = 1)
   checkmate::assert_names(vars, subset.of = names(data))
@@ -129,9 +126,9 @@ S7::method(normalz_do, Normalz) <- function(object, data, vars,
     the_suffix <- NULL
   }
 
-  # cat("\n", "normalz_do: the_basis", "\n")
+  # cat("\n", "CScaler_do: the_basis", "\n")
   # print(the_basis)
-  # cat("\n", "normalz_do: the_ids", "\n")
+  # cat("\n", "CScaler_do: the_ids", "\n")
   # print(the_ids)
 
   data <- dplyr::left_join(x = data, y = the_basis, by = the_ids)

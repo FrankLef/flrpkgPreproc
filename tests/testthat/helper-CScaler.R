@@ -1,8 +1,8 @@
-df_normalz <- function() {
+df_cscaler <- function() {
   out <- list()
   within(out, {
     n <- 20
-    set.seed(1823)
+    set.seed(1823L)
     data <- data.frame(
       group = sample(letters[1:3], size = n, replace = TRUE),
       year = sample(1:3, size = n, replace = TRUE, prob = c(0.5, 0.4, 0.1)),
