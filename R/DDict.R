@@ -424,7 +424,7 @@ S7::method(ddict_ren, DDict) <- function(
     msg_head <- cli::col_yellow("There is no column to rename.")
     msg_body <- c(
       "!" = sprintf("Table: %s", table_nm),
-      "i" = "The data dictionary for a raw_name different than name."
+      "i" = "The `raw_name` and `name` must be doifferent to trigger renaming."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::warn(
@@ -497,9 +497,9 @@ S7::method(ddict_label, DDict) <- function(
     dplyr::filter(name %in% names(data))
 
   if (!nrow(lbl)) {
-    msg_head <- cli::col_red("The variables to label where not found.")
+    msg_head <- cli::col_red("The variables to label where not found in the data.")
     msg_body <- c(
-      "i" = sprintf("Table: %s", table_nm),
+      "x" = sprintf("Table: %s", table_nm),
       "i" = "Verify the raw_name/name columns in the data dictionary."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
@@ -515,24 +515,23 @@ S7::method(ddict_label, DDict) <- function(
   # print(lbl)
 
   if (!nrow(lbl)) {
-    msg_head <- cli::col_red("There are no label to apply.")
+    msg_head <- cli::col_yellow("There is no label to apply.")
     msg_body <- c(
-      "i" = sprintf("Table: %s", table_nm),
-      "i" = "Verify the label column in the data dictionary."
+      "!" = sprintf("Table: %s", table_nm),
+      "i" = "Verify the `label` is not empty in the data dictionary."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::abort(
+    rlang::warn(
       message = msg,
-      class = "ValueError"
+      class = "ValueWarning"
     )
+    return(data)
   }
 
   the_labels <- as.list(lbl$label)
   names(the_labels) <- lbl$name
-  # cat("\n", "ddict_label: the_labels", "\n")
-  # print(the_labels)
-
   labelled::var_label(data) <- the_labels
+
   data
 }
 

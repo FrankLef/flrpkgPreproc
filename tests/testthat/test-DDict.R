@@ -290,19 +290,27 @@ test_that("ddict_label: No labels", {
   ddict_df <- df_ddict(nm = "ddict3")
   ddict_df$label <- NA_character_
   ddict <- DDict(ddict_df)
-  # cat("\n", "ddict", "\n")
-  # print(ddict)
+  # cat("\n", "ddict@data", "\n")
+  # print(ddict@data)
 
 
   # important to call it df3 to match the table in dictionary
   df3 <- df_ddict(nm = "df3")
-  # cat("\n", "ddict", "\n")
+  # cat("\n", "df3", "\n")
   # print(df3)
 
+  # using the wrong column gives an error about unfound variables
   expect_error(
-    ddict_label(ddict, data = df3),
+    ddict_label(ddict, data = df3, is_raw_nm = FALSE),
     class = "ValueError",
     regexp = "The variables to label where not found"
+  )
+
+  # warning when no label is to be applied because label column is empty
+  expect_warning(
+    ddict_label(ddict, data = df3, is_raw_nm = TRUE),
+    class = "ValueWarning",
+    regexp = "There is no label to apply"
   )
 })
 
