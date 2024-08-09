@@ -5,13 +5,11 @@
 #' Create data Dictionary with the following properties.
 #' \describe{
 #'    \item{data}{Dataframe of info on the variables. See details.}
-#'    \item{data_path}{Path where files are saved.}
-#'    \item{data_base_fn}{Base file name to export data. Default is "ddict_data".}
-#'    \item{status_base_fn}{Base file name to export status, Default is "ddict_status".}
-#'    \item{data_fn}{File name to export data.
-#'    \code{file.path(data_path, data_base_fn, Sys.Date())}}
-#'    \item{status_fn}{Base file name to export status, Default is "ddict_status".
-#'    \code{file.path(data_path, status_base_fn, Sys.Date())}}
+#'    \item{data_path}{Path where files are saved and set as \code{getwd()}.}
+#'    \item{data_base_fn}{Base file name to export data. Default is \emph{ddict_raw}.}
+#'    \item{status_base_fn}{Base file name to export status, Default is \emph{ddict_status_raw}.}
+#'    \item{data_fn}{Full file name to export the ddict data.}
+#'    \item{status_fn}{Full file name to export the ddict status.}
 #'    \item{dtypes}{Character vector of data types allowed by \code{DDict}.
 #'    Read-only property.}
 #' }
@@ -64,11 +62,11 @@ DDict <- S7::new_class("DDict",
     ),
     data_base_fn = S7::new_property(
       class = S7::class_character,
-      default = "ddict_data"
+      default = "ddict_raw"
     ),
     status_base_fn = S7::new_property(
       class = S7::class_character,
-      default = "ddict_status"
+      default = "ddict_status_raw"
     ),
     data_fn = S7::new_property(
       class = S7::class_character,
