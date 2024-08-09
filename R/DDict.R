@@ -500,7 +500,8 @@ S7::method(ddict_label, DDict) <- function(
     msg_head <- cli::col_red("The variables to label where not found in the data.")
     msg_body <- c(
       "x" = sprintf("Table: %s", table_nm),
-      "i" = "Verify the raw_name/name columns in the data dictionary."
+      "!" = "Verify the argument `is_raw_nm`.",
+      "i" = "Verify the raw_name/name column in the data dictionary."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
     rlang::abort(
