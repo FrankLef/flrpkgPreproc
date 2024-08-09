@@ -2,6 +2,7 @@ df_ddict <- function(nm) {
   lst <- list()
   lst <- within(lst, {
     df1n <- 5L
+    set.seed(2027L)
     df1 <- data.frame(
       varInt = sample(1:3, size = df1n, replace = TRUE),
       varIntish = sample(1:3 + 1e-9, size = df1n, replace = TRUE),
@@ -41,18 +42,20 @@ df_ddict <- function(nm) {
       note = NA_character_
     )
     df2n <- 7L
+    set.seed(2039L)
     df2 <- data.frame(
       varInt = sample(4:6, size = df2n, replace = TRUE),
       varIntish = sample(4:6 + 1e-9, size = df2n, replace = TRUE),
       varDbl = sample(c(12.34, 23.45, 56.78), size = df2n, replace = TRUE),
-      varChar = sample(letters[4:6], size = df2n, replace = TRUE),
+      varChar = sample(letters[4:6],
+        size = df2n, prob = c(0.5, 0.3, 0.2),
+        replace = TRUE
+      ),
       varDate = as.Date(sample(c("2020-01-31", "2021-06-30", "2023-12-31"),
         size = df2n, replace = TRUE
       )),
-      varPOSIXct = as.POSIXct(sample(c("2020-01-31", "2021-06-30", "2023-12-31"),
-        size = df2n, replace = TRUE
-      )),
-      varFactor = as.factor(sample(LETTERS[4:6], size = df2n, replace = TRUE))
+      varPOSIXct = as.POSIXct("2020-01-31") + seq_len(df2n),
+      varFactor = as.factor(paste("Alpha", letters[seq_len(df2n)], sep = "-"))
     )
     ddict2 <- data.frame(
       table = "df2",
@@ -89,6 +92,7 @@ df_ddict <- function(nm) {
       note = NA_character_
     )
     df3n <- 9L
+    set.seed(2063L)
     df3 <- data.frame(
       varInt = sample(4:6, size = df3n, replace = TRUE),
       varIntish = sample(4:6 + 1e-9, size = df3n, replace = TRUE),
