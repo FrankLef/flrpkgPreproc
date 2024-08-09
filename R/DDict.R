@@ -10,6 +10,7 @@
 #'    \item{status_base_fn}{Base file name to export status, Default is \emph{ddict_status_raw}.}
 #'    \item{data_fn}{Full file name to export the ddict data.}
 #'    \item{status_fn}{Full file name to export the ddict status.}
+#'    \item{ext}{Extension fo as a suffix to file names. Default is \emph{"xlsx"}.}
 #'    \item{dtypes}{Character vector of data types allowed by \code{DDict}.
 #'    Read-only property.}
 #' }
@@ -60,6 +61,10 @@ DDict <- S7::new_class("DDict",
       class = S7::class_character,
       default = getwd()
     ),
+    ext = S7::new_property(
+      class = S7::class_character,
+      default = "xlsx"
+    ),
     data_base_fn = S7::new_property(
       class = S7::class_character,
       default = "ddict_raw"
@@ -71,14 +76,20 @@ DDict <- S7::new_class("DDict",
     data_fn = S7::new_property(
       class = S7::class_character,
       getter = function(self) {
-        fn <- paste0(paste(self@data_base_fn, Sys.Date(), sep = "_"), ".xlsx")
+        fn <- paste0(
+          paste(self@data_base_fn, Sys.Date(), sep = "_"),
+          ".", self@ext
+        )
         file.path(self@data_path, fn)
       }
     ),
     status_fn = S7::new_property(
       class = S7::class_character,
       getter = function(self) {
-        fn <- paste0(paste(self@status_base_fn, Sys.Date(), sep = "_"), ".xlsx")
+        fn <- paste0(
+          paste(self@status_base_fn, Sys.Date(), sep = "_"),
+          ".", self@ext
+        )
         file.path(self@data_path, fn)
       }
     ),
@@ -177,7 +188,8 @@ DDict <- S7::new_class("DDict",
       DDict,
       data = data,
       data_path = getwd(),
-      data_base_fn = "ddict_data",
+      ext = "xlsx",
+      data_base_fn = "ddict",
       status_base_fn = "ddict_status"
     )
   }

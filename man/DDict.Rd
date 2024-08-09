@@ -24,6 +24,7 @@ Create data Dictionary with the following properties.
 \item{status_base_fn}{Base file name to export status, Default is \emph{ddict_status_raw}.}
 \item{data_fn}{Full file name to export the ddict data.}
 \item{status_fn}{Full file name to export the ddict status.}
+\item{ext}{Extension fo as a suffix to file names. Default is \emph{"xlsx"}.}
 \item{dtypes}{Character vector of data types allowed by \code{DDict}.
 Read-only property.}
 }
