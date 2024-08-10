@@ -83,7 +83,7 @@ S7::method(ddict_cast, DDict) <- function(
   if (!nrow(ddict)) {
     msg_head <- cli::col_yellow("There is no data type to cast.")
     msg_body <- c(
-      "!" = sprintf("Table: %s", table_nm),
+      "i" = sprintf("Table: %s", table_nm),
       "i" = "Verify the dtype column in the data dictionary.",
       "i" = "Input data is returned as is."
     )
