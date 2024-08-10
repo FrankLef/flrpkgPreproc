@@ -1,10 +1,10 @@
-test_that("clean_cols_uniq", {
-  df <- df_clean_cols_uniq("data")
+test_that("clean_cols_constant", {
+  df <- df_clean_cols_constant("data")
 
   out <- df |>
-    clean_cols_uniq()
+    clean_cols_constant()
 
-  target <- df_clean_cols_uniq("target")
+  target <- df_clean_cols_constant("target")
   expect_identical(out, target)
 })
 

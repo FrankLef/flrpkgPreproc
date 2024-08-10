@@ -1,4 +1,4 @@
-df_clean_cols_uniq <- function(nm) {
+df_clean_cols_constant <- function(nm) {
   lst <- list()
   lst$data <- data.frame(
     varDate = as.Date(c(

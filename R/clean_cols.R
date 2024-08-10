@@ -1,9 +1,9 @@
-#' Find Variables With Unique Value
+#' Find Variables With a constant Value
 #'
-#' Find Variables with unique value.
+#' Find Variables with a constant value.
 #'
-#' Find Variables with unique value. A named integer() will be returned with
-#' the names and positions of the columns having a unique value.
+#' A named integer() will be returned with
+#' the names and positions of the columns having a constant value.
 #'
 #' @param data Data frame.
 #'
@@ -14,7 +14,7 @@
 #' \dontrun{
 #' TODO
 #' }
-clean_cols_uniq <- function(data) {
+clean_cols_constant <- function(data) {
   nms <- sapply(data, FUN = \(x) {
     (sum(!duplicated(x)) == 1L)
   })
