@@ -40,7 +40,7 @@ test_that("ddict_uniq: error", {
   # print(str(df2))
 
   expect_error(ddict_uniq(ddict, data = df2, role_rgx = r"(\buniq\b)"),
-               class = "ValueError",
-               regexp = "There is no column identified as unique"
+    class = "ValueError",
+    regexp = "There is no column identified as unique"
   )
 })

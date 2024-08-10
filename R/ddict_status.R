@@ -77,4 +77,3 @@ S7::method(ddict_status, DDict) <- function(
 
   status_df
 }
-

@@ -98,9 +98,9 @@ S7::method(ddict_cast, DDict) <- function(
   for (var in ddict$name) {
     a_dtype <- ddict$dtype[ddict$name == var]
     data <- cast_data(object, data,
-                      var = var,
-                      dtype = a_dtype,
-                      table_nm = table_nm
+      var = var,
+      dtype = a_dtype,
+      table_nm = table_nm
     )
   }
 

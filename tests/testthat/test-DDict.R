@@ -23,17 +23,14 @@ test_that("DDict: dtypes property", {
 test_that("DDict: File name properties", {
   ddict <- DDict()
   ext <- "xlsx"
-  # print(ddict@data_path)
-  # print(ddict@data_base_fn)
-  # print(ddict@status_base_fn)
 
   # data file name
-  fn <- paste0(paste("ddict", Sys.Date(), sep = "_"), ".", ext)
+  fn <- paste0(paste("ddict_raw", Sys.Date(), sep = "_"), ".", ext)
   target <- file.path(getwd(), fn)
   expect_identical(ddict@data_fn, target)
 
   # status file name
-  fn <- paste0(paste("ddict_status", Sys.Date(), sep = "_"), ".", ext)
+  fn <- paste0(paste("ddict_status_raw", Sys.Date(), sep = "_"), ".", ext)
   target <- file.path(getwd(), fn)
   expect_identical(ddict@status_fn, target)
 })

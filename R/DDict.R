@@ -57,22 +57,10 @@ DDict <- S7::new_class("DDict",
         )
       }
     ),
-    data_path = S7::new_property(
-      class = S7::class_character,
-      default = getwd()
-    ),
-    ext = S7::new_property(
-      class = S7::class_character,
-      default = "xlsx"
-    ),
-    data_base_fn = S7::new_property(
-      class = S7::class_character,
-      default = "ddict_raw"
-    ),
-    status_base_fn = S7::new_property(
-      class = S7::class_character,
-      default = "ddict_status_raw"
-    ),
+    data_path = S7::class_character,
+    ext = S7::class_character,
+    data_base_fn = S7::class_character,
+    status_base_fn = S7::class_character,
     data_fn = S7::new_property(
       class = S7::class_character,
       getter = function(self) {
@@ -93,9 +81,7 @@ DDict <- S7::new_class("DDict",
         file.path(self@data_path, fn)
       }
     ),
-    data = S7::new_property(
-      class = S7::class_data.frame
-    )
+    data = S7::class_data.frame
   ),
   validator = function(self) {
     vars <- c(
@@ -189,8 +175,8 @@ DDict <- S7::new_class("DDict",
       data = data,
       data_path = getwd(),
       ext = "xlsx",
-      data_base_fn = "ddict",
-      status_base_fn = "ddict_status"
+      data_base_fn = "ddict_raw",
+      status_base_fn = "ddict_status_raw"
     )
   }
 )
