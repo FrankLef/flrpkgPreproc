@@ -70,5 +70,5 @@ S7::method(ddict_prune_cols, DDict) <- function(
   }
 
   data |>
-    dplyr::select(tidyselect::any_of(to_remove))
+    dplyr::select(!tidyselect::all_of(to_remove))
 }

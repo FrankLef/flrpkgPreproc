@@ -13,7 +13,7 @@ test_that("ddict_prune_cols: remove cols", {
   # cat("\n", "out", "\n")
   # print(out)
 
-  expect_identical(length(df2) - length(out), 4L)
+  expect_identical(length(df2) - length(out), 3L)
 })
 
 test_that("ddict_prune_cols: Warning", {
