@@ -830,7 +830,7 @@ S7::method(ddict_status, DDict) <- function(
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame with variables to test for uniqueness.}
-#'    \item{uniq_rgx}{Reguular expression to select variables with this role.
+#'    \item{role_rgx}{Reguular expression to select variables with this role.
 #'    Default value is \code{r"(\buniq\b)"}.}
 #'    \item{table_nm}{Name of the table.}
 #' }
@@ -847,14 +847,14 @@ S7::method(ddict_status, DDict) <- function(
 ddict_uniq <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(ddict_uniq, DDict) <- function(
-    object, data, uniq_rgx = r"(\buniq\b)", table_nm = deparse1(substitute(data))) {
+    object, data, role_rgx = r"(\buniq\b)", table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data, min.cols = 1)
-  checkmate::assert_string(uniq_rgx, min.chars = 1)
+  checkmate::assert_string(role_rgx, min.chars = 1)
   checkmate::assert_string(table_nm, min.chars = 1)
 
 
   cols <- object@data |>
-    dplyr::filter(table == table_nm, grepl(pattern = uniq_rgx, x = role)) |>
+    dplyr::filter(table == table_nm, grepl(pattern = role_rgx, x = role)) |>
     dplyr::pull(name)
 
 
@@ -862,7 +862,7 @@ S7::method(ddict_uniq, DDict) <- function(
     msg_head <- cli::col_red("There is no column identified as unique.")
     msg_body <- c(
       "x" = sprintf("Table: %s", table_nm),
-      "x" = sprintf("Uniq rgx : %s", uniq_rgx),
+      "x" = sprintf("Role rgx : %s", role_rgx),
       "!" = "Verify the uniq regex in argument and the `role` column in data."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")

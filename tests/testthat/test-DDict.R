@@ -482,7 +482,7 @@ test_that("ddict_uniq: test uniqueness", {
   df2 <- df_ddict(nm = "df2")
   # cat("\n", "df2", "\n")
   # print(str(df2))
-  out <- ddict_uniq(ddict, data = df2, uniq_rgx = r"(\buniq\b)")
+  out <- ddict_uniq(ddict, data = df2, role_rgx = r"(\buniq\b)")
   # cat("\n", "out", "\n")
   # print(out)
 
@@ -509,7 +509,7 @@ test_that("ddict_uniq: error", {
   # cat("\n", "df2", "\n")
   # print(str(df2))
 
-  expect_error(ddict_uniq(ddict, data = df2, uniq_rgx = r"(\buniq\b)"),
+  expect_error(ddict_uniq(ddict, data = df2, role_rgx = r"(\buniq\b)"),
     class = "ValueError",
     regexp = "There is no column identified as unique"
   )
