@@ -12,6 +12,8 @@ ddict_prune_cols(object, ...)
 \item{...}{Additional arguments used by methods. Such as
 \describe{
 \item{data}{Data.frame with variables to rename.}
+\item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
+\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
 \item{table_nm}{Name of table.}
 }}
 }

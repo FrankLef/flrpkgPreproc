@@ -11,6 +11,8 @@
 #' @param ... Additional arguments used by methods. Such as
 #' \describe{
 #'    \item{data}{Data.frame with variables to rename.}
+#'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
+#' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
 #'    \item{table_nm}{Name of table.}
 #' }
 #'
@@ -25,11 +27,17 @@
 ddict_prune_cols <- S7::new_generic("DDict", dispatch_args = "object")
 
 S7::method(ddict_prune_cols, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data))) {
+    object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
   checkmate::assert_data_frame(data)
   checkmate::assert_string(table_nm, min.chars = 1)
 
   ddict <- ddict_table(object, table_nm = table_nm)
+
+  if (is_raw_nm) {
+    ddict <- ddict |>
+      dplyr::select(-name) |>
+      dplyr::rename(name = raw_name)
+  }
 
   no_role <- ddict |>
     dplyr::filter(is.na(role) | (nchar(role) == 0L)) |>
@@ -57,7 +65,7 @@ S7::method(ddict_prune_cols, DDict) <- function(
     msg_head <- "At least 1 column must be left in the data."
     msg_head <- cli::col_red(msg_head)
     msg_body <- c(
-      "!" = "Too many columns are being removed.",
+      "!" = "Verify the settings of `is_raw_nm`.",
       "x" = sprintf("Table: %s", table_nm),
       "x" = sprintf("Nb of columns in the data: %d", the_names_n),
       "x" = sprintf("Nb of columns to be removed: %d", to_remove_n)
