@@ -25,7 +25,7 @@ The goal of `flrpkgPreproc` is to provide for functions and objects used for pre
 
 You can install the development version of `flrpkgPreproc` from [GitHub](https://github.com/) with:
 
-``` r
-# install.packages("pak")
+``` {r eval=FALSE}
+install.packages("pak")
 pak::pkg_install("https://github.com/FrankLef/flrpkgPreproc.git")
 ```
