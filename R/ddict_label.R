@@ -44,18 +44,18 @@ S7::method(ddict_label, DDict) <- function(
   # print(ddict)
 
   if (!is_raw_nm) {
-    lbl <- ddict |>
+    ddict <- ddict |>
       dplyr::select(name, label)
   } else {
-    lbl <- ddict |>
+    ddict <- ddict |>
       dplyr::select(raw_name, label) |>
       dplyr::rename(name = raw_name)
   }
 
-  lbl <- lbl |>
+  ddict <- ddict |>
     dplyr::filter(name %in% names(data))
 
-  if (!nrow(lbl)) {
+  if (!nrow(ddict)) {
     msg_head <- cli::col_red("The variables to label where not found in the data.")
     msg_body <- c(
       "x" = sprintf("Table: %s", table_nm),
@@ -69,12 +69,12 @@ S7::method(ddict_label, DDict) <- function(
     )
   }
 
-  lbl <- lbl |>
+  ddict <- ddict |>
     dplyr::filter(nchar(label) >= 1L, !is.na(label))
-  # cat("\n", "ddict_label: lbl", "\n")
-  # print(lbl)
+  # cat("\n", "ddict_label: ddict", "\n")
+  # print(ddict)
 
-  if (!nrow(lbl)) {
+  if (!nrow(ddict)) {
     msg_head <- cli::col_yellow("There is no label to apply.")
     msg_body <- c(
       "!" = sprintf("Table: %s", table_nm),
@@ -88,8 +88,8 @@ S7::method(ddict_label, DDict) <- function(
     return(data)
   }
 
-  the_labels <- as.list(lbl$label)
-  names(the_labels) <- lbl$name
+  the_labels <- as.list(ddict$label)
+  names(the_labels) <- ddict$name
   labelled::var_label(data) <- the_labels
 
   data
