@@ -3,6 +3,7 @@
 export(CScaler)
 export(CScaler_do)
 export(DDict)
+export(TDict)
 export(clean_NA)
 export(clean_cols_constant)
 export(clean_cols_nzv)

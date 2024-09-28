@@ -1,4 +1,4 @@
-test_that("DDict: data property", {
+test_that("DDict: Create", {
   ddict1_df <- df_ddict(nm = "ddict1")
   ddict <- DDict(ddict1_df)
 

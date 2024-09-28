@@ -1,16 +1,16 @@
-#' Create a data dictionary
+#' Create a Data Dictionary
 #'
-#' Create a data Dictionary.
+#' Create a data dictionary.
 #'
 #' Create data Dictionary with the following properties.
 #' \describe{
 #'    \item{data}{Dataframe of info on the variables. See details.}
-#'    \item{data_path}{Path where files are saved and set as \code{getwd()}.}
+#'    \item{data_path}{Path where the dictionary is saved, set to \code{getwd()}.}
 #'    \item{data_base_fn}{Base file name to export data. Default is \emph{ddict_raw}.}
 #'    \item{status_base_fn}{Base file name to export status, Default is \emph{ddict_status_raw}.}
-#'    \item{data_fn}{Full file name to export the ddict data.}
-#'    \item{status_fn}{Full file name to export the ddict status.}
 #'    \item{ext}{Extension fo as a suffix to file names. Default is \emph{"xlsx"}.}
+#'    \item{data_fn}{Full file name to export the \emph{ddict} data.}
+#'    \item{status_fn}{Full file name to export the \emph{ddict} status.}
 #'    \item{dtypes}{Character vector of data types allowed by \code{DDict}.
 #'    Read-only property.}
 #' }
