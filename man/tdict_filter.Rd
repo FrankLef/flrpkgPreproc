@@ -11,6 +11,7 @@ tdict_filter(object, ...)
 
 \item{...}{Additional arguments used by methods. Such as
 \describe{
+\item{type_rgx}{Regular expression to filter \strong{type}.}
 \item{role_rgx}{Regular expression to filter \strong{role}.}
 \item{process_rgx}{Regular expression to filter \strong{process}.}
 \item{rule_rgx}{Regular expression to filter \strong{rule}.}
@@ -24,7 +25,8 @@ Filter from a \code{TDict}.
 }
 \details{
 The records are filtered using regular expressions. If no criteria is
-provided for \strong{role}, \strong{process} and \strong{rule}, the full data is returned.
+provided for \strong{type},  \strong{role}, \strong{process} or \strong{rule}, the full data
+is returned.
 }
 \examples{
 \dontrun{

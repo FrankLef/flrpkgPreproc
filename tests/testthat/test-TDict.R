@@ -37,6 +37,11 @@ test_that("ddict_filter: Filter data dict", {
   # print(out)
   expect_identical(dim(out), dim(tdict1_df))
 
+  out <- tdict_filter(tdict, type_rgx = "xlsx")
+  # cat("\n", "out", "\n")
+  # print(out)
+  expect_identical(dim(out), c(1L, length(tdict1_df)))
+
   out <- tdict_filter(tdict, role_rgx = r"(\bdim\b)")
   # cat("\n", "out", "\n")
   # print(out)
@@ -54,7 +59,7 @@ test_that("ddict_filter: Filter data dict", {
 
   out <- tdict_filter(
     tdict,
-    role_rgx = r"(\bdim\b)", process_rgx = r"(\bload\b)"
+    type_rgx = "accdb", role_rgx = r"(\bdim\b)", process_rgx = r"(\bload\b)"
   )
   # cat("\n", "out", "\n")
   # print(out)
