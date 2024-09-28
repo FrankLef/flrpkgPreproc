@@ -153,3 +153,45 @@ TDict <- S7::new_class("TDict",
     )
   }
 )
+
+
+#' Data From a \code{TDict}
+#'
+#' Data from a \code{TDict}.
+#'
+#' An error message is returned if no data is available.
+#'
+#' @name tdict_table
+#'
+#' @param object Object of class \code{TDict}.
+#' @param ... Additional arguments used by methods.
+#'
+#' @return \code{data} from \code{TDict} object.
+#'
+#' @importFrom dplyr filter
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
+tdict_table <- S7::new_generic("TDict", dispatch_args = "object")
+
+S7::method(tdict_table, TDict) <- function(object) {
+  data <- object@data
+
+  if (!nrow(data)) {
+    msg_head <- cli::col_red("The table dictionary is empty.")
+    msg_body <- c(
+      "x" = "There is nothing in the data dictionary."
+    )
+    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    rlang::abort(
+      message = msg,
+      class = "ValueError"
+    )
+  }
+
+  data
+}

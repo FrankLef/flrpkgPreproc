@@ -15,6 +15,17 @@ test_that("TDict: File name properties", {
   expect_identical(tdict@data_fn, target)
 })
 
+test_that("tdict_table: ERROR", {
+  # testthat::skip("debug")
+  tdict <- TDict() # empty dictionary
+
+  expect_error(tdict_table(tdict),
+    class = "ValueError",
+    regexp = "The table dictionary is empty"
+  )
+})
+
+
 test_that("ddict_filter: Filter data dict", {
   # testthat::skip("debug")
   tdict1_df <- df_tdict(nm = "tdict1")
@@ -52,12 +63,6 @@ test_that("ddict_filter: Filter data dict", {
 
 test_that("tdict_filter: ERROR", {
   # testthat::skip("debug")
-  tdict <- TDict() # empty dictionary
-
-  expect_error(tdict_filter(tdict, process_rgx = r"(\bload\b)"),
-    class = "ValueError",
-    regexp = "The table dictionary is empty"
-  )
 
   tdict1_df <- df_tdict(nm = "tdict1")
   tdict <- TDict(tdict1_df)
