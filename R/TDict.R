@@ -20,6 +20,7 @@
 #'    \item{table}{Name of query/table (database) or spreadsheet (excel).}
 #'    \item{name}{Name of table.}
 #'    \item{raw_name}{Import name of table. Usually begins with \emph{raw_"}.}
+#'    \item{label}{Label for the table.}
 #'    \item{type}{Source type of raw data. e.g. \emph{accdb}, \emph{xlsx}, etc.}
 #'    \item{role}{String to identify the role of the table.}
 #'    \item{process}{Text to identify how to process the table}
@@ -59,10 +60,9 @@ TDict <- S7::new_class("TDict",
     vars <- c(
       "path" = "character", "file" = "character",
       "table" = "character", "name" = "character",
-      "raw_name" = "character", "type" = "character",
-      "role" = "character", "process" = "character",
-      "rule" = "character", "desc" = "character",
-      "note" = "character"
+      "raw_name" = "character", "label" = "character", "type" = "character",
+      "role" = "character", "process" = "character", "rule" = "character",
+      "desc" = "character", "note" = "character"
     )
     check <- checkmate::check_data_frame(
       self@data,
@@ -135,6 +135,7 @@ TDict <- S7::new_class("TDict",
         table = character(),
         name = character(),
         raw_name = character(),
+        label = character(),
         type = character(),
         role = character(),
         process = character(),

@@ -7,9 +7,10 @@ df_tdict <- function(nm) {
       table = c("qryx_dim_clients", "qryx_projects", "tbl_data"),
       name = c("clients", "projects", "data"),
       raw_name = c("raw_clients", "raw_projects", "raw_data"),
+      label = c("Clients", "Projects", "Test Data"),
       type = c("accdb", "accdb", "xlsx"),
-      role = c("dim", "trx", NA_character_),
-      process = c(NA_character_, "process1", NA_character_),
+      role = c("dim", "trx", "test"),
+      process = c("load", NA_character_, "load"),
       rule = c("rule_set1", NA_character_, NA_character_),
       desc = NA_character_,
       note = NA_character_

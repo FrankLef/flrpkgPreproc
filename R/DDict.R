@@ -182,59 +182,6 @@ DDict <- S7::new_class("DDict",
 )
 
 
-#' Extract information about data to a \code{DDict}
-#'
-#' Extract information about data to a \code{DDict}.
-#'
-#' The information will be stored in an object of class \code{DDict}.
-#'
-#' @name ddict_extract
-#'
-#' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{data}{Data.frame from which to extract the variables' details.}
-#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
-#'    is from a function argument.}
-#' }
-#'
-#' @return Object of class \code{DDict}.
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' TODO
-#' }
-ddict_extract <- S7::new_generic("DDict", dispatch_args = "object")
-
-S7::method(ddict_extract, DDict) <- function(
-    object, data, table_nm = deparse1(substitute(data))) {
-  checkmate::assert_data_frame(data)
-  checkmate::assert_string(table_nm, min.chars = 1)
-  # cat("\n", "table", "\n")
-  # print(the_table)
-  # cat("\n", "variables", "\n")
-  the_variables <- sapply(X = data, FUN = \(x) class(x)[1])
-  # print(the_variables)
-  df <- data.frame(
-    table = table_nm,
-    raw_name = names(the_variables),
-    name = names(the_variables),
-    label = NA_character_,
-    raw_dtype = unname(the_variables),
-    dtype = unname(the_variables),
-    role = NA_character_,
-    process = NA_character_,
-    rule = NA_character_,
-    desc = NA_character_,
-    note = NA_character_
-  )
-  new_data <- rbind(object@data, df)
-  DDict(new_data)
-}
-
-
 #' Data about a table from a \code{DDict}
 #'
 #' Data about a table from a \code{DDict}.
@@ -273,6 +220,7 @@ S7::method(ddict_table, DDict) <- function(object, table_nm) {
       "x" = sprintf("Table: %s", table_nm)
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
+    # cat("\n", msg, "\n")
     rlang::abort(
       message = msg,
       class = "ValueError"
@@ -280,74 +228,4 @@ S7::method(ddict_table, DDict) <- function(object, table_nm) {
   }
 
   data
-}
-
-
-#' Filter from a \code{DDict}
-#'
-#' Filter from a \code{DDict}.
-#'
-#' The records are filtered using regular expressions. If no criteria is
-#' provided for **role**, **process** and **rule**, the full data is returned.
-#'
-#' @name ddict_filter
-#'
-#' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{table_nm}{Compulsory name of the table..}
-#'    \item{role_rgx}{Regular expression to filter **role**.}
-#'    \item{process_rgx}{Regular expression to filter **process**.}
-#'    \item{rule_rgx}{Regular expression to filter **rule**.}
-#' }
-#'
-#' @return \code{data} from \code{DDict} object.
-#'
-#' @importFrom dplyr filter
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' TODO
-#' }
-ddict_filter <- S7::new_generic("DDict", dispatch_args = "object")
-
-S7::method(ddict_filter, DDict) <- function(
-    object, table_nm = "", role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
-  checkmate::assert_string(table_nm, min.chars = 1)
-  checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
-  checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
-  checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
-
-  ddict <- ddict_table(object, table_nm = table_nm)
-
-  params <- c("role" = role_rgx, "process" = process_rgx, "rule" = rule_rgx)
-  for (nm in names(params)) {
-    rgx <- params[nm]
-    if (!is.na(rgx)) {
-      ddict <- filter(ddict, grepl(pattern = rgx, x = .data[[nm]]))
-    } else {
-      ddict <- filter(ddict, is.na(.data[[nm]]))
-    }
-  }
-
-
-  if (!nrow(ddict)) {
-    msg_head <- cli::col_red("No records returned from the data dictionary.")
-    msg_body <- c(
-      "i" = "Verify the regular expressions used to filter the data.",
-      "x" = sprintf("table name: %s", table_nm),
-      "x" = sprintf("role regex: %s", role_rgx),
-      "x" = sprintf("process regex: %s", process_rgx),
-      "x" = sprintf("rule regex: %s", rule_rgx)
-    )
-    msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::abort(
-      message = msg,
-      class = "ValueError"
-    )
-  }
-
-  ddict
 }

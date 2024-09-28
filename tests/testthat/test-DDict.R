@@ -81,7 +81,41 @@ test_that("DDict: Validate DDict@data", {
 })
 
 
+test_that("ddict_table: Table's data from a DDict", {
+  # testthat::skip("debug")
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
+
+  # cat("\n", "ddict@data", "\n")
+  # print(ddict@data)
+
+  out <- ddict_table(ddict, table_nm = "df3")
+  # cat("\n", "out", "\n")
+  # print(out)
+
+  # testthat::skip("debug")
+  expect_identical(out, ddict@data)
+})
+
+
+
+test_that("ddict_table: ERROR", {
+  # testthat::skip("debug")
+  ddict_df <- df_ddict(nm = "ddict3")
+  ddict <- DDict(ddict_df)
+  # cat("\n", "ddict@data", "\n")
+  # print(ddict@data)
+
+  expect_error(
+    ddict_table(ddict, table_nm = "ERROR"),
+    class = "ValueError",
+    regexp = "No records returned from the data dictionary"
+  )
+})
+
+
 test_that("ddict_filter: Filter data dict", {
+  # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict2")
   ddict <- DDict(ddict_df)
 
@@ -111,6 +145,7 @@ test_that("ddict_filter: Filter data dict", {
 })
 
 test_that("ddict_filter: ERROR", {
+  # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict <- DDict(ddict_df)
 
@@ -156,37 +191,5 @@ test_that("ddict_extract: ERROR extract data in DDict", {
     ddict_extract(out, df1),
     class = "ValueError",
     regexp = ".*has.+duplicate records.*"
-  )
-})
-
-test_that("ddict_table: Table's data from a DDict", {
-  # testthat::skip("debug")
-  ddict_df <- df_ddict(nm = "ddict3")
-  ddict <- DDict(ddict_df)
-
-  # cat("\n", "ddict@data", "\n")
-  # print(ddict@data)
-
-  out <- ddict_table(ddict, table_nm = "df3")
-  # cat("\n", "out", "\n")
-  # print(out)
-
-  # testthat::skip("debug")
-  expect_identical(out, ddict@data)
-})
-
-
-
-test_that("ddict_table: ERROR", {
-  # testthat::skip("debug")
-  ddict_df <- df_ddict(nm = "ddict3")
-  ddict <- DDict(ddict_df)
-  # cat("\n", "ddict@data", "\n")
-  # print(ddict@data)
-
-  expect_error(
-    ddict_table(ddict, table_nm = "ERROR"),
-    class = "ValueError",
-    regexp = "No records returned from the data dictionary"
   )
 })

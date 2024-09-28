@@ -35,6 +35,7 @@ The \code{data} property is a data.frame with:
 \item{table}{Name of query/table (database) or spreadsheet (excel).}
 \item{name}{Name of table.}
 \item{raw_name}{Import name of table. Usually begins with \emph{raw_"}.}
+\item{label}{Label for the table.}
 \item{type}{Source type of raw data. e.g. \emph{accdb}, \emph{xlsx}, etc.}
 \item{role}{String to identify the role of the table.}
 \item{process}{Text to identify how to process the table}
