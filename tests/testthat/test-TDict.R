@@ -15,9 +15,10 @@ test_that("TDict: File name properties", {
   expect_identical(tdict@data_fn, target)
 })
 
-test_that("tdict_table: ERROR", {
+test_that("tdict_tabl: ERROR.", {
   # testthat::skip("debug")
   tdict <- TDict() # empty dictionary
+
 
   expect_error(tdict_table(tdict),
     class = "ValueError",
