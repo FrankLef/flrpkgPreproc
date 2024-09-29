@@ -22,6 +22,39 @@ tdict_read_xl <- function(path, file = "tdict.xlsx", sheet = "data") {
 }
 
 
+#' Create \code{TDict} Object From Filtered Data in Excel
+#'
+#' Create \code{TDict} object from filtered data in Excel.
+#'
+#' Read an Excel file and load it into an object of class \code{TDict}. The data
+#' is filtered on column \code{process} with \emph{load}.
+#'
+#' @param path Path where the excel is located.
+#' @param file Name of the excel file. Default is \emph{tdict.xlsx}.
+#' @param sheet Name of Excel sheet. Default is \emph{data}.
+#' @param process String used to filter the \code{process} column. Default
+#'   to \emph{load}.
+#'
+#' @return Object of class \code{TDict}.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
+tdict_read_xl_trim <- function(
+    path, file = "tdict.xlsx", sheet = "data", process = "load") {
+  fn <- file.path(path, file)
+  df <- readxl::read_xlsx(fn, sheet = sheet, col_types = "text")
+  df <- df |>
+    dplyr::filter(grepl(pattern = r"(\bload\b)", x = process, ignore.case = TRUE))
+  assertthat::assert_that(nrow(df) != 0, msg = "The tdict data is empty.")
+  TDict(df)
+}
+
+
+
+
 #' Write Data from \code{DDict} to Excel
 #'
 #' Write data from \code{DDict} to Excel.
