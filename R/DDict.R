@@ -208,10 +208,14 @@ DDict <- S7::new_class("DDict",
 #' }
 ddict_table <- S7::new_generic("DDict", dispatch_args = "object")
 
-S7::method(ddict_table, DDict) <- function(object, table_nm) {
-  checkmate::assert_string(table_nm, min.chars = 1)
+S7::method(ddict_table, DDict) <- function(object, table_nm = NULL) {
+  checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
 
-  data <- dplyr::filter(object@data, table == table_nm)
+  if (!is.null(table_nm)) {
+    data <- dplyr::filter(object@data, table == table_nm)
+  } else {
+    data <- object@data
+  }
 
   if (!nrow(data)) {
     msg_head <- cli::col_red("No records returned from the data dictionary.")
