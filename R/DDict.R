@@ -182,7 +182,16 @@ DDict <- S7::new_class("DDict",
 )
 
 
-#' Data about a table from a \code{DDict}
+ddict_table <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(object, ..., table_nm = NULL) {
+    checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
+    S7::S7_dispatch()
+  }
+)
+
+#' Data About a Table from a \code{DDict}
 #'
 #' Data about a table from a \code{DDict}.
 #'
@@ -191,26 +200,17 @@ DDict <- S7::new_class("DDict",
 #' @name ddict_table
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{table_nm}{Name of the table.}
-#' }
+#' @param table_nm Table name used to filter the dictionary. If \code{NULL}
+#'  then all the data for all tables is returned. Default value is \code{NULL}.
 #'
 #' @return \code{data} from \code{DDict} object.
-#'
-#' @importFrom dplyr filter
-#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_table <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_table, DDict) <- function(object, table_nm = NULL) {
-  checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
-
   if (!is.null(table_nm)) {
     data <- dplyr::filter(object@data, table == table_nm)
   } else {

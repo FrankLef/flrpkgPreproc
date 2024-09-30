@@ -46,4 +46,3 @@ ddict_write_xl <- function(object, path, file = "ddict.xlsx", sheet = "data") {
   writexl::write_xlsx(list("data" = df), path = fn)
   fn
 }
-

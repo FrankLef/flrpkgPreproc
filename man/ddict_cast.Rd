@@ -3,23 +3,20 @@
 \name{ddict_cast}
 \alias{ddict_cast}
 \title{Cast data types of columns using a \code{DDict}}
-\usage{
-ddict_cast(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
-\item{data}{Data.frame with variables to label.}
-\item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
-\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
+\item{data}{Data.frame with variables to cast to a data type.}
+
+\item{is_raw_nm}{\code{FALSE} = use the \code{name} from
+\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}. Default
+is \code{FALSE}.}
+
 \item{table_nm}{Name of table. Used when doing loop or when \code{data}
 is from a function argument.}
-}}
 }
 \value{
-\code{data} with new data types..
+\code{data} with new data types.
 }
 \description{
 Cast data types of columns using a \code{DDict}.
@@ -33,4 +30,7 @@ done When \code{dtype} is \code{NA} or empty and a warning is issued.
 \dontrun{
 TODO
 }
+}
+\seealso{
+\code{\link[=cast_data]{cast_data()}}
 }

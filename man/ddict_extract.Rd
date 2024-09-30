@@ -3,18 +3,13 @@
 \name{ddict_extract}
 \alias{ddict_extract}
 \title{Extract information about data to a \code{DDict}}
-\usage{
-ddict_extract(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
 \item{data}{Data.frame from which to extract the variables' details.}
+
 \item{table_nm}{Name of table. Used when doing loop or when \code{data}
 is from a function argument.}
-}}
 }
 \value{
 Object of class \code{DDict}.

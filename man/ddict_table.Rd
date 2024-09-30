@@ -2,17 +2,12 @@
 % Please edit documentation in R/DDict.R
 \name{ddict_table}
 \alias{ddict_table}
-\title{Data about a table from a \code{DDict}}
-\usage{
-ddict_table(object, ...)
-}
+\title{Data About a Table from a \code{DDict}}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
-\item{table_nm}{Name of the table.}
-}}
+\item{table_nm}{Table name used to filter the dictionary. If \code{NULL}
+then all the data for all tables is returned. Default value is \code{NULL}.}
 }
 \value{
 \code{data} from \code{DDict} object.

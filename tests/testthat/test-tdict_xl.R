@@ -16,4 +16,3 @@ test_that("tdict_write_xl", {
   expect_identical(out, fn)
   file.remove(fn)
 })
-

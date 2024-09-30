@@ -1,3 +1,16 @@
+ddict_cast <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(
+      object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
+    checkmate::assert_data_frame(data)
+    checkmate::assert_flag(is_raw_nm)
+    checkmate::assert_string(table_nm, min.chars = 1)
+    S7::S7_dispatch()
+  }
+)
+
+
 #' Cast data types of columns using a \code{DDict}
 #'
 #' Cast data types of columns using a \code{DDict}.
@@ -9,34 +22,24 @@
 #' @name ddict_cast
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{data}{Data.frame with variables to label.}
-#'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
-#' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
-#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
-#'    is from a function argument.}
-#' }
+#' @param data Data.frame with variables to cast to a data type.
+#' @param is_raw_nm \code{FALSE} = use the \code{name} from
+#'   \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}. Default
+#'  is \code{FALSE}.
+#' @param table_nm Name of table. Used when doing loop or when \code{data}
+#'  is from a function argument.
 #'
-#' @return \code{data} with new data types..
+#' @seealso [cast_data()]
 #'
-#' @importFrom forcats as_factor
-#' @importFrom lubridate ymd
-#'
+#' @return \code{data} with new data types.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_cast <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_cast, DDict) <- function(
     object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
-  checkmate::assert_data_frame(data)
-  checkmate::assert_flag(is_raw_nm)
-  checkmate::assert_string(table_nm, min.chars = 1)
-
   the_choices <- object@dtypes
 
   # cat("\n", "ddict_cast: table_nm", "\n")
@@ -97,7 +100,8 @@ S7::method(ddict_cast, DDict) <- function(
 
   for (var in ddict$name) {
     a_dtype <- ddict$dtype[ddict$name == var]
-    data <- cast_data(object, data,
+    data <- cast_data(
+      data,
       var = var,
       dtype = a_dtype,
       table_nm = table_nm
@@ -107,6 +111,7 @@ S7::method(ddict_cast, DDict) <- function(
   data
 }
 
+
 #' Cast data to new data Type
 #'
 #' Cast data to new data type.
@@ -114,16 +119,26 @@ S7::method(ddict_cast, DDict) <- function(
 #' This function is used by \code{ddict_cast()}. When \code{dtype} is invalid,
 #' an error message is issued.
 #'
-#' @param object Object of class \code{DDict}.
 #' @param data Data frame.
 #' @param var Name of the variable to cast.
 #' @param dtype Name of data type.
 #' @param table_nm Name of table. Only used by error message.
 #'
-#' @seealso ddict_cast
+#' @seealso [ddict_cast()]
 #'
 #' @return \code{data} with new data type.
-cast_data <- function(object, data, var, dtype, table_nm) {
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
+cast_data <- function(data, var, dtype, table_nm) {
+  checkmate::assert_data_frame(data)
+  checkmate::assert_names(var)
+  checkmate::assert_names(dtype)
+  checkmate::assert_names(table_nm)
+
   out <- data
   if (dtype == "integer") {
     tryCatch(

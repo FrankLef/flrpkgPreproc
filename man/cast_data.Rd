@@ -4,11 +4,9 @@
 \alias{cast_data}
 \title{Cast data to new data Type}
 \usage{
-cast_data(object, data, var, dtype, table_nm)
+cast_data(data, var, dtype, table_nm)
 }
 \arguments{
-\item{object}{Object of class \code{DDict}.}
-
 \item{data}{Data frame.}
 
 \item{var}{Name of the variable to cast.}
@@ -27,6 +25,11 @@ Cast data to new data type.
 This function is used by \code{ddict_cast()}. When \code{dtype} is invalid,
 an error message is issued.
 }
+\examples{
+\dontrun{
+TODO
+}
+}
 \seealso{
-ddict_cast
+\code{\link[=ddict_cast]{ddict_cast()}}
 }
