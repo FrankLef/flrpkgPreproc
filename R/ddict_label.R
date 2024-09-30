@@ -1,3 +1,15 @@
+ddict_label <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(
+    object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
+    checkmate::assert_data_frame(data)
+    checkmate::assert_flag(is_raw_nm)
+    checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
+    S7::S7_dispatch()
+  })
+
+
 #' Set labels to columns using a \code{DDict}
 #'
 #' Set labels to columns using a \code{DDict}.
@@ -9,32 +21,23 @@
 #' @name ddict_label
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{data}{Data.frame with variables to label.}
-#'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
-#' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
-#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
-#'    is from a function argument.}
-#' }
-#'
-#' @return \code{data} with labels added to the columns.
+#' @param data Data.frame with variables to label.
+#' @param is_raw_nm \code{FALSE} = use the \code{name} from
+#' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.
+#' Default is \code{FALSE}.
+#' @param table_nm Table name used to filter the dictionary.
 #'
 #' @importFrom labelled var_label
 #'
+#' @return \code{data} with labels added to the columns.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_label <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_label, DDict) <- function(
     object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
-  checkmate::assert_data_frame(data)
-  checkmate::assert_flag(is_raw_nm)
-  checkmate::assert_string(table_nm, min.chars = 1)
 
   # cat("\n", "ddict_label: table_nm", "\n")
   # print(table_nm)

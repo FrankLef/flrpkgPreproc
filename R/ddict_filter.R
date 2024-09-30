@@ -1,39 +1,45 @@
-#' Filter from a \code{DDict}
+ddict_filter <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(
+    object, ..., table_nm = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+    checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
+    checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
+    checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
+    checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
+    S7::S7_dispatch()
+  })
+
+#' Filter \code{data} from a \code{DDict}
 #'
-#' Filter from a \code{DDict}.
+#' Filter \code{data} from a \code{DDict}.
 #'
 #' The records are filtered using regular expressions. If no criteria is
-#' provided for **role**, **process** and **rule**, the full data is returned.
+#' provided for **table_nm**, **role**, **process** and **rule**, the full
+#' data is returned. When the filter is \code{NA}, rows with \code{NA} are
+#' returned.
 #'
 #' @name ddict_filter
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{table_nm}{Compulsory name of the table.}
-#'    \item{role_rgx}{Regular expression to filter **role**.}
-#'    \item{process_rgx}{Regular expression to filter **process**.}
-#'    \item{rule_rgx}{Regular expression to filter **rule**.}
-#' }
+#' @param table_nm Table name used to filter the dictionary. See details for
+#'   more info.
+#' @param role_rgx Regular expression to filter **role**. See details for more
+#'   info.
+#' @param process_rgx Regular expression to filter **process**. See details for
+#'   more info.
+#' @param rule_rgx Regular expression to filter **rule**. See details for more
+#'   info.
 #'
-#' @return \code{data} from \code{DDict} object.
-#'
-#' @importFrom dplyr filter
-#'
+#' @return Filtered \code{data} from \code{DDict} object.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_filter <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_filter, DDict) <- function(
-    object, table_nm = "", role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
-  checkmate::assert_string(table_nm, min.chars = 1)
-  checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
-  checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
-  checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
+    object, table_nm = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
 
   ddict <- ddict_table(object, table_nm = table_nm)
 
@@ -49,7 +55,7 @@ S7::method(ddict_filter, DDict) <- function(
 
 
   if (!nrow(ddict)) {
-    msg_head <- cli::col_red("No records returned from the data dictionary.")
+    msg_head <- cli::col_red("No records returned from the filtered data dictionary.")
     msg_body <- c(
       "i" = "Verify the regular expressions used to filter the data.",
       "x" = sprintf("table name: %s", table_nm),

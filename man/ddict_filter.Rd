@@ -2,30 +2,33 @@
 % Please edit documentation in R/ddict_filter.R
 \name{ddict_filter}
 \alias{ddict_filter}
-\title{Filter from a \code{DDict}}
-\usage{
-ddict_filter(object, ...)
-}
+\title{Filter \code{data} from a \code{DDict}}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
-\item{table_nm}{Compulsory name of the table.}
-\item{role_rgx}{Regular expression to filter \strong{role}.}
-\item{process_rgx}{Regular expression to filter \strong{process}.}
-\item{rule_rgx}{Regular expression to filter \strong{rule}.}
-}}
+\item{table_nm}{Table name used to filter the dictionary. See details for
+more info.}
+
+\item{role_rgx}{Regular expression to filter \strong{role}. See details for more
+info.}
+
+\item{process_rgx}{Regular expression to filter \strong{process}. See details for
+more info.}
+
+\item{rule_rgx}{Regular expression to filter \strong{rule}. See details for more
+info.}
 }
 \value{
-\code{data} from \code{DDict} object.
+Filtered \code{data} from \code{DDict} object.
 }
 \description{
-Filter from a \code{DDict}.
+Filter \code{data} from a \code{DDict}.
 }
 \details{
 The records are filtered using regular expressions. If no criteria is
-provided for \strong{role}, \strong{process} and \strong{rule}, the full data is returned.
+provided for \strong{table_nm}, \strong{role}, \strong{process} and \strong{rule}, the full
+data is returned. When the filter is \code{NA}, rows with \code{NA} are
+returned.
 }
 \examples{
 \dontrun{

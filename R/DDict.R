@@ -217,6 +217,9 @@ S7::method(ddict_table, DDict) <- function(object, table_nm = NULL) {
     data <- object@data
   }
 
+  # cat("\n", "ddict_table: data", "\n")
+  # print(data)
+
   if (!nrow(data)) {
     msg_head <- cli::col_red("No records returned from the data dictionary.")
     msg_body <- c(

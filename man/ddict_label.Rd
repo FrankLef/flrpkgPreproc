@@ -3,20 +3,16 @@
 \name{ddict_label}
 \alias{ddict_label}
 \title{Set labels to columns using a \code{DDict}}
-\usage{
-ddict_label(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
 \item{data}{Data.frame with variables to label.}
-\item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
-\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
-\item{table_nm}{Name of table. Used when doing loop or when \code{data}
-is from a function argument.}
-}}
+
+\item{is_raw_nm}{\code{FALSE} = use the \code{name} from
+\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.
+Default is \code{FALSE}.}
+
+\item{table_nm}{Table name used to filter the dictionary.}
 }
 \value{
 \code{data} with labels added to the columns.
