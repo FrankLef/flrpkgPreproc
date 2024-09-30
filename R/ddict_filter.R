@@ -2,13 +2,14 @@ ddict_filter <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
   fun = function(
-    object, ..., table_nm = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+      object, ..., table_nm = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
     checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
     S7::S7_dispatch()
-  })
+  }
+)
 
 #' Filter \code{data} from a \code{DDict}
 #'
@@ -40,7 +41,6 @@ ddict_filter <- S7::new_generic(
 #' }
 S7::method(ddict_filter, DDict) <- function(
     object, table_nm = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
-
   ddict <- ddict_table(object, table_nm = table_nm)
 
   params <- c("role" = role_rgx, "process" = process_rgx, "rule" = rule_rgx)

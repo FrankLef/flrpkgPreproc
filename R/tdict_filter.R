@@ -1,3 +1,15 @@
+tdict_filter <- S7::new_generic(
+  "TDict",
+  dispatch_args = "object",
+  fun = function(
+    object, ..., type_rgx = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+    checkmate::assert_string(type_rgx, na.ok = TRUE, null.ok = TRUE)
+    checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
+    checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
+    checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
+    S7::S7_dispatch()
+  })
+
 #' Filter from a \code{TDict}
 #'
 #' Filter from a \code{TDict}.
@@ -9,32 +21,20 @@
 #' @name tdict_filter
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{type_rgx}{Regular expression to filter **type**.}
-#'    \item{role_rgx}{Regular expression to filter **role**.}
-#'    \item{process_rgx}{Regular expression to filter **process**.}
-#'    \item{rule_rgx}{Regular expression to filter **rule**.}
-#' }
+#' @param type_rgx Regular expression to filter **type**.
+#' @param role_rgx Regular expression to filter **role**.
+#' @param process_rgx Regular expression to filter **process**.
+#' @param rule_rgx Regular expression to filter **rule**.
 #'
 #' @return \code{data} from \code{TDict} object.
-#'
-#' @importFrom dplyr filter
-#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-tdict_filter <- S7::new_generic("TDict", dispatch_args = "object")
-
 S7::method(tdict_filter, TDict) <- function(
     object, type_rgx = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
-  checkmate::assert_string(type_rgx, na.ok = TRUE, null.ok = TRUE)
-  checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
-  checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
-  checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
 
   tdict <- tdict_table(object)
 

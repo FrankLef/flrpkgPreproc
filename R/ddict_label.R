@@ -2,12 +2,13 @@ ddict_label <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
   fun = function(
-    object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
+      object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
     checkmate::assert_data_frame(data)
     checkmate::assert_flag(is_raw_nm)
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
     S7::S7_dispatch()
-  })
+  }
+)
 
 
 #' Set labels to columns using a \code{DDict}
@@ -38,7 +39,6 @@ ddict_label <- S7::new_generic(
 #' }
 S7::method(ddict_label, DDict) <- function(
     object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
-
   # cat("\n", "ddict_label: table_nm", "\n")
   # print(table_nm)
 

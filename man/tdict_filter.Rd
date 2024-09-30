@@ -3,19 +3,16 @@
 \name{tdict_filter}
 \alias{tdict_filter}
 \title{Filter from a \code{TDict}}
-\usage{
-tdict_filter(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
 \item{type_rgx}{Regular expression to filter \strong{type}.}
+
 \item{role_rgx}{Regular expression to filter \strong{role}.}
+
 \item{process_rgx}{Regular expression to filter \strong{process}.}
+
 \item{rule_rgx}{Regular expression to filter \strong{rule}.}
-}}
 }
 \value{
 \code{data} from \code{TDict} object.

@@ -3,19 +3,14 @@
 \name{tdict_table}
 \alias{tdict_table}
 \title{Data From a \code{TDict}}
-\usage{
-tdict_table(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{TDict}.}
-
-\item{...}{Additional arguments used by methods.}
 }
 \value{
 \code{data} from \code{TDict} object.
 }
 \description{
-Data from a \code{TDict}.
+Data From a \code{TDict}.
 }
 \details{
 An error message is returned if no data is available.

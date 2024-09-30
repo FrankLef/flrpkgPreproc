@@ -3,18 +3,13 @@
 \name{ddict_ren}
 \alias{ddict_ren}
 \title{Rename columns using a \code{DDict}}
-\usage{
-ddict_ren(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
 \item{data}{Data.frame with variables to rename.}
+
 \item{table_nm}{Name of table. Used when doing loop or when \code{data}
 is from a function argument.}
-}}
 }
 \value{
 \code{data} with renamed columns.

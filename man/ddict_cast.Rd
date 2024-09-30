@@ -8,12 +8,12 @@
 
 \item{data}{Data.frame with variables to cast to a data type.}
 
+\item{table_nm}{Name of table. Used when doing loop or when \code{data}
+is from a function argument.}
+
 \item{is_raw_nm}{\code{FALSE} = use the \code{name} from
 \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}. Default
 is \code{FALSE}.}
-
-\item{table_nm}{Name of table. Used when doing loop or when \code{data}
-is from a function argument.}
 }
 \value{
 \code{data} with new data types.

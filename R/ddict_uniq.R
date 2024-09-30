@@ -1,3 +1,15 @@
+ddict_uniq <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(
+    object, data, ..., table_nm = deparse1(substitute(data)), role_rgx = r"(\buniq\b)") {
+    checkmate::assert_data_frame(data)
+    checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
+    checkmate::assert_string(role_rgx, min.chars = 1)
+    S7::S7_dispatch()
+  })
+
+
 #' Validate that columns have unique values
 #'
 #' Validate that columns have unique values.
@@ -6,35 +18,24 @@
 #' the regular expression in \code{uniq_rgx}. If \code{uniq_rgx} does not find a
 #' match, and error will be thrown.
 #'
-#'
 #' @name ddict_uniq
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{data}{Data.frame with variables to test for uniqueness.}
-#'    \item{role_rgx}{Reguular expression to select variables with this role.
-#'    Default value is \code{r"(\buniq\b)"}.}
-#'    \item{table_nm}{Name of the table.}
-#' }
+#' @param data Data.frame with variables to test for uniqueness.
+#' @param table_nm Name of the table.
+#' @param role_rgx Regular expression to select variables with this role.
+#'   Default value is \code{r"(\buniq\b)"}.
 #'
 #' @return Logical named vector with the results. TRUE is when the variable has
-#' unique values. FALSE otherwise.
-#'
+#'   unique values. FALSE otherwise.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_uniq <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_uniq, DDict) <- function(
-    object, data, role_rgx = r"(\buniq\b)", table_nm = deparse1(substitute(data))) {
-  checkmate::assert_data_frame(data, min.cols = 1)
-  checkmate::assert_string(role_rgx, min.chars = 1)
-  checkmate::assert_string(table_nm, min.chars = 1)
-
+    object, data, table_nm = deparse1(substitute(data)), role_rgx = r"(\buniq\b)") {
 
   cols <- object@data |>
     dplyr::filter(table == table_nm, grepl(pattern = role_rgx, x = role)) |>

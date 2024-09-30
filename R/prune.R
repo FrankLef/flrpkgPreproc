@@ -24,6 +24,7 @@ prune_reset <- function(data, id_var = "prune_id", default = "ok") {
     dplyr::mutate(!!id_var := {{ default }})
 }
 
+
 #' Update the prune ID column.
 #'
 #' Update the prune ID column.

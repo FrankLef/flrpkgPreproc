@@ -1,3 +1,14 @@
+ddict_status <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(
+    object, data, ..., table_nm = deparse1(substitute(data)), do_abort = TRUE) {
+    checkmate::assert_data_frame(data, min.rows = 1)
+    checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
+    checkmate::assert_flag(do_abort)
+    S7::S7_dispatch()
+  })
+
 #' Analyse the status of a table in \code{DDict}
 #'
 #' Analyse the status of a table in \code{DDict}.
@@ -15,29 +26,22 @@
 #' @name ddict_status
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{data}{Data.frame with variables to label.}
-#'    \item{do_abort}{TRUE (default): Throw error message when there
-#'    is outstanding status.}
-#'    \item{table_nm}{Name of the table.}
-#' }
+#' @param data Data.frame with variables to analyse.
+#' @param table_nm Name of the table.
+#' @param do_abort \code{TRUE}: Throw error message when there
+#'   is outstanding status. Default is \code{TRUE}.
 #'
 #' @return Data frame with status information.
-#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_status <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_status, DDict) <- function(
-    object, data, do_abort = TRUE,
-    table_nm = deparse1(substitute(data))) {
-  checkmate::assert_data_frame(data, min.cols = 1)
-  checkmate::assert_string(table_nm, min.chars = 1)
+    object, data,
+    table_nm = deparse1(substitute(data)),
+    do_abort = TRUE) {
 
   ddict <- ddict_table(object, table_nm = table_nm)
 

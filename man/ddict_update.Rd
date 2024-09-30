@@ -19,7 +19,7 @@ Object of class \code{DDict}.
 Create an updated \code{DDict} excel file.
 }
 \details{
-Create an xl file with extracted information on many dataframe.
+Create an xl file with extracted information about 1 or many dataframes.
 }
 \examples{
 \dontrun{

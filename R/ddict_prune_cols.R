@@ -1,36 +1,41 @@
+ddict_prune_cols <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(
+      object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
+    checkmate::assert_data_frame(data)
+    checkmate::assert_flag(is_raw_nm)
+    checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
+    S7::S7_dispatch()
+  }
+)
+
+
 #' Remove columns without a role in \code{DDict}
 #'
 #' Remove columns without a role in \code{DDict}.
 #'
-#' The information about the role of a variable is stored in the `role` column
-#' an object of class \code{DDict}.
+#' The information about the role of a variable is stored in the \strong{role}
+#' column an object of class \code{DDict}.
 #'
 #' @name ddict_prune_cols
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{data}{Data.frame with variables to rename.}
-#'    \item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
-#' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
-#'    \item{table_nm}{Name of table.}
-#' }
+#' @param data Data.frame with variables to rename.
+#' @param is_raw_nm \code{FALSE} = use the \code{name} from
+#'   \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}. Default
+#'  is \code{FALSE}.
+#' @param table_nm Name of table.
 #'
 #' @return \code{data} with removed columns.
-#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_prune_cols <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_prune_cols, DDict) <- function(
     object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
-  checkmate::assert_data_frame(data)
-  checkmate::assert_string(table_nm, min.chars = 1)
-
   ddict <- ddict_table(object, table_nm = table_nm)
 
   if (is_raw_nm) {

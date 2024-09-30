@@ -2,7 +2,7 @@
 #'
 #' Create an updated \code{DDict} excel file.
 #'
-#' Create an xl file with extracted information on many dataframe.
+#' Create an xl file with extracted information about 1 or many dataframes.
 #'
 #' @param nms Character() with names of data.frames.
 #' @param env Environment. Default is \code{.GlobalEnv}, don't change unless

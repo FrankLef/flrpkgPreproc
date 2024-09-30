@@ -3,19 +3,16 @@
 \name{ddict_prune_cols}
 \alias{ddict_prune_cols}
 \title{Remove columns without a role in \code{DDict}}
-\usage{
-ddict_prune_cols(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
 \item{data}{Data.frame with variables to rename.}
-\item{is_raw_nm}{\code{FALSE} (default) = use the \code{name} from
-\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.}
+
+\item{is_raw_nm}{\code{FALSE} = use the \code{name} from
+\code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}. Default
+is \code{FALSE}.}
+
 \item{table_nm}{Name of table.}
-}}
 }
 \value{
 \code{data} with removed columns.
@@ -24,8 +21,8 @@ ddict_prune_cols(object, ...)
 Remove columns without a role in \code{DDict}.
 }
 \details{
-The information about the role of a variable is stored in the \code{role} column
-an object of class \code{DDict}.
+The information about the role of a variable is stored in the \strong{role}
+column an object of class \code{DDict}.
 }
 \examples{
 \dontrun{

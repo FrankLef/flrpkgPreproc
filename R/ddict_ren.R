@@ -1,3 +1,14 @@
+ddict_ren <- S7::new_generic(
+  "DDict",
+  dispatch_args = "object",
+  fun = function(
+    object, data, ..., table_nm = deparse1(substitute(data))) {
+    checkmate::assert_data_frame(data)
+    checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
+    S7::S7_dispatch()
+  })
+
+
 #' Rename columns using a \code{DDict}
 #'
 #' Rename columns using a \code{DDict}.
@@ -7,27 +18,19 @@
 #' @name ddict_ren
 #'
 #' @param object Object of class \code{DDict}.
-#' @param ... Additional arguments used by methods. Such as
-#' \describe{
-#'    \item{data}{Data.frame with variables to rename.}
-#'    \item{table_nm}{Name of table. Used when doing loop or when \code{data}
-#'    is from a function argument.}
-#' }
+#' @param data Data.frame with variables to rename.
+#' @param table_nm Name of table. Used when doing loop or when \code{data}
+#'   is from a function argument.
 #'
 #' @return \code{data} with renamed columns.
-#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-ddict_ren <- S7::new_generic("DDict", dispatch_args = "object")
-
 S7::method(ddict_ren, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data))) {
-  checkmate::assert_data_frame(data)
-  checkmate::assert_string(table_nm, min.chars = 1)
 
   ddict <- ddict_table(object, table_nm = table_nm)
 

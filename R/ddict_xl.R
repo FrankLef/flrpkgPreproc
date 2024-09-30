@@ -16,7 +16,9 @@
 #' TODO
 #' }
 ddict_read_xl <- function(path, file = "ddict.xlsx", sheet = "data") {
+  checkmate::assert_string(sheet, min.chars = 1)
   fn <- file.path(path, file)
+  checkmate::assert_file_exists(fn)
   df <- readxl::read_xlsx(fn, sheet = sheet, col_types = "text")
   DDict(df)
 }
@@ -41,6 +43,9 @@ ddict_read_xl <- function(path, file = "ddict.xlsx", sheet = "data") {
 #' }
 ddict_write_xl <- function(object, path, file = "ddict.xlsx", sheet = "data") {
   checkmate::assert_class(object, classes = "flrpkgPreproc::DDict")
+  checkmate::assert_directory_exists(path)
+  checkmate::assert_string(file, min.chars = 1)
+  checkmate::assert_string(sheet, min.chars = 1)
   fn <- file.path(path, file)
   df <- ddict_table(object)
   writexl::write_xlsx(list("data" = df), path = fn)

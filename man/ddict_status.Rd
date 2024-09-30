@@ -3,19 +3,15 @@
 \name{ddict_status}
 \alias{ddict_status}
 \title{Analyse the status of a table in \code{DDict}}
-\usage{
-ddict_status(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
-\item{data}{Data.frame with variables to label.}
-\item{do_abort}{TRUE (default): Throw error message when there
-is outstanding status.}
+\item{data}{Data.frame with variables to analyse.}
+
 \item{table_nm}{Name of the table.}
-}}
+
+\item{do_abort}{\code{TRUE}: Throw error message when there
+is outstanding status. Default is \code{TRUE}.}
 }
 \value{
 Data frame with status information.

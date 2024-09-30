@@ -3,19 +3,15 @@
 \name{ddict_uniq}
 \alias{ddict_uniq}
 \title{Validate that columns have unique values}
-\usage{
-ddict_uniq(object, ...)
-}
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{...}{Additional arguments used by methods. Such as
-\describe{
 \item{data}{Data.frame with variables to test for uniqueness.}
-\item{role_rgx}{Reguular expression to select variables with this role.
-Default value is \code{r"(\buniq\b)"}.}
+
 \item{table_nm}{Name of the table.}
-}}
+
+\item{role_rgx}{Regular expression to select variables with this role.
+Default value is \code{r"(\buniq\b)"}.}
 }
 \value{
 Logical named vector with the results. TRUE is when the variable has

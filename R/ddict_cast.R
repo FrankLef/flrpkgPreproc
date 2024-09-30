@@ -2,7 +2,7 @@ ddict_cast <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
   fun = function(
-      object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
+      object, data, ..., table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
     checkmate::assert_data_frame(data)
     checkmate::assert_flag(is_raw_nm)
     checkmate::assert_string(table_nm, min.chars = 1)
@@ -23,23 +23,25 @@ ddict_cast <- S7::new_generic(
 #'
 #' @param object Object of class \code{DDict}.
 #' @param data Data.frame with variables to cast to a data type.
+#' @param table_nm Name of table. Used when doing loop or when \code{data}
+#'  is from a function argument.
 #' @param is_raw_nm \code{FALSE} = use the \code{name} from
 #'   \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}. Default
 #'  is \code{FALSE}.
-#' @param table_nm Name of table. Used when doing loop or when \code{data}
-#'  is from a function argument.
 #'
 #' @seealso [cast_data()]
 #'
 #' @return \code{data} with new data types.
 #' @export
 #'
+#' @importFrom dplyr filter
+#'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
 S7::method(ddict_cast, DDict) <- function(
-    object, data, is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
+    object, data, table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
   the_choices <- object@dtypes
 
   # cat("\n", "ddict_cast: table_nm", "\n")
@@ -66,7 +68,7 @@ S7::method(ddict_cast, DDict) <- function(
   # print(the_dtypes)
 
   check <- ddict |>
-    filter(is.na(role)) |>
+    dplyr::filter(is.na(role)) |>
     nrow()
   if (check) {
     msg_head <- cli::col_red("variables must have a role.")

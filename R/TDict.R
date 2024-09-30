@@ -155,29 +155,26 @@ TDict <- S7::new_class("TDict",
 )
 
 
+tdict_table <- S7::new_generic("TDict", dispatch_args = "object")
+
+
 #' Data From a \code{TDict}
 #'
-#' Data from a \code{TDict}.
+#' Data From a \code{TDict}.
 #'
 #' An error message is returned if no data is available.
 #'
 #' @name tdict_table
 #'
 #' @param object Object of class \code{TDict}.
-#' @param ... Additional arguments used by methods.
 #'
 #' @return \code{data} from \code{TDict} object.
-#'
-#' @importFrom dplyr filter
-#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-tdict_table <- S7::new_generic("TDict", dispatch_args = "object")
-
 S7::method(tdict_table, TDict) <- function(object) {
   data <- object@data
 
