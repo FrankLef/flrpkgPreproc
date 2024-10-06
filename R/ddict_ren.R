@@ -55,15 +55,17 @@ S7::method(ddict_ren, DDict) <- function(
     dplyr::filter(raw_name != name)
 
   if (!nrow(ddict)) {
-    msg_head <- cli::col_yellow("There is no column to rename.")
+    msg_head <- cli::col_green("There is no column to rename.")
     msg_body <- c(
-      "!" = sprintf("Table: %s", table_nm),
-      "i" = "The `raw_name` and `name` must be doifferent to trigger renaming."
+      "i" = sprintf("Table: %s", table_nm),
+      "!" = "Verify the `raw_name` and `name` columns in the data dictionary.",
+      "i" = "The `raw_name` and `name` must be different to trigger renaming.",
+      "i" = "Input data is returned as is."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::warn(
+    rlang::inform(
       message = msg,
-      class = "ValueWarning"
+      class = "ValueInform"
     )
     return(data)
   }

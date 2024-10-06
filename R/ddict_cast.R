@@ -86,16 +86,17 @@ S7::method(ddict_cast, DDict) <- function(
 
 
   if (!nrow(ddict)) {
-    msg_head <- cli::col_yellow("There is no data type to cast.")
+    msg_head <- cli::col_green("There is no data type to cast.")
     msg_body <- c(
       "i" = sprintf("Table: %s", table_nm),
-      "i" = "Verify the dtype column in the data dictionary.",
+      "!" = "Verify the dtype column in the data dictionary.",
+      "i" = "The dtypes must be different to trigger casting.",
       "i" = "Input data is returned as is."
     )
     msg <- paste(msg_head, rlang::format_error_bullets(msg_body), sep = "\n")
-    rlang::warn(
+    rlang::inform(
       message = msg,
-      class = "ValueWarning"
+      class = "ValueInform"
     )
     return(data)
   }

@@ -65,7 +65,7 @@ test_that("ddict_cast: Use raw_name, i.e. raw_name = TRUE", {
   expect_identical(out_dtypes, target_dtypes)
 })
 
-test_that("ddict_cast: Warning", {
+test_that("ddict_cast: Info", {
   # testthat::skip("debug")
   ddict_df <- df_ddict(nm = "ddict3")
   ddict_df$raw_dtype <- ddict_df$dtype
@@ -77,9 +77,9 @@ test_that("ddict_cast: Warning", {
   # print(df3)
 
 
-  expect_warning(
+  expect_message(
     ddict_cast(ddict, data = df3, is_raw_nm = TRUE),
-    class = "ValueWarning",
+    class = "ValueInform",
     regexp = "There is no data type to cast"
   )
 })
