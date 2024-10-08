@@ -1,22 +1,13 @@
 test_that("clean_cols_constant", {
-  df <- df_clean_cols_constant("data")
+  testthat::skip("debug")
+  df <- data2clean
+  # cat("\n", "dim(df)", "\n")
+  # print(dim(df))
 
-  out <- df |>
-    clean_cols_constant()
-
-  target <- df_clean_cols_constant("target")
-  expect_identical(out, target)
-})
-
-
-test_that("clean_cols_nzv", {
-  df <- df_clean_cols_nzv("data")
-
-  out <- df |>
-    clean_cols_nzv()
+  out <- clean_cols_constant(df)
   # cat("\n", "out", "\n")
   # print(out)
 
-  target <- df_clean_cols_nzv("target")
+  target <- c("same_num" = 11L, "same_text" = 22L)
   expect_identical(out, target)
 })

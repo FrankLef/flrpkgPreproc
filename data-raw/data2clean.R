@@ -37,7 +37,7 @@ get_preproc_cast <- function(data, ddict) {
         "POSIXct" = as.POSIXct(x),
         "character" = as.character(x),
         stop(sprintf("\"%s\" is an invalid raw data type.", raw_dtype))
-        )
+      )
       # msg <- sprintf("\n\"%s\" was modified.\n", nm)
       # message(msg)
       n <- n + 1L
@@ -48,41 +48,7 @@ get_preproc_cast <- function(data, ddict) {
   data
 }
 
-df_clean <- function(nm) {
-  lst <- list()
-  lst$n <- 9L
-  lst$seed <- 139L
-
-  set.seed(lst$seed)
-  lst$data <- data.frame(
-    int_ok = sample(1:9, size = lst$n, replace = TRUE),
-    char_ok = sample(letters[1:9], size = lst$n, replace = TRUE),
-    char1 = c("", "  ", NA_character_, "a", "a.a", ".", ", ", "b, b", "b,  b"),
-    char2 = c("NA", " _NA", NA_character_, "n/a", "N/A", "  N\\A", " n \ a ", "a  a", "bb"),
-    int1 = c(1L, NaN, 3L, -Inf, 5L, Inf, 7L, NA_integer_, 9L),
-    dbl1 = c(NaN, 2.3, -Inf, NA_real_, Inf, 6L, 7L, 8L, 9L),
-    char_uniq = "x",
-    char_empty = ""
-  )
-
-  set.seed(lst$seed)
-  lst$target <- data.frame(
-    int_ok = sample(1:9, size = lst$n, replace = TRUE),
-    char_ok = sample(letters[1:9], size = lst$n, replace = TRUE),
-    char1 = c(
-      NA_character_, NA_character_, NA_character_, "a", "a.a",
-      NA_character_, NA_character_, "b, b", "b, b"
-    ),
-    char2 = c(
-      "NA", NA_character_, NA_character_, NA_character_,
-      NA_character_, NA_character_, "n a", "a a", "bb"
-    ),
-    int1 = c(1L, NaN, 3L, NA_integer_, 5L, NA_integer_, 7L, NA_integer_, 9L),
-    dbl1 = c(NaN, 2.3, NA_real_, NA_real_, NA_real_, 6L, 7L, 8L, 9L),
-    char_uniq = "x",
-    char_empty = NA_character_
-  )
-  lst[[nm]]
-}
-
-
+# data2clean <- get_preproc("df")
+# data2clean_ddict <- get_preproc("ddict")
+# usethis::use_data(data2clean, overwrite = TRUE)
+# usethis::use_data(data2clean_ddict, overwrite = TRUE)
