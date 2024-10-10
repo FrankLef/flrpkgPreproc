@@ -6,19 +6,15 @@
 \usage{
 clean_empty(
   data,
-  na_patterns = c("^[[:punct:]]$", "^[Nn][/\\\\\\\\][Aa]$"),
-  na_strings = c("", "_NA")
+  na_patterns = c("^[[:punct:]]$", "_NA", "^[Nn][/\\\\\\\\[[:space:]]]*[Aa]$")
 )
 }
 \arguments{
 \item{data}{Data frame.}
 
 \item{na_patterns}{Character vector of regular expressions to run with
-\code{stringr::str_replace(x, pattern = pattern, replacement = NA_character_)}.
-Default value is \code{c("^[[:punct:]]$", r"(^[Nn][/\\][Aa]$)")}.}
-
-\item{na_strings}{Character() with strings to b replaced by \code{NA}. You
-must always keep "n/a" and "".}
+\code{stringr::str_replace(x, pattern = stringr::regex(pattern, ignore_case = TRUE),
+replacement = NA_character_)}.}
 }
 \value{
 Data frame.
@@ -31,12 +27,6 @@ Replace empty string with \code{NA}. The extra white spaces are removed with
 \code{stringr::str_squish}. Important: This is done before the
 conversions to \code{NA}. So that "  " will actually be treated as "".
 . This behavior affects all the strings.
-
-The following strings are replaced with \code{NA}.
-\itemize{
-\item Single punctuation, the regex in R is \code{"^[[:punct:]]$"}.
-\item All variant of "n/a". the regex in R is \code{r"(^[Nn][/\\][Aa]$)"}.
-}
 }
 \examples{
 \dontrun{

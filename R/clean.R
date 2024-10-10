@@ -2,16 +2,14 @@
 #'
 #' Replace empty string and \code{NaN, -Inf, Inf} with \code{NA}.
 #'
-#' This function calls \code{clean_nan_inf} and \code{clean_empty}.
+#' This function calls \code{clean_inf} and \code{clean_empty}.
 #'
-#' @seealso clean_inf clean_empty
+#' @seealso [clean_inf()] [clean_empty()]
 #'
 #' @param data Data frame.
 #' @param na_patterns Character vector of regular expressions to run with
-#' \code{stringr::str_replace(x, pattern = pattern, replacement = NA_character_)}.
-#' Default value is \code{c("^[[:punct:]]$", r"(^[Nn][/\\][Aa]$)")}.
-#' @param na_strings Character() with strings to b replaced by \code{NA}. You
-#' must always keep "n/a" and "".
+#' \code{stringr::str_replace(x, pattern = stringr::regex(pattern, ignore_case = TRUE),
+#' replacement = NA_character_)}.
 #'
 #' @return Data frame.
 #' @export
@@ -20,12 +18,12 @@
 #' \dontrun{
 #' TODO
 #' }
-clean_NA <- function(data,
-                     na_patterns = c("^[[:punct:]]$", r"(^[Nn][/\\][Aa]$)"),
-                     na_strings = c("", "_NA")) {
+clean_NA <- function(
+    data, na_patterns = c("^[[:punct:]]$", "_NA", r"(^[Nn][/\\[[:space:]]]*[Aa]$)")) {
+  checkmate::assert_character(na_patterns, min.len = 1)
   data |>
     clean_inf() |>
-    clean_empty(na_patterns = na_patterns, na_strings = na_strings)
+    clean_empty(na_patterns = na_patterns)
 }
 
 #' Replace \code{NaN, -Inf, Inf} with \code{NA}
@@ -45,10 +43,11 @@ clean_NA <- function(data,
 #' TODO
 #' }
 clean_inf <- function(data) {
-  data |> dplyr::mutate(dplyr::across(
-    .cols = tidyselect::where(is.numeric),
-    .fns = \(x) dplyr::if_else(is.infinite(x), NA, x)
-  ))
+  data |> purrr::modify_if(
+    .p = tidyselect::where(is.numeric),
+    .f = \(x) {
+      dplyr::if_else(is.infinite(x), NA, x)
+  })
 }
 
 #' Replace empty string with \code{NA}
@@ -60,12 +59,6 @@ clean_inf <- function(data) {
 #' conversions to \code{NA}. So that "  " will actually be treated as "".
 #' . This behavior affects all the strings.
 #'
-#' The following strings are replaced with \code{NA}.
-#' \itemize{
-#'  \item Single punctuation, the regex in R is \code{"^[[:punct:]]$"}.
-#'  \item All variant of "n/a". the regex in R is \code{r"(^[Nn][/\\][Aa]$)"}.
-#' }
-#'
 #' @inheritParams clean_NA
 #'
 #' @return Data frame.
@@ -75,37 +68,22 @@ clean_inf <- function(data) {
 #' \dontrun{
 #' TODO
 #' }
-clean_empty <- function(data,
-                        na_patterns = c("^[[:punct:]]$", r"(^[Nn][/\\][Aa]$)"),
-                        na_strings = c("", "_NA")) {
-  checkmate::assert_character(na_strings)
+clean_empty <- function(
+    data, na_patterns = c("^[[:punct:]]$", "_NA", r"(^[Nn][/\\[[:space:]]]*[Aa]$)")) {
+  checkmate::assert_character(na_patterns, min.len = 1)
 
-  # clean extra white spaces
-  data <- data |>
-    dplyr::mutate(dplyr::across(
-      .cols = tidyselect::where(is.character),
-      .fns = stringr::str_squish
-    ))
+  data <- purrr::modify_if(
+    data,
+    .p = tidyselect::where(is.character),
+    .f = \(x) stringr::str_squish(x))
 
-  for (i in seq_along(na_patterns)) {
-    data <- dplyr::mutate(
-      data,
-      dplyr::across(
-        .cols = tidyselect::where(is.character),
-        .fns = \(x) stringr::str_replace(
-          x,
-          pattern = na_patterns[i], replacement = NA_character_
-        )
-      )
-    )
-  }
-
-  for (i in seq_along(na_strings)) {
-    data <- dplyr::mutate(
-      data,
-      dplyr::across(
-        .cols = tidyselect::where(is.character),
-        .fns = \(x) dplyr::na_if(x, y = na_strings[i])
+  for (rgx in na_patterns) {
+    data <- data |> purrr::modify_if(
+      .p = tidyselect::where(is.character),
+      .f = \(x) stringr::str_replace(
+        x,
+        pattern = stringr::regex(pattern = rgx, ignore_case = TRUE),
+        replacement = NA_character_
       )
     )
   }

@@ -17,12 +17,12 @@
 #'
 #' @section Content of \code{data}:
 #'
-#' The \code{data} property is a data.frame with:
+#' The \code{data} property is a data frame with:
 #' \describe{
-#'    \item{table}{Name of the data.frame containing the variable.}
-#'    \item{raw_name}{Name of the variable as shown in the original data.frame.}
+#'    \item{table}{Name of the data frame containing the variable.}
+#'    \item{raw_name}{Name of the variable as shown in the original data frame.}
 #'    \item{name}{New name to assign to the variable.}
-#'    \item{label}{Label to identify the variable, e.g. used by \pkg{labelled}.}
+#'    \item{label}{Label to use with the variable, e.g. used by \pkg{labelled}.}
 #'    \item{raw_dtype}{Data type of raw data.}
 #'    \item{dtype}{Data type of used data.}
 #'    \item{role}{Text to identify the role of a variable.
@@ -30,7 +30,7 @@
 #'    \item{process}{Text to identify transformations, etc., applied to the
 #'    variable. No validity check performed. For example, "lg" could be used to
 #'    flag a variable for logarithmic transformation.}
-#'    \item{rule}{Text to identify a rule applicable to the variable. Typically
+#'    \item{rule}{Text to identify the rules applicable to the variable. Typically
 #'    used with the \pkg{validate} package. No validity check performed.}
 #'    \item{desc}{Description.}
 #'    \item{note}{Some notes.}

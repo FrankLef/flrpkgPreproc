@@ -7,19 +7,19 @@
 \format{
 Data frame with 29 rows and 13 columns.
 \describe{
-\item{table}{TBA}
-\item{raw_name}{TBA}
-\item{name}{TBA}
-\item{label}{TBA}
-\item{raw_dtype}{TBA}
-\item{dtype}{TBA}
-\item{role}{TBA}
-\item{process}{TBA}
-\item{rule}{TBA}
-\item{desc}{TBA}
-\item{note}{TBA}
-\item{name1}{TBA}
-\item{dtype1}{TBA}
+\item{table}{Name of the data frame containing the variable.}
+\item{raw_name}{Name of the variable as shown in the original data frame.}
+\item{name}{New name to assign to the variable.}
+\item{label}{Label to use with the variable, e.g. used by \pkg{labelled}.}
+\item{raw_dtype}{Data type of raw data.}
+\item{dtype}{Data type of used data.}
+\item{role}{Text to identify the role of a variable.}
+\item{process}{Text to identify processes associated used.}
+\item{rule}{Text to identify the rules applicable to the variable}
+\item{desc}{Description.}
+\item{note}{Note.}
+\item{name1}{Alternative \code{name}.}
+\item{dtype1}{Alternative \code{dtype}.}
 }
 }
 \usage{

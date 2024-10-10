@@ -7,18 +7,18 @@
 \format{
 Data frame with 30 rows and 29 columns.
 \describe{
-\item{ndx}{TBA}
-\item{not_uniq}{TBA}
-\item{ran_pct}{TBA}
-\item{ran_int}{TBA}
-\item{ran_color}{TBA}
-\item{ran_dat}{TBA}
-\item{is_rare}{TBA}
-\item{bool10}{TBA}
-\item{bool25}{TBA}
-\item{bool50}{TBA}
-\item{same_num}{TBA}
-\item{nzv_num}{TBA}
+\item{ndx}{Integer. Index.}
+\item{not_uniq}{Integer. One of the number is not unique.}
+\item{ran_pct}{Double. Random percentages / probabilities.}
+\item{ran_int}{Integer. Random integers.}
+\item{ran_color}{Character. Random primary, secondary or tertiary color names.}
+\item{ran_dat}{Random dates.}
+\item{is_rare}{Logical. Only one \code{TRUE}.}
+\item{bool10}{Logical. 10\% of \code{TRUE}.}
+\item{bool25}{Logical. 25\% of \code{TRUE}.}
+\item{bool50}{Logical. 50\% of \code{TRUE}.}
+\item{same_num}{Numerical. Same number everywhere.}
+\item{nzv_num}{Numerical. Near-Zero-Variance data.}
 \item{int_num}{TBA}
 \item{clean_int_num}{TBA}
 \item{inth_num}{TBA}

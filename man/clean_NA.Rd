@@ -6,19 +6,15 @@
 \usage{
 clean_NA(
   data,
-  na_patterns = c("^[[:punct:]]$", "^[Nn][/\\\\\\\\][Aa]$"),
-  na_strings = c("", "_NA")
+  na_patterns = c("^[[:punct:]]$", "_NA", "^[Nn][/\\\\\\\\[[:space:]]]*[Aa]$")
 )
 }
 \arguments{
 \item{data}{Data frame.}
 
 \item{na_patterns}{Character vector of regular expressions to run with
-\code{stringr::str_replace(x, pattern = pattern, replacement = NA_character_)}.
-Default value is \code{c("^[[:punct:]]$", r"(^[Nn][/\\][Aa]$)")}.}
-
-\item{na_strings}{Character() with strings to b replaced by \code{NA}. You
-must always keep "n/a" and "".}
+\code{stringr::str_replace(x, pattern = stringr::regex(pattern, ignore_case = TRUE),
+replacement = NA_character_)}.}
 }
 \value{
 Data frame.
@@ -27,7 +23,7 @@ Data frame.
 Replace empty string and \code{NaN, -Inf, Inf} with \code{NA}.
 }
 \details{
-This function calls \code{clean_nan_inf} and \code{clean_empty}.
+This function calls \code{clean_inf} and \code{clean_empty}.
 }
 \examples{
 \dontrun{
@@ -35,5 +31,5 @@ TODO
 }
 }
 \seealso{
-clean_inf clean_empty
+\code{\link[=clean_inf]{clean_inf()}} \code{\link[=clean_empty]{clean_empty()}}
 }

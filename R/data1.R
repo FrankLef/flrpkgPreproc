@@ -8,18 +8,18 @@
 #'
 #' @format Data frame with 30 rows and 29 columns.
 #' \describe{
-#'   \item{ndx}{TBA}
-#'   \item{not_uniq}{TBA}
-#'   \item{ran_pct}{TBA}
-#'   \item{ran_int}{TBA}
-#'   \item{ran_color}{TBA}
-#'   \item{ran_dat}{TBA}
-#'   \item{is_rare}{TBA}
-#'   \item{bool10}{TBA}
-#'   \item{bool25}{TBA}
-#'   \item{bool50}{TBA}
-#'   \item{same_num}{TBA}
-#'   \item{nzv_num}{TBA}
+#'   \item{ndx}{Integer. Index.}
+#'   \item{not_uniq}{Integer. One of the number is not unique.}
+#'   \item{ran_pct}{Double. Random percentages / probabilities.}
+#'   \item{ran_int}{Integer. Random integers.}
+#'   \item{ran_color}{Character. Random primary, secondary or tertiary color names.}
+#'   \item{ran_dat}{Random dates.}
+#'   \item{is_rare}{Logical. Only one \code{TRUE}.}
+#'   \item{bool10}{Logical. 10% of \code{TRUE}.}
+#'   \item{bool25}{Logical. 25% of \code{TRUE}.}
+#'   \item{bool50}{Logical. 50% of \code{TRUE}.}
+#'   \item{same_num}{Numerical. Same number everywhere.}
+#'   \item{nzv_num}{Numerical. Near-Zero-Variance data.}
 #'   \item{int_num}{TBA}
 #'   \item{clean_int_num}{TBA}
 #'   \item{inth_num}{TBA}
@@ -52,19 +52,19 @@
 #'
 #' @format Data frame with 29 rows and 13 columns.
 #' \describe{
-#'   \item{table}{TBA}
-#'   \item{raw_name}{TBA}
-#'   \item{name}{TBA}
-#'   \item{label}{TBA}
-#'   \item{raw_dtype}{TBA}
-#'   \item{dtype}{TBA}
-#'   \item{role}{TBA}
-#'   \item{process}{TBA}
-#'   \item{rule}{TBA}
-#'   \item{desc}{TBA}
-#'   \item{note}{TBA}
-#'   \item{name1}{TBA}
-#'   \item{dtype1}{TBA}
+#'   \item{table}{Name of the data frame containing the variable.}
+#'   \item{raw_name}{Name of the variable as shown in the original data frame.}
+#'   \item{name}{New name to assign to the variable.}
+#'   \item{label}{Label to use with the variable, e.g. used by \pkg{labelled}.}
+#'   \item{raw_dtype}{Data type of raw data.}
+#'   \item{dtype}{Data type of used data.}
+#'   \item{role}{Text to identify the role of a variable.}
+#'   \item{process}{Text to identify processes associated used.}
+#'   \item{rule}{Text to identify the rules applicable to the variable}
+#'   \item{desc}{Description.}
+#'   \item{note}{Note.}
+#'   \item{name1}{Alternative \code{name}.}
+#'   \item{dtype1}{Alternative \code{dtype}.}
 #' }
 #'
 "data2clean_ddict"
