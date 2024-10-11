@@ -2,12 +2,13 @@ ddict_status <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
   fun = function(
-    object, data, ..., table_nm = deparse1(substitute(data)), do_abort = TRUE) {
+      object, data, ..., table_nm = deparse1(substitute(data)), do_abort = TRUE) {
     checkmate::assert_data_frame(data, min.rows = 1)
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
     checkmate::assert_flag(do_abort)
     S7::S7_dispatch()
-  })
+  }
+)
 
 #' Analyse the status of a table in \code{DDict}
 #'
@@ -42,7 +43,6 @@ S7::method(ddict_status, DDict) <- function(
     object, data,
     table_nm = deparse1(substitute(data)),
     do_abort = TRUE) {
-
   ddict <- ddict_table(object, table_nm = table_nm)
 
   ddict_nms <- ddict$name

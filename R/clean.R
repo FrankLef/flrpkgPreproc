@@ -47,7 +47,8 @@ clean_inf <- function(data) {
     .p = tidyselect::where(is.numeric),
     .f = \(x) {
       dplyr::if_else(is.infinite(x), NA, x)
-  })
+    }
+  )
 }
 
 #' Replace empty string with \code{NA}
@@ -75,7 +76,8 @@ clean_empty <- function(
   data <- purrr::modify_if(
     data,
     .p = tidyselect::where(is.character),
-    .f = \(x) stringr::str_squish(x))
+    .f = \(x) stringr::str_squish(x)
+  )
 
   for (rgx in na_patterns) {
     data <- data |> purrr::modify_if(

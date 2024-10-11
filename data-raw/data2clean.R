@@ -6,10 +6,12 @@ get_preproc <- function(nm) {
   )
   df <- readxl::read_xlsx(
     path = fn,
-    sheet = "data")
+    sheet = "data"
+  )
   ddict <- readxl::read_xlsx(
     path = fn,
-    sheet = "ddict")
+    sheet = "ddict"
+  )
   ddict <- ddict |>
     filter(table == "data1")
   df <- get_preproc_cast(df, ddict)
@@ -21,15 +23,14 @@ get_preproc <- function(nm) {
 }
 
 get_preproc_cast <- function(data, ddict) {
-  checkmate::assert_names(names(data),identical.to = ddict$raw_name)
+  checkmate::assert_names(names(data), identical.to = ddict$raw_name)
   n <- 0L
   for (nm in names(data)) {
     x <- data[, nm, drop = TRUE]
     dtype <- class(x)[1]
     raw_dtype <- ddict$raw_dtype[ddict$raw_name == nm]
     if (dtype != raw_dtype) {
-      data[, nm] <- switch(
-        raw_dtype,
+      data[, nm] <- switch(raw_dtype,
         "integer" = as.integer(x),
         "numeric" = as.numeric(x),
         "logical" = as.logical(x),

@@ -1,8 +1,7 @@
 ddict_extract <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, ..., table_nm = deparse1(substitute(data))) {
+  fun = function(object, data, ..., table_nm = deparse1(substitute(data))) {
     checkmate::assert_data_frame(data)
     checkmate::assert_string(table_nm, min.chars = 1)
     S7::S7_dispatch()

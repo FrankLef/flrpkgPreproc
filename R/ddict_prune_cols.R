@@ -1,8 +1,7 @@
 ddict_prune_cols <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
+  fun = function(object, data, ..., is_raw_nm = FALSE, table_nm = deparse1(substitute(data))) {
     checkmate::assert_data_frame(data)
     checkmate::assert_flag(is_raw_nm)
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)

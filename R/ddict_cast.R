@@ -1,8 +1,7 @@
 ddict_cast <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, ..., table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
+  fun = function(object, data, ..., table_nm = deparse1(substitute(data)), is_raw_nm = FALSE) {
     checkmate::assert_data_frame(data)
     checkmate::assert_flag(is_raw_nm)
     checkmate::assert_string(table_nm, min.chars = 1)

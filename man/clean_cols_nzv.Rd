@@ -54,10 +54,10 @@ the total number of samples, must be below \code{uniq_tol}.}
 \examples{
 n <- 50L
 df <- data.frame(
- ran_int = rpois(n, lambda = 5),
- ran_num = rnorm(n),
- test_nzv = c(rep.int(1, times = 1), rep.int(2, times = n - 1)),
- test_zv = 1
+  ran_int = rpois(n, lambda = 5),
+  ran_num = rnorm(n),
+  test_nzv = c(rep.int(1, times = 1), rep.int(2, times = n - 1)),
+  test_zv = 1
 )
 out <- clean_cols_nzv(df, freq_tol = 95 / 5, uniq_tol = 0.1, info = FALSE)
 stopifnot(identical(x = out, y = c("test_nzv" = 3L, "test_zv" = 4L)))

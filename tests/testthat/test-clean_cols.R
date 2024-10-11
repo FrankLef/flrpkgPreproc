@@ -14,7 +14,7 @@ test_that("clean_cols_constant", {
 
 
 test_that("clean_cols_nzv", {
-  testthat::skip("debug")
+  # testthat::skip("debug")
   df <- data_clean("df")
   # cat("\n", "dim(df)", "\n")
   # str(df)

@@ -45,7 +45,7 @@ test_that("tdict_filter: ERROR", {
   tdict <- TDict(tdict1_df)
 
   expect_error(tdict_filter(tdict, role_rgx = "ERROR"),
-               class = "ValueError",
-               regexp = "No records returned from the table dictionary"
+    class = "ValueError",
+    regexp = "No records returned from the table dictionary"
   )
 })

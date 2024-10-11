@@ -2,12 +2,13 @@ ddict_uniq <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
   fun = function(
-    object, data, ..., table_nm = deparse1(substitute(data)), role_rgx = r"(\buniq\b)") {
+      object, data, ..., table_nm = deparse1(substitute(data)), role_rgx = r"(\buniq\b)") {
     checkmate::assert_data_frame(data)
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
     checkmate::assert_string(role_rgx, min.chars = 1)
     S7::S7_dispatch()
-  })
+  }
+)
 
 
 #' Validate that columns have unique values
@@ -36,7 +37,6 @@ ddict_uniq <- S7::new_generic(
 #' }
 S7::method(ddict_uniq, DDict) <- function(
     object, data, table_nm = deparse1(substitute(data)), role_rgx = r"(\buniq\b)") {
-
   cols <- object@data |>
     dplyr::filter(table == table_nm, grepl(pattern = role_rgx, x = role)) |>
     dplyr::pull(name)

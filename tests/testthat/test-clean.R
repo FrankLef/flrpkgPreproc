@@ -3,8 +3,8 @@ test_that("clean_inf", {
   df <- data_clean("df")
   seed <- 23627L
   n <- 3L
-  df$normal_num[get_pos(df$normal_num, n = n, seed = seed)] <- Inf
-  df$lognormal_num[get_pos(df$lognormal_num, n = n, seed = seed)] <- Inf
+  df$normal_num[rand_pos(df$normal_num, n = n, seed = seed)] <- Inf
+  df$lognormal_num[rand_pos(df$lognormal_num, n = n, seed = seed)] <- Inf
   # cat("\n", "df", "\n")
   # print(df[, c("ndx", "normal_num", "lognormal_num")])
 
@@ -35,16 +35,25 @@ test_that("clean_empty", {
 })
 
 test_that("clean_NA", {
-  testthat::skip("debug")
-  df <- df_clean(nm = "data")
+  # testthat::skip("debug")
+  df <- data_clean("df")
+  df <- df[, c("ndx", "ran_color", "normal_num", "lognormal_num", "cont_text", "clean_text")]
+  seed <- 23627L
+  n <- 3L
+  df$normal_num[rand_pos(df$normal_num, n = n, seed = seed)] <- Inf
+  df$lognormal_num[rand_pos(df$lognormal_num, n = n, seed = seed)] <- Inf
 
   out <- clean_NA(df)
 
-  out_nb <- sapply(X = out, FUN = \(x) sum(is.na(x)))
+  # clean_inf
+  na_nb <- sum(is.na(out$normal_num))
+  target <- sum(is.na(df$normal_num)) + n
+  expect_identical(na_nb, target)
 
-  target <- df_clean(nm = "target")
-  target_nb <- sapply(X = target, FUN = \(x) sum(is.na(x)))
+  na_nb <- sum(is.na(out$lognormal_num))
+  target <- sum(is.na(df$lognormal_num)) + n
+  expect_identical(na_nb, target)
 
-  expect_identical(out_nb, target_nb)
-  stopifnot(identical(out, target))
+  # clean_empty
+  expect_identical(out$cont_text, df$clean_text)
 })

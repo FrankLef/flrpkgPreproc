@@ -22,10 +22,10 @@ the names and positions of the columns having a constant value.
 \examples{
 n <- 10L
 df <- data.frame(
- ran_int = rpois(n, lambda = 5),
- ran_text = sample(letters[1:10], size = n, replace = TRUE),
- test_text = "abc",
- test_num = 1
+  ran_int = rpois(n, lambda = 5),
+  ran_text = sample(letters[1:10], size = n, replace = TRUE),
+  test_text = "abc",
+  test_num = 1
 )
 out <- clean_cols_constant(df)
 stopifnot(identical(x = out, y = c("test_text" = 3L, "test_num" = 4L)))
