@@ -42,7 +42,7 @@ S7::method(ddict_transf_dat_ym, DDict) <- function(
     table_nm = table_nm,
     role_rgx = ".+", process_rgx = rgx
   ) |>
-    pull(name)
+    dplyr::pull(name)
   col_suffix <- paste0("{.col}_", suffix)
   dplyr::mutate(data, across(
     .cols = any_of(nms),
@@ -99,7 +99,7 @@ S7::method(ddict_transf_dat_wk, DDict) <- function(
     table_nm = table_nm,
     role_rgx = ".+", process_rgx = rgx
   ) |>
-    pull(name)
+    dplyr::pull(name)
   col_suffix <- paste0("{.col}_", suffix)
   dplyr::mutate(data, across(
     .cols = any_of(nms),
