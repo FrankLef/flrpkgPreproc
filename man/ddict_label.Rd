@@ -6,7 +6,7 @@
 \arguments{
 \item{object}{Object of class \code{DDict}.}
 
-\item{data}{Data.frame with variables to label.}
+\item{data}{Data frame with variables to label.}
 
 \item{is_raw_nm}{\code{FALSE} = use the \code{name} from
 \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.

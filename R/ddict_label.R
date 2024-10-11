@@ -21,7 +21,7 @@ ddict_label <- S7::new_generic(
 #' @name ddict_label
 #'
 #' @param object Object of class \code{DDict}.
-#' @param data Data.frame with variables to label.
+#' @param data Data frame with variables to label.
 #' @param is_raw_nm \code{FALSE} = use the \code{name} from
 #' \code{DDict}; \code{TRUE} = use \code{raw_name} from \code{DDict}.
 #' Default is \code{FALSE}.

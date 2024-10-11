@@ -27,11 +27,12 @@ The interval between \code{start} and \code{end} is tested as
 \examples{
 n <- 9L
 df <- data.frame(
- ndx = seq_len(n),
- int = rpois(n, lambda = 5),
- dat = sample(
- c(as.POSIXct(Sys.Date()), as.POSIXct("1900-01-01")),
- size = n, replace = TRUE)
+  ndx = seq_len(n),
+  int = rpois(n, lambda = 5),
+  dat = sample(
+    c(as.POSIXct(Sys.Date()), as.POSIXct("1900-01-01")),
+    size = n, replace = TRUE
+  )
 )
 out <- clean_dat_oob(df, start = "2000-01-01", end = "2050-01-01")
 out
