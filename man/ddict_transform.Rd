@@ -22,7 +22,9 @@ Transform variables with a \code{DDict} and custom function.
 }
 \details{
 The data is transformed using a function defined in \code{fn} based on a
-filter of \emph{process} from a \code{DDict}.
+filter \code{process == suffix} from a \code{DDict}. The suffix is then
+appended to the original name of the variable to create a new column in
+\code{data}.
 }
 \examples{
 \dontrun{
