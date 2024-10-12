@@ -1,10 +1,11 @@
 ddict_transf_dat_ym <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, ..., table_nm = deparse1(substitute(data)),
-      suffix = "ym", iso = TRUE) {
-    checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
+  fun = function(object, data, ..., table_nm = deparse1(substitute(data)),
+                 suffix = "ym", iso = TRUE) {
+    checkmate::assert_string(table_nm, min.chars = 1L, null.ok = TRUE)
+    checkmate::assert_string(suffix, min.chars = 1L)
+    checkmate::assert_flag(iso)
     S7::S7_dispatch()
   }
 )
@@ -62,9 +63,9 @@ S7::method(ddict_transf_dat_ym, DDict) <- function(
 ddict_transf_dat_wk <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, ..., table_nm = deparse1(substitute(data)), suffix = "wk") {
-    checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
+  fun = function(object, data, ..., table_nm = deparse1(substitute(data)), suffix = "wk") {
+    checkmate::assert_string(table_nm, min.chars = 1L, null.ok = TRUE)
+    checkmate::assert_string(suffix, min.chars = 1L)
     S7::S7_dispatch()
   }
 )
