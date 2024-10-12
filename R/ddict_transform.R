@@ -1,4 +1,4 @@
-ddict_transf_num <- S7::new_generic(
+ddict_transform <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
   fun = function(
@@ -11,13 +11,14 @@ ddict_transf_num <- S7::new_generic(
 )
 
 
-#' Transform Numeric Variables with a Custom Function
+#' Transform Variables with a \code{DDict} and Custom Function
 #'
-#' Transform numeric variables with a custom function.
+#' Transform variables with a \code{DDict} and custom function.
 #'
-#' The date are converted using a function defined in \code{fn}.
+#' The data is transformed using a function defined in \code{fn} based on a
+#' filter of \emph{process} from a \code{DDict}.
 #'
-#' @name ddict_transf_num
+#' @name ddict_transform
 #'
 #' @param object Object of class \code{DDict}.
 #' @param data Data frame with date variables.
@@ -32,7 +33,7 @@ ddict_transf_num <- S7::new_generic(
 #' \dontrun{
 #' TODO
 #' }
-S7::method(ddict_transf_num, DDict) <- function(
+S7::method(ddict_transform, DDict) <- function(
     object, data, fn, suffix, table_nm = deparse1(substitute(data))) {
   rgx <- paste0("\\b", suffix, "\\b")
   nms <- ddict_filter(object,
