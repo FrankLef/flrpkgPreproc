@@ -26,11 +26,10 @@ with variables and all information is returned. Default is \code{FALSE}}
 \value{
 For \code{nearZeroVar}: if \code{info = FALSE}, a vector of
 integers corresponding to the column positions of the problematic
-variables. If \code{infor = TRUE}, a data frame with all informations
-on the variables.
+variables. If \code{info = TRUE}, a data frame with details by variable.
 }
 \description{
-Find variables With near-zero variance.
+Find variables with near-zero variance.
 }
 \details{
 \code{clean_cols_nzv} diagnoses predictors that have one unique value (i.e. are

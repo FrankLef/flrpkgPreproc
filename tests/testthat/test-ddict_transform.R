@@ -47,7 +47,7 @@ test_that("ddict_transform: Error", {
 
 
 test_that("ddict_transform: POSIXct wk", {
-  testthat::skip("debug")
+  # testthat::skip("debug")
   df <- data_clean("df")
   # cat("\n", "df", "\n")
   # str(df)
@@ -70,7 +70,7 @@ test_that("ddict_transform: POSIXct wk", {
 
 
 test_that("ddict_transform: POSIXct ym", {
-  testthat::skip("debug")
+  # testthat::skip("debug")
   df <- data_clean("df")
   # cat("\n", "df", "\n")
   # str(df)

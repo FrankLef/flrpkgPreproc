@@ -1,5 +1,5 @@
 test_that("clean_cols_constant", {
-  testthat::skip("debug")
+  # testthat::skip("debug")
   df <- data_clean("df")
   # cat("\n", "dim(df)", "\n")
   # print(dim(df))
