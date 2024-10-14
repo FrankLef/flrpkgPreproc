@@ -69,6 +69,7 @@ S7::method(ddict_status, DDict) <- function(
     msg_head <- cli::col_red("Data dictionary should be updated.")
     msg_body <- c(
       "x" = sprintf("Nb of new variables: %d.", check),
+      "!" = sprintf("Table name: %s", table_nm),
       "i" = "To omit this error message, set `do_abort = FALSE`."
     )
     msg_body <- rlang::format_error_bullets(msg_body)
