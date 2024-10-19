@@ -23,7 +23,7 @@ Add the Flags from \code{validation} to data.
 Add the results of an object of class \code{validation} fro \pkg{validate}
 To the data. The new columns will have a \code{suffix}. One last logical
 column called \code{paste("is", suffix, sep = "_")} is added with value
-\code{TRUE} is any of the column with the \code{suffix} are \code{TRUE}.
+\code{TRUE} if any of the column with the \code{suffix} are \code{TRUE}.
 }
 \examples{
 \dontrun{
