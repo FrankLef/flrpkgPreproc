@@ -1,11 +1,14 @@
 ddict_filter <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(object, ..., table_nm = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+  fun = function(
+    object, ..., table_nm = NULL,
+    role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL, pull_var = NULL) {
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
     checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
+    checkmate::assert_string(pull_var, na.ok = FALSE, null.ok = TRUE)
     S7::S7_dispatch()
   }
 )
@@ -30,6 +33,8 @@ ddict_filter <- S7::new_generic(
 #'   more info.
 #' @param rule_rgx Regular expression to filter **rule**. See details for more
 #'   info.
+#' @param pull_var String to identify variable to pull with \code{dplyr::pull}.
+#'   If \code{NULL}, the entire table is returned. Default value is \code{NULL}.
 #'
 #' @return Filtered \code{data} from \code{DDict} object.
 #' @export
@@ -39,7 +44,8 @@ ddict_filter <- S7::new_generic(
 #' TODO
 #' }
 S7::method(ddict_filter, DDict) <- function(
-    object, table_nm = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+    object, table_nm = NULL,
+    role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL, pull_var = NULL) {
   ddict <- ddict_table(object, table_nm = table_nm)
 
   params <- c("role" = role_rgx, "process" = process_rgx, "rule" = rule_rgx)
@@ -69,5 +75,10 @@ S7::method(ddict_filter, DDict) <- function(
     )
   }
 
-  ddict
+  if (is.null(pull_var)) {
+    out <- ddict
+  } else {
+    out <- dplyr::pull(ddict, pull_var)
+  }
+  out
 }

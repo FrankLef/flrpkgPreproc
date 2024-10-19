@@ -17,6 +17,9 @@ more info.}
 
 \item{rule_rgx}{Regular expression to filter \strong{rule}. See details for more
 info.}
+
+\item{pull_var}{String to identify variable to pull with \code{dplyr::pull}.
+If \code{NULL}, the entire table is returned. Default value is \code{NULL}.}
 }
 \value{
 Filtered \code{data} from \code{DDict} object.

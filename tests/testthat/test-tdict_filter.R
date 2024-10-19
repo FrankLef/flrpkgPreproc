@@ -49,3 +49,17 @@ test_that("tdict_filter: ERROR", {
     regexp = "No records returned from the table dictionary"
   )
 })
+
+test_that("tdict_filter: Filter table dict with pull_var", {
+  # testthat::skip("debug")
+  tdict1_df <- df_tdict(nm = "tdict1")
+  tdict <- TDict(tdict1_df)
+
+
+  out <- tdict_filter(tdict, type_rgx = "xlsx", pull_var = "name")
+
+  target <- tdict_filter(tdict, type_rgx = "xlsx") |>
+    dplyr::pull("name")
+
+  expect_identical(out, target)
+})

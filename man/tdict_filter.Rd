@@ -13,6 +13,9 @@
 \item{process_rgx}{Regular expression to filter \strong{process}.}
 
 \item{rule_rgx}{Regular expression to filter \strong{rule}.}
+
+\item{pull_var}{String to identify variable to pull with \code{dplyr::pull}.
+If \code{NULL}, the entire table is returned. Default value is \code{NULL}.}
 }
 \value{
 \code{data} from \code{TDict} object.

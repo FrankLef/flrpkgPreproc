@@ -2,11 +2,13 @@ tdict_filter <- S7::new_generic(
   "TDict",
   dispatch_args = "object",
   fun = function(
-      object, ..., type_rgx = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+      object, ..., type_rgx = NULL,
+      role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL, pull_var = NULL) {
     checkmate::assert_string(type_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(rule_rgx, na.ok = TRUE, null.ok = TRUE)
+    checkmate::assert_string(pull_var, na.ok = FALSE, null.ok = TRUE)
     S7::S7_dispatch()
   }
 )
@@ -26,6 +28,8 @@ tdict_filter <- S7::new_generic(
 #' @param role_rgx Regular expression to filter **role**.
 #' @param process_rgx Regular expression to filter **process**.
 #' @param rule_rgx Regular expression to filter **rule**.
+#' @param pull_var String to identify variable to pull with \code{dplyr::pull}.
+#'   If \code{NULL}, the entire table is returned. Default value is \code{NULL}.
 #'
 #' @return \code{data} from \code{TDict} object.
 #' @export
@@ -35,7 +39,8 @@ tdict_filter <- S7::new_generic(
 #' TODO
 #' }
 S7::method(tdict_filter, TDict) <- function(
-    object, type_rgx = NULL, role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL) {
+    object, type_rgx = NULL,
+    role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL, pull_var = NULL) {
   tdict <- tdict_table(object)
 
   params <- c(
@@ -67,5 +72,10 @@ S7::method(tdict_filter, TDict) <- function(
     )
   }
 
-  tdict
+  if (is.null(pull_var)) {
+    out <- tdict
+  } else {
+    out <- dplyr::pull(tdict, pull_var)
+  }
+  out
 }
