@@ -75,7 +75,7 @@ S7::method(tdict_filter, TDict) <- function(
   if (is.null(pull_var)) {
     out <- tdict
   } else {
-    out <- dplyr::pull(tdict, pull_var)
+    out <- dplyr::pull(tdict, var = pull_var)
   }
   out
 }
