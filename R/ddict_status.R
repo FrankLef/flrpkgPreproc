@@ -1,8 +1,7 @@
 ddict_status <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, ..., table_nm = deparse1(substitute(data)), do_abort = TRUE) {
+  fun = function(object, data, ..., table_nm = deparse1(substitute(data)), do_abort = TRUE) {
     checkmate::assert_data_frame(data, min.rows = 1)
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
     checkmate::assert_flag(do_abort)

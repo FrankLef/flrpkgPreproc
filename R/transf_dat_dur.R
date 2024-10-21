@@ -35,9 +35,9 @@ transf_dat_dur_many <- function(
 
     if (do_it) {
       data <- transf_dat_dur(data,
-                             dur_var = dur_var,
-                             start_var = start_var,
-                             end_var = end_var
+        dur_var = dur_var,
+        start_var = start_var,
+        end_var = end_var
       )
     } else {
       msg_head <- cli::col_green("Duration calculation is skipped.")

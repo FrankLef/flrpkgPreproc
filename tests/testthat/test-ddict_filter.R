@@ -83,8 +83,10 @@ test_that("ddict_filter: Filter with table name and pull_var.", {
   # cat("\n", "ddict@data", "\n")
   # print(ddict@data)
 
-  out <- ddict_filter(ddict, table_nm = table_nm, role_rgx = role_rgx,
-                      pull_var = "name")
+  out <- ddict_filter(ddict,
+    table_nm = table_nm, role_rgx = role_rgx,
+    pull_var = "name"
+  )
 
   target <- ddict_df |>
     dplyr::filter(table == table_nm, grepl(role_rgx, x = role)) |>
@@ -94,4 +96,3 @@ test_that("ddict_filter: Filter with table name and pull_var.", {
 
   expect_identical(out, target)
 })
-

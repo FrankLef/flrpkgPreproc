@@ -8,7 +8,9 @@ test_that("transf_dat_dur", {
   # str(ddict@data)
 
   out <- transf_dat_dur(
-    df, dur_var = "dur", start_var = "cont_date", end_var = "end_date")
+    df,
+    dur_var = "dur", start_var = "cont_date", end_var = "end_date"
+  )
 
   target <- c(names(df), "dur")
   expect_identical(names(out), target)

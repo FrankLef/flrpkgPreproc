@@ -1,9 +1,8 @@
 ddict_transform <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, fn, suffix, ...,
-      table_nm = deparse1(substitute(data)), col_nm = paste0("{.col}_", suffix)) {
+  fun = function(object, data, fn, suffix, ...,
+                 table_nm = deparse1(substitute(data)), col_nm = paste0("{.col}_", suffix)) {
     checkmate::assert_string(table_nm, min.chars = 1L, null.ok = TRUE)
     checkmate::assert_function(fn)
     checkmate::assert_string(suffix, min.chars = 1L)
@@ -44,13 +43,10 @@ S7::method(ddict_transform, DDict) <- function(
     object, data, fn, suffix,
     table_nm = deparse1(substitute(data)), col_nm = paste0("{.col}_", suffix)) {
   rgx <- paste0("\\b", suffix, "\\b")
-  nms <- ddict_filter(object,
-    table_nm = table_nm,
-    role_rgx = ".+", process_rgx = rgx
-  ) |>
+  nms <- ddict_filter(object, table_nm = table_nm, process_rgx = rgx) |>
     dplyr::pull(name)
-  dplyr::mutate(data, across(
-    .cols = any_of(nms),
+  dplyr::mutate(data, dplyr::across(
+    .cols = tidyselect::any_of(nms),
     .fns = \(x) {
       fn(x)
     },

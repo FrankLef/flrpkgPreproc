@@ -113,4 +113,3 @@ test_that("ddict_transform: POSIXct ym", {
   target <- c(names(df), c("cont_date_ym", "clean_date_ym"))
   expect_identical(names(out), target)
 })
-

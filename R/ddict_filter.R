@@ -2,8 +2,8 @@ ddict_filter <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
   fun = function(
-    object, ..., table_nm = NULL,
-    role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL, pull_var = NULL) {
+      object, ..., table_nm = NULL,
+      role_rgx = NULL, process_rgx = NULL, rule_rgx = NULL, pull_var = NULL) {
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = TRUE)
     checkmate::assert_string(role_rgx, na.ok = TRUE, null.ok = TRUE)
     checkmate::assert_string(process_rgx, na.ok = TRUE, null.ok = TRUE)

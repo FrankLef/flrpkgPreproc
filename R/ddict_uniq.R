@@ -1,8 +1,7 @@
 ddict_uniq <- S7::new_generic(
   "DDict",
   dispatch_args = "object",
-  fun = function(
-      object, data, ..., table_nm = deparse1(substitute(data)), role_rgx = r"(\buniq\b)") {
+  fun = function(object, data, ..., table_nm = deparse1(substitute(data)), role_rgx = r"(\buniq\b)") {
     checkmate::assert_data_frame(data)
     checkmate::assert_string(table_nm, min.chars = 1, null.ok = FALSE)
     checkmate::assert_string(role_rgx, min.chars = 1)
