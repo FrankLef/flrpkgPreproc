@@ -26,6 +26,30 @@ test_that("ddict_transform: Numeric", {
 })
 
 
+test_that("ddict_transform: Numeric with col_nm = NULL", {
+  # testthat::skip("debug")
+  df <- data_clean("df")
+  # cat("\n", "df", "\n")
+  # str(df)
+  ddict <- data_clean("ddict")
+  # cat("\n", "ddict@data", "\n")
+  # str(ddict@data)
+
+  out <- ddict_transform(
+    ddict,
+    data = df, fn = \(x) x + 1L, suffix = "lg", table_nm = "data1",
+    col_nm = NULL
+  )
+  # cat("\n", "out", "\n")
+  # str(out)
+
+  target <- names(df)
+  expect_identical(names(out), target)
+
+  target <- df$normal_num + 1L
+  expect_identical(out$normal_num, target)
+})
+
 test_that("ddict_transform: Error", {
   # testthat::skip("debug")
   df <- data_clean("df")
